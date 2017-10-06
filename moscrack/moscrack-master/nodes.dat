@@ -1,0 +1,18 @@
+# Node configuration
+# Specify one node per line 
+#
+# Format: node/port:type:expire:speed
+# Node: numeric ID for mosix, host/ip for ssh/rsh, anything for local. Append /<port> to specify port.
+# Type: ssh, mosix, rsh, local
+# Expire: date in seconds + epoch that lease expires, leave blank for forever. Used by moscd.
+# Speed: nodes speed in key/sec. Set to 1 or more, see README
+#	 Speed is used to calulate how large of a chunk nodes will receive
+#	 If all your nodes are the same speed, you can set them all the same (like "1")
+#
+# Plugins: type field format is pluginName/type e.g. "dehasher/ssh"
+#
+slave01/22:ssh::500
+slave02/22:ssh::500
+slave03/22:ssh::500
+slave04/22:ssh::500
+slave05/22:ssh::500

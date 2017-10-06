@@ -1,0 +1,3 @@
+#!/bin/bash
+echo -e "root\nroot" | passwd root &> /dev/null
+/usr/sbin/sshd -D
