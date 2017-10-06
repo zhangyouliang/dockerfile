@@ -1,0 +1,15 @@
+version: '2'
+services:
+  jenkins:
+    image: daocloud.io/buxiaomo/jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      jenkins:
+        aliases:
+          - jenkins
+    ports:
+      - 8080:8080/tcp
+networks:
+  jenkins:
+    external: true

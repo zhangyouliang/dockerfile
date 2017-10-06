@@ -1,0 +1,47 @@
+version: '2'
+services:
+    kafka01:
+        image: daocloud.io/buxiaomo/kafka
+        ports:
+            - 8001:9092/tcp
+        environment:
+            - BROKER_ID=1
+            - KAFKA_HOST_IP=10.3.236.215
+            - KAFKA_PORT=8001
+            - ZOOKEEPER_CLUSTER=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+        networks:
+            kafka:
+                aliases:
+                    - kafka01
+        # command: ping www.baidu.com
+    kafka02:
+        image: daocloud.io/buxiaomo/kafka
+        ports:
+            - 8002:9092/tcp
+        environment:
+            - BROKER_ID=2
+            - KAFKA_HOST_IP=10.3.236.215
+            - KAFKA_PORT=8002
+            - ZOOKEEPER_CLUSTER=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+        networks:
+            kafka:
+                aliases:
+                    - kafka02
+        # command: ping www.baidu.com
+    kafka03:
+        image: daocloud.io/buxiaomo/kafka
+        ports:
+            - 8003:9092/tcp
+        environment:
+            - BROKER_ID=3
+            - KAFKA_HOST_IP=10.3.236.215
+            - KAFKA_PORT=8003
+            - ZOOKEEPER_CLUSTER=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+        networks:
+            kafka:
+                aliases:
+                    - kafka03
+        # command: ping www.baidu.com
+networks:
+    kafka:
+        external: true
