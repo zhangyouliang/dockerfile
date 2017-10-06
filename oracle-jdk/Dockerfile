@@ -1,0 +1,1 @@
+FROM airdock/oracle-jdk
