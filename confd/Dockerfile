@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.6
 MAINTAINER "Mo" <root@buxiaomo.com>
 
 RUN apk --update add go bash
