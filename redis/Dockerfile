@@ -1,4 +1,4 @@
-FROM alpine:3.5
+FROM alpine:3.6
 MAINTAINER "Cloth Mo" <root@buxiaomo.com>
 
 ADD repositories  /etc/apk/repositories

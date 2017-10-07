@@ -1,12 +1,12 @@
 FROM golang:1.9.0
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends git zip \
+    && apt-get install --no-install-recommends git zip glibc.i686 \
     && [ -d /tmp/ngrokd/ ] && rm -rf /tmp/ngrokd/ \
     && [ -d /usr/local/ngrok ] || git clone https://github.com/inconshreveable/ngrok.git /usr/local/ngrok \
     && mkdir /package
 
-COPY run.sh /usr/local/bin/run.sh
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 ENV NGROK_DOMAIN **NULL**
 
@@ -16,4 +16,4 @@ VOLUME /usr/local/ngrok/package
 
 WORKDIR /usr/local/ngrok
 
-CMD ["run.sh"]
+CMD ["docker-entrypoint.sh"]

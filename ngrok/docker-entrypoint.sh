@@ -92,7 +92,7 @@ do
 done
 StandardOutput "----------------------------------------"
 StandardOutput "you can run command to see package dir"
-StandardOutput "  docker inspect $HOSTNAME | jq .[0].Mounts[0].Source"
+StandardOutput "  docker inspect $HOSTNAME | jq '.[0].Mounts[0].Source'"
 StandardOutput "----------------------------------------"
 StandardOutput "==> Running ..."
-exec /usr/local/ngrok/bin/ngrokd -domain="$NGROK_DOMAIN"
+exec /usr/local/ngrok/bin/ngrokd -domain="$NGROK_DOMAIN" # -tlsKey=server.key -tlsCrt=server.crt
