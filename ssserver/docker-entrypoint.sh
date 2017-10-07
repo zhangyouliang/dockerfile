@@ -1,4 +1,4 @@
 #!/bin/sh
-[ $PASS = "**NULL**" ] && PASS=`pwgen -s 12 1`
+[ $PASSWORD = "**NULL**" ] && PASSWORD=`pwgen -s 12 1`
 echo "=> The Password is ${PASS}"
-ssserver -s ${SERVER_ADDR} -p 8388 -k ${PASS} -m ${SERVER_METHOD} --fast-open
+ssserver -s ${SERVER_ADDR} -p 8388 -k ${PASSWORD} -m ${SERVER_METHOD} --fast-open
