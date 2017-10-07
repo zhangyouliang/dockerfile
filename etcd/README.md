@@ -1,12 +1,9 @@
 # etcd
-拉去Dockerfile
-
-    git clone https://github.com/buxiaomo/docker-etcd.git
 
 构建容器
 
     docker build -t etcd:latest .
-    
+
 如何启动etcd容器
 
     docker run -it --rm -P --name etcd etcd:latest etcd \
