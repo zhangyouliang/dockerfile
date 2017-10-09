@@ -1,7 +1,7 @@
 FROM golang:1.9.0
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends git zip glibc.i686 \
+    && apt-get install --no-install-recommends git zip -y \
     && [ -d /tmp/ngrokd/ ] && rm -rf /tmp/ngrokd/ \
     && [ -d /usr/local/ngrok ] || git clone https://github.com/inconshreveable/ngrok.git /usr/local/ngrok \
     && mkdir /package
