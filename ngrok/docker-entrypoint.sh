@@ -9,8 +9,6 @@ if [ ${NGROK_DOMAIN} == "**NULL**" ];then
     ErrorOutput "Please set the NGROK_DOMAIN environment variable !"
     exit 1
 fi
-sh -e
-cd /usr/local/ngrok
 StandardOutput "==> Production certificate"
 mkdir openssl && cd openssl
 openssl genrsa -out rootCA.key 2048 &> /dev/null
@@ -90,9 +88,9 @@ do
 	zip ${p}.zip ngrok/* &> /dev/null
 	rm -rf ngrok
 done
+StandardOutput "==> Running ..."
 StandardOutput "----------------------------------------"
 StandardOutput "you can run command to see package dir"
 StandardOutput "  docker inspect $HOSTNAME | jq '.[0].Mounts[0].Source'"
 StandardOutput "----------------------------------------"
-StandardOutput "==> Running ..."
-exec /usr/local/ngrok/bin/ngrokd -domain="$NGROK_DOMAIN" # -tlsKey=server.key -tlsCrt=server.crt
+exec /usr/local/ngrok/bin/ngrokd -domain="$NGROK_DOMAIN" -tlsKey=/usr/local/ngrok/assets/server/tls/snakeoil.key -tlsCrt=/usr/local/ngrok/assets/server/tls/snakeoil.crt
