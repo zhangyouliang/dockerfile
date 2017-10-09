@@ -83,7 +83,7 @@ cp {start.sh,ngrok.cfg,bin/ngrok}   package/linux64/
 cp {start.sh,ngrok.cfg,bin/linux_386/ngrok}   package/linux32/
 
 cd package
-rm -rf *.zip
+# rm -rf *.zip
 for p in `ls`
 do
 	mv ${p} ngrok
