@@ -9,7 +9,7 @@ if [ ${NGROK_DOMAIN} == "**NULL**" ];then
     ErrorOutput "Please set the NGROK_DOMAIN environment variable !"
     exit 1
 fi
-if [ ! -e /usr/local/ngrok/package/install.local ];then
+if [ ! -e /usr/local/ngrok/package/install.lock ];then
     StandardOutput "==> Production certificate"
     mkdir openssl && cd openssl
     openssl genrsa -out rootCA.key 2048 &> /dev/null
@@ -89,7 +89,7 @@ EOF
     	zip ${p}.zip ngrok/* &> /dev/null
     	rm -rf ngrok
     done
-    touch /usr/local/ngrok/package/install.local 
+    touch /usr/local/ngrok/package/install.lock
 fi
 
 StandardOutput "==> Running ..."
