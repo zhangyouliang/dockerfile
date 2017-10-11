@@ -10,6 +10,7 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 ENV PASSWORD **NULL**
 ENV SERVER_METHOD aes-256-cfb
+ENV SERVER_ADDR 0.0.0.0
 
 EXPOSE 8388
 
