@@ -18,7 +18,7 @@ ENV PATH $PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 
 RUN apt-get update \
     && apt-get install axel --no-install-recommends -y \
-    && axel -n 20 --output=/usr/local/src/zookeeper-${ZOOKEEPER_VERSION}.tar.gz http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz \
+    && axel -n 20 --output=/usr/local/src/zookeeper-${ZOOKEEPER_VERSION}.tar.gz http://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz \
     && tar -zxf /usr/local/src/zookeeper-${ZOOKEEPER_VERSION}.tar.gz -C /usr/local/ \
     && rm -rf /usr/local/src/zookeeper-${ZOOKEEPER_VERSION}.tar.gz \
     && apt-get remove axel -y \
