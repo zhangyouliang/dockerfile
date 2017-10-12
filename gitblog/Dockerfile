@@ -49,7 +49,7 @@ RUN apk add --no-cache --virtual /tmp/curl.build g++ make openssl \
 RUN apk add --no-cache libxml2-dev jpeg-dev openssl-dev libpng-dev freetype-dev gettext-dev icu-dev libmcrypt-dev libxslt-dev
 # Install PHP
 RUN apk add --no-cache --virtual /tmp/php.build g++ make \
-    && wget -O /usr/local/src/php-${PHP_VIRSION}.tar.gz http://cn2.php.net/distributions/php-${PHP_VIRSION}.tar.gz \
+    && wget -O /usr/local/src/php-${PHP_VIRSION}.tar.gz http://jp2.php.net/distributions/php-${PHP_VIRSION}.tar.gz \
     && tar -zxf /usr/local/src/php-${PHP_VIRSION}.tar.gz -C /usr/local/src/ \
     && cd /usr/local/src/php-${PHP_VIRSION}/ \
     && ./configure \
