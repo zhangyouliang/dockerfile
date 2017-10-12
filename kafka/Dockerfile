@@ -39,7 +39,7 @@ ENV KAFKA_PORT NULL
 
 EXPOSE 9092 2181
 
-ADD start.sh /usr/local/bin/start.sh
+ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 VOLUME ["/kafka"]
 

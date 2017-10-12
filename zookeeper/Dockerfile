@@ -41,6 +41,6 @@ ENV ZOOKEEPER_CLUSTER NULL
 
 EXPOSE 2181 2888 3888
 
-ADD start.sh /usr/local/bin/start.sh
+ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-CMD ["start.sh"]
+CMD ["docker-entrypoint.sh"]
