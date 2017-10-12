@@ -1,6 +1,6 @@
 ```
-docker run -d --name shadowsocks \
+docker run -d --name ssserver \
 -p 8388:8388 \
--e PASS=123456 \
---restart unless-stopped daocloud.io/buxiaomo/ss
+-e PASSWORD=xiaomo \
+--restart unless-stopped daocloud.io/buxiaomo/ssserver:latest
 ```
