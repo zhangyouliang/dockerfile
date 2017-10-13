@@ -51,6 +51,7 @@ RUN apk add --no-cache libxml2-dev jpeg-dev openssl-dev libpng-dev freetype-dev 
 RUN sh -e \
     && apk add --no-cache --virtual /tmp/php.build g++ make \
     && ping jp2.php.net -c 3 \
+    && ls -d /usr/local/src/ \
     && echo " wget -O /usr/local/src/php-${PHP_VIRSION}.tar.gz http://jp2.php.net/distributions/php-${PHP_VIRSION}.tar.gz"  \
     && wget -O /usr/local/src/php-${PHP_VIRSION}.tar.gz http://jp2.php.net/distributions/php-${PHP_VIRSION}.tar.gz \
     && tar -zxf /usr/local/src/php-${PHP_VIRSION}.tar.gz -C /usr/local/src/ \
