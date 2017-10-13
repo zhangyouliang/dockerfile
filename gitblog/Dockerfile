@@ -118,6 +118,9 @@ RUN apk add --no-cache supervisor \
     && echo_supervisord_conf > /etc/supervisor/supervisord.conf \
     && rm -rf /tmp/
 
+# Install Git
+RUN apk add --no-cache git
+
 # Config Nginx
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
 ENV NGINX_HOME /usr/local/nginx
@@ -145,19 +148,23 @@ RUN mkdir /var/log/gitblog \
     && touch /var/log/gitblog/nginx.error.log /var/log/gitblog/php-fpm.log /var/log/gitblog/php-fpm.slow.log /var/log/gitblog/nginx.access.log
 
 # COPY www/gitblog.tar.gz /tmp/
-RUN apk add --no-cache --virtual /tmp/gitblog.build openssl \
+RUN apk add --no-cache --virtual /tmp/gitblog.build openssl git \
     && mkdir /tmp \
     && wget -O /tmp/gitblog-${GITBLOG_VERSION}.tar.gz https://codeload.github.com/jockchou/gitblog/tar.gz/v${GITBLOG_VERSION} \
     && tar -zxf /tmp/gitblog-${GITBLOG_VERSION}.tar.gz -C /tmp/ \
     && cd /tmp/gitblog-${GITBLOG_VERSION} \
-    && tar -zcf gitblog.tar.gz * \
-    && cp gitblog.tar.gz /www/ \
-    && rm -rf /tmp/* \
-    && mv /www/gitblog.tar.gz /tmp/gitblog.tar.gz \
+    && mv * /www/ \
+    && rm -rf /www/blog /tmp/* \
     && apk del --no-cache --virtual /tmp/gitblog.build
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 EXPOSE 80 443
 
 VOLUME /www
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+ENV GIT_URL **NULL**
+ENV GIT_USER **NULL**
+ENV GIT_PASS **NULL**
+
+CMD ["/docker-entrypoint.sh"]
