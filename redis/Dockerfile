@@ -14,5 +14,5 @@ COPY sentinel.conf /etc/redis/sentinel.conf
 RUN chmod +x /usr/bin/sentinel.sh
 
 EXPOSE 6379
-# s
+
 CMD ["redis-server","/etc/redis.conf"]
