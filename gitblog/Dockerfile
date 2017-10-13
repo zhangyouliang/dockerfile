@@ -5,7 +5,7 @@ COPY repositories /etc/apk/repositories
 
 # Set Software Version
 ENV NGINX_VERSION 1.13.0
-ENV PHP_VIRSION 7.1.5
+ENV PHP_VIRSION 7.1.10
 ENV CURL_VERSION 7.54.0
 ENV GITBLOG_VERSION 2.3.2
 
