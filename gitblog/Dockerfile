@@ -143,6 +143,7 @@ RUN mkdir /var/log/gitblog \
 
 # COPY www/gitblog.tar.gz /tmp/
 RUN apk add --no-cache --virtual /tmp/gitblog.build openssl \
+    && mkdir /tmp \
     && wget -O /tmp/gitblog-${GITBLOG_VERSION}.tar.gz https://codeload.github.com/jockchou/gitblog/tar.gz/v${GITBLOG_VERSION} \
     && tar -zxf /tmp/gitblog-${GITBLOG_VERSION}.tar.gz -C /tmp/ \
     && cd /tmp/gitblog-${GITBLOG_VERSION} \
