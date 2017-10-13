@@ -148,13 +148,14 @@ RUN mkdir /var/log/gitblog \
     && touch /var/log/gitblog/nginx.error.log /var/log/gitblog/php-fpm.log /var/log/gitblog/php-fpm.slow.log /var/log/gitblog/nginx.access.log
 
 # COPY www/gitblog.tar.gz /tmp/
-RUN apk add --no-cache --virtual /tmp/gitblog.build openssl git \
+RUN apk add --no-cache --virtual /tmp/gitblog.build openssl \
     && mkdir /tmp \
     && wget -O /tmp/gitblog-${GITBLOG_VERSION}.tar.gz https://codeload.github.com/jockchou/gitblog/tar.gz/v${GITBLOG_VERSION} \
     && tar -zxf /tmp/gitblog-${GITBLOG_VERSION}.tar.gz -C /tmp/ \
     && cd /tmp/gitblog-${GITBLOG_VERSION} \
     && mv * /www/ \
-    && rm -rf /www/blog /tmp/* \
+    && mv /www/blog /www/tmp \
+    && rm -rf  /tmp/* \
     && apk del --no-cache --virtual /tmp/gitblog.build
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
