@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/lib/python3
 # -*- coding: UTF-8 -*-
 import os
 from flask import Flask,render_template,request
@@ -6,7 +6,6 @@ import pymysql
 import docker
 
 app = Flask(__name__)
-
 
 def Connent_DB(host,name,passwd,dbname):
     return pymysql.connect(host, name, passwd, dbname)
