@@ -1,0 +1,13 @@
+#!/bin/bash
+case $1 in:
+    nadduser )
+    echo "$2" >> ${NGROK_CONFIG}/secret
+    ;;
+    nmoduser )
+    sed -i "" ${NGROK_CONFIG}/secret
+    ;;
+    ndeluser )
+    ;;
+    * )
+    ;;
+esac
