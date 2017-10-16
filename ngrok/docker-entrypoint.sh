@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 function StandardOutput {
     echo -e "\033[32m$1\033[0m"
 }
@@ -68,7 +68,7 @@ EOF
     chmod +x start.sh
 
     StandardOutput "==> Package required files"
-    mkdir -p package/{linux64,linux32,win64,win32,arm,mac64,mac32}
+    mkdir -p package/linux64 package/linux32 package/win64 package/win32 package/arm package/mac64 package/mac32
 
     cp -p {start.bat,ngrok.cfg,bin/windows_amd64/ngrok.exe} package/win64/
     cp -p {start.bat,ngrok.cfg,bin/windows_386/ngrok.exe} package/win32/

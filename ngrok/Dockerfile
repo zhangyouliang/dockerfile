@@ -1,8 +1,11 @@
-FROM golang:1.9.0
+FROM golang:1.9.1-alpine3.6
 
-RUN apt-get update \
-    && apt-get install --no-install-recommends git zip -y \
-    && [ -d /usr/local/ngrok ] || git clone https://github.com/inconshreveable/ngrok.git /usr/local/ngrok \
+ENV REPO https://github.com/prikevs/ngrok.git
+
+COPY repositories /etc/apk/repositories
+
+RUN apk add --no-cache git zip make openssl \
+    && [ -d /usr/local/ngrok ] || git clone ${REPO} /usr/local/ngrok \
     && mkdir /package \
     && rm -rf /usr/local/ngrok/assets/client/tls/*
 
