@@ -89,7 +89,7 @@ EOF
     	zip ${p}.zip ngrok/* &> /dev/null
     	rm -rf ngrok
     done
-    touch /usr/local/ngrok/package/install.lock
+    [ $? == 0 ] && touch /usr/local/ngrok/package/install.lock | exit 1
 fi
 
 StandardOutput "==> Running ..."

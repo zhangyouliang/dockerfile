@@ -15,7 +15,8 @@ ENV NGROK_DOMAIN **NULL**
 
 EXPOSE 80 443 4443
 
-VOLUME ['/usr/local/ngrok/package','/usr/local/ngrok/assets/client/tls/']
+VOLUME ["/usr/local/ngrok/package","/usr/local/ngrok/assets/client/tls/"]
+# VOLUME []
 
 WORKDIR /usr/local/ngrok
 
