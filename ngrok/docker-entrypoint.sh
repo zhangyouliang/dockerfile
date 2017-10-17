@@ -49,16 +49,21 @@ if [ ! -e ${NGROK_CONFIG}/install.lock ];then
     cat > ngrok.yml << EOF
 server_addr: "$NGROK_DOMAIN:4443"
 trust_host_root_certs: false
+auth_token: ${NGROK_USER}:${NGROK_PAAS}
 
 tunnels:
     ssh:
         remote_port: 22
         proto:
             tcp: "127.0.0.1:22"
-    web:
+    http:
         subdomain: "www"
         proto:
             http: 80
+    https:
+        subdomain: dce
+        proto:
+            https: 172.20.5.100:80
     auth:
         auth: "admin:admin"
         subdomain: "www"
@@ -77,11 +82,11 @@ EOF
     cat > start.bat << EOF
 @echo off
 ipconfig /flushdns
-ngrok.exe -authtoken "${NGROK_USER}:${NGROK_PAAS}" -config ngrok.cfg start ssh mstsc web
+ngrok.exe -config ngrok.cfg start ssh mstsc web
 pause
 EOF
     cat > start.sh << EOF
-./ngrok -authtoken "${NGROK_USER}:${NGROK_PAAS}" -config \$1 start \`\$2 | sed 's/,/ /g'\`
+./ngrok -config \$1 start \`\$2 | sed 's/,/ /g'\`
 EOF
     chmod +x start.sh
 

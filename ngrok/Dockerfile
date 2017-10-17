@@ -1,4 +1,5 @@
 FROM golang:1.9.1
+MAINTAINER "Cloth Mo" <root@buxiaomo.com>
 
 COPY sources.list /etc/apt/sources.list
 
