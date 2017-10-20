@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER "Cloth Mo" <root@buxiaomo.com>
 
-COPY sources.list /etc/apt/sources.list
+# COPY sources.list /etc/apt/sources.list
 
 RUN apt-get update \
     && apt-get install tzdata --no-install-recommends -y \
