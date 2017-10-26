@@ -13,7 +13,7 @@ allowscp
 
 umask = 022
 
-chrootpath = /usr/local/chroot
+# chrootpath = /usr/local/chroot
 
 user=${USER}:022:00001" > /etc/rssh.conf
 ssh-keygen -A &> /dev/null
