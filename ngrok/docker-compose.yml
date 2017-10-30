@@ -14,9 +14,8 @@ services:
         environment:
             - NGROK_DOMAIN=example.com
         volumes:
-            - package:/package
+            - /etc/ngrok:/etc/ngrok
+            - /var/run/docker.sock:/var/run/docker.sock:ro
 networks:
     ngrok:
         external: true
-volumes:
-    package:

@@ -1,0 +1,35 @@
+#!/bin/bash
+function add() {
+    input -p "Please input username: " USERNAME
+    cat secret | awk '{print $1}' | grep -E "^${USERNAME}$" &> /dev/null
+    if [ $? == 0 ];then
+        echo "User already exist."
+    else
+        input -p "Please input password: " PASSWORD
+        echo "${USERNAME} ${PASSWORD}" >> ${NGROK_CONFIG}/secret
+        echo "User add success."
+    fi
+}
+
+function del() {
+    input -p "Please input username: " USERNAME
+    cat secret | awk '{print $1}' | grep -E "^${USERNAME}$" &> /dev/null
+    if [ $? == 0 ];then
+        echo "User already exist."
+    else
+        input -p "Please input password: " PASSWORD
+        echo "${USERNAME} ${PASSWORD}" >> ${NGROK_CONFIG}/secret
+        echo "User add success."
+    fi
+}
+
+function mod() {
+    input -p "Please input username: " USERNAME
+    cat secret | awk '{print $1}' | grep -E "^${USERNAME}$" &> /dev/null
+    if [ $? == 0 ];then
+        sed -i "" ${NGROK_CONFIG}/secret
+    else
+        echo "User add success."
+    fi
+}
+$1

@@ -4,6 +4,7 @@
 ```
 docker run -d --name ngrok-server \
 -v /etc/ngrok:/etc/ngrok \
+-v /var/run/docker.sock:/var/run/docker.sock:ro \
 -p 80:80/tcp \
 -p 443:443/tcp \
 -p 4443:4443/tcp \
