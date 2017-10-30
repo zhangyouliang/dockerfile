@@ -45,10 +45,15 @@ if [ ! -e ${NGROK_CONFIG}/install.lock ];then
     StandardOutput "==> Compile Ngrok Client For Mac ..."
     GOOS=darwin GOARCH=386 make release-client &> /dev/null
     GOOS=darwin GOARCH=amd64 make release-client &> /dev/null
-    NGROK_PORT=`docker inspect ngrok-server | jq .[0].NetworkSettings.Ports.\"4443/tcp\"[0].HostPort | sed "s/\"//g"`
-    if [ ${NGROK_PORT} == 'null' ];then
+    if [ -e /var/run/docker.sock ];then
+        NGROK_PORT=`docker inspect ngrok-server | jq .[0].NetworkSettings.Ports.\"4443/tcp\"[0].HostPort | sed "s/\"//g"`
+        if [ ${NGROK_PORT} == 'null' ];then
+            NGROK_PORT=4443
+        fi
+    else
         NGROK_PORT=4443
     fi
+
     cat > ngrok.yml << EOF
 server_addr: "$NGROK_DOMAIN:${NGROK_PORT}"
 trust_host_root_certs: false
