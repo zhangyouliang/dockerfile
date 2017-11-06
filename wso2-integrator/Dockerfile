@@ -6,6 +6,8 @@
 FROM openjdk:alpine
 MAINTAINER Bruno Cesar <bruno@modoagil.com.br>
 
+ADD repositories  /etc/apk/repositories
+
 WORKDIR /opt
 
 ARG EI_VERSION=6.1.1
