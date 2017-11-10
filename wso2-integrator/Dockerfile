@@ -4,7 +4,6 @@
 # See the LICENSE file in the root directory or <http://www.gnu.org/licenses/lgpl-3.0.html>.
 
 FROM openjdk:alpine
-MAINTAINER Bruno Cesar <bruno@modoagil.com.br>
 
 ADD repositories  /etc/apk/repositories
 
