@@ -67,6 +67,7 @@
                                         <tr>
                                             <th>用户</th>
                                             <th>端口</th>
+                                            <th>加密方式</th>
                                             <th>密码</th>
                                         </tr>
                                     </thead>
@@ -75,6 +76,7 @@
                                         <tr>
                                             <td>{{ USER.name }}</td>
                                             <td>{{ USER.PublishedPort }}</td>
+                                            <td>aes-256-cfb</td>
                                             <td>{{ USER.password }}</td>
                                         </tr>
                                         {% endfor %}
