@@ -11,12 +11,6 @@ ENV SPLUNK_USER splunk
 ENV SPLUNK_BACKUP_DEFAULT_ETC /var/opt/splunk
 ARG DEBIAN_FRONTEND=noninteractive
 
-COPY sources.list /etc/apt/sources.list
-
-# set timezone
-RUN echo "Asia/Shanghai" > /etc/timezone \
-    && dpkg-reconfigure -f noninteractive tzdata
-
 # add splunk:splunk user
 RUN groupadd -r ${SPLUNK_GROUP} \
     && useradd -r -m -g ${SPLUNK_GROUP} ${SPLUNK_USER}
