@@ -16,8 +16,12 @@ global clt
 global DomainName
 global Task
 
+
 def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
     try:
+        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+        WorkerToken = client.swarm.attrs['JoinTokens']['Worker']
+        ManagerIP = os.environ.get("ManagerIP")
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(SSHIP, int(SSHPORT), SSHUSER, SSHPASS)
@@ -32,7 +36,7 @@ def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
                 'apt-get update\n',
                 'apt-get install docker-ce -y\n',
                 'systemctl restart  docker.service\n',
-                'docker swarm join --token SWMTKN-1-5gtz9muww359g0o3xjo36k8qrikef71p8823jl2m5oexeyfq2g-avyomjqsbd8vaqcz1griedbbg 45.77.157.7:2377\n'
+                'docker swarm join --token %s %s:2377\n' % (WorkerToken,ManagerIP)
             ]
         if OS == "CentOS":
             command = [
@@ -41,7 +45,7 @@ def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
                 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -\n',
                 'yum -y install docker-ce\n',
                 'systemctl restart  docker.service\n',
-                'docker swarm join --token SWMTKN-1-5gtz9muww359g0o3xjo36k8qrikef71p8823jl2m5oexeyfq2g-avyomjqsbd8vaqcz1griedbbg 45.77.157.7:2377\n'
+                'docker swarm join --token %s %s:2377\n' % (WorkerToken,ManagerIP)
             ]
         for cmd in command:
             shell.send(cmd)
@@ -85,6 +89,10 @@ def addhost():
         t1 = threading.Thread(target=AddHostTask, args=(SSHIP, int(SSHPORT), SSHUSER, SSHPASS,OS,NAME))
         t1.start()
         return Response(json.dumps({"result": NAME}), mimetype='application/json')
+
+@app.route('/index')
+def InquireTaskResult():
+    pass
 
 @app.route('/')
 @app.route('/index')

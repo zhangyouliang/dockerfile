@@ -9,7 +9,7 @@ ENV ALIYUN_Secret NULL
 ENV ALIYUN_RegionId cn-hangzhou
 
 ENV Domain NULL
-
+ENV ManagerIP NULL
 EXPOSE 8000
 
 CMD ["python","/app/ssserver.py"]
