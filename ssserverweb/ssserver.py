@@ -1,9 +1,23 @@
+#!/usr/bin/env python2
+# -*- coding: UTF-8 -*-
+# @Time    : 2017/11/10 14:45
+# @File    : ssserver.py
 import docker,json,os,paramiko
 from flask import Flask,render_template,request,Response
+
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
 
+
+USERNAME = 'admin'
+PASSWORD = 'admin'
+SECRET_KEY = 'development key'
+
 app = Flask(__name__)
+
+app.config.from_object(__name__)
+app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+
 global ALIYUN_ID
 global ALIYUN_Secret
 global ALIYUN_RegionId
@@ -38,15 +52,16 @@ def addhost():
         if stdout.read().find("running") != -1:
             stdin, stdout, stderr = ssh.exec_command('docker swarm join --token SWMTKN-1-5gtz9muww359g0o3xjo36k8qrikef71p8823jl2m5oexeyfq2g-avyomjqsbd8vaqcz1griedbbg 45.77.157.7:2377')
             if stdout.read().find("This node joined a swarm as a worker") != -1:
-                print("add success")
+                result ="add server success"
             else:
-                print("add error")
+                result = "add server error"
         else:
-            print("not run")
+            result ="docker not run"
         ssh.close()
-        return Response(json.dumps({"result": "1"}), mimetype='application/json')
+        return Response(json.dumps({"result": result}), mimetype='application/json')
 
 @app.route('/')
+@app.route('/index')
 def index():
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     HOSTLIST = []
@@ -80,4 +95,4 @@ if __name__ == '__main__':
     ALIYUN_RegionId = os.environ.get("ALIYUN_RegionId")
 
     DomainName = os.environ.get("DomainName")
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    app.run(debug=True, host="127.0.0.1", port=8000)
