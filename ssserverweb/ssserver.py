@@ -90,9 +90,9 @@ def addhost():
         t1.start()
         return Response(json.dumps({"result": NAME}), mimetype='application/json')
 
-@app.route('/index')
-def InquireTaskResult():
-    pass
+@app.route('/taskresult/<int:taskid>')
+def InquireTaskResult(taskid):
+    return Response(json.dumps({"result": Task[taskid]}), mimetype='application/json')
 
 @app.route('/')
 @app.route('/index')
