@@ -52,7 +52,7 @@ def index():
     HOSTLIST = []
     USERLIST = []
     Domain = GetAllDomainRecords(DomainName)
-    for nodes in client.nodes.list():
+    for nodes in client.nodes.list(filters={'role': 'worker'}):
         tmp = {}
         tmp['State'] = nodes.attrs['Status']['State']
         if nodes.attrs['Status']['Addr'] in Domain:
