@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Shadowsocks共享平台 - 登录</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/layui.css') }}"  media="all">
+    </head>
+    <body>
+        <div class="layui-container">
+            <blockquote class="layui-elem-quote layui-text">SSSERVER.CC</blockquote>
+            <div class="layui-row">
+                <div class="layui-col-md1 layui-col-md-offset4">
+                      <div class="grid-demo grid-demo-bg1">
+<form action="{{ url_for("login") }}" method="post" name="login">
+      {{ form.csrf_token }}
+      <p>
+          {{ form.username.label }}<br>
+          {{ form.username(size=80) }}<br>
+      </p>
+      <p>
+          {{ form.password.label }}<br>
+          <!-- 我们可以传递input标签的属性，这里传递的是size属性 -->
+          {{ form.password(size=80) }}<br>
+      </p>
+      <p>{{ form.remember_me }} Remember Me</p>
+      <p><input type="submit" value="Sign In"></p>
+  </form>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="{{ url_for('static', filename='layui.js') }}" charset="utf-8"></script>
+        <script>
+
+            layui.use(['form', 'layedit', 'laydate'], function(){
+                var form = layui.form,layer = layui.layer,layedit = layui.layedit;
+                //监听提交
+                form.on('submit(demo1)', function(data){
+                    $.getJSON(
+                        "addhost.html",
+                        JSON.stringify(data.field)
+                        ,function(result){
+                            console.log(result);
+                        }
+                    );
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

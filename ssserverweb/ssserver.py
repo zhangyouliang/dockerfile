@@ -2,27 +2,65 @@
 # -*- coding: UTF-8 -*-
 # @Time    : 2017/11/10 14:45
 # @File    : ssserver.py
-import docker,json,os,paramiko
+import docker,json,os,paramiko,threading,time,re
 from flask import Flask,render_template,request,Response
-
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
 
-
-USERNAME = 'admin'
-PASSWORD = 'admin'
-SECRET_KEY = 'development key'
-
 app = Flask(__name__)
-
-app.config.from_object(__name__)
-app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
 global ALIYUN_ID
 global ALIYUN_Secret
 global ALIYUN_RegionId
 global clt
 global DomainName
+global Task
+
+def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
+    try:
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(SSHIP, int(SSHPORT), SSHUSER, SSHPASS)
+        t = paramiko.Transport((SSHIP, int(SSHPORT)))
+        t.connect(username=SSHUSER, password=SSHPASS)
+        shell = ssh.invoke_shell()
+        if OS == "Ubuntu":
+            command = [
+                'apt-get install apt-transport-https facter ca-certificates curl gnupg2 software-properties-common -y\n',
+                'echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable" >> /etc/apt/sources.list\n',
+                'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -\n',
+                'apt-get update\n',
+                'apt-get install docker-ce -y\n',
+                'systemctl restart  docker.service\n',
+                'docker swarm join --token SWMTKN-1-5gtz9muww359g0o3xjo36k8qrikef71p8823jl2m5oexeyfq2g-avyomjqsbd8vaqcz1griedbbg 45.77.157.7:2377\n'
+            ]
+        if OS == "CentOS":
+            command = [
+                'yum install -y yum-utils device-mapper-persistent-data lvm2 curl\n',
+                'yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo\n',
+                'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -\n',
+                'yum -y install docker-ce\n',
+                'systemctl restart  docker.service\n',
+                'docker swarm join --token SWMTKN-1-5gtz9muww359g0o3xjo36k8qrikef71p8823jl2m5oexeyfq2g-avyomjqsbd8vaqcz1griedbbg 45.77.157.7:2377\n'
+            ]
+        for cmd in command:
+            shell.send(cmd)
+            while not shell.recv_ready():
+                time.sleep(1)
+            buff = shell.recv(1024)
+            base_prompt = r'(>|#|\]|\$|\)) *$'
+            while (not re.search(base_prompt, buff.split('\n')[-1])):
+                _buff = shell.recv(1024)
+                buff += _buff
+                print buff
+                if buff.find("This node joined a swarm as a worker") != -1:
+                    Task[NAME] = "Success"
+                else:
+                    Task[NAME] = "Failure"
+        ssh.close()
+    except:
+        Task[NAME] = "Failure"
+    print(Task[NAME])
 
 def GetAllDomainRecords(DomainN):
     clt = client.AcsClient(ALIYUN_ID, ALIYUN_Secret, ALIYUN_RegionId)
@@ -42,23 +80,11 @@ def addhost():
         SSHPORT = request.form['sshport']
         SSHUSER = request.form['sshuser']
         SSHPASS = request.form['sshpass']
-
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(SSHIP, int(SSHPORT), SSHUSER, SSHPASS)
-        t = paramiko.Transport((SSHIP, int(SSHPORT)))
-        t.connect(username=SSHUSER, password=SSHPASS)
-        stdin, stdout, stderr = ssh.exec_command('ps -aux | grep "/usr/bin/dockerd" &> /dev/null && echo running')
-        if stdout.read().find("running") != -1:
-            stdin, stdout, stderr = ssh.exec_command('docker swarm join --token SWMTKN-1-5gtz9muww359g0o3xjo36k8qrikef71p8823jl2m5oexeyfq2g-avyomjqsbd8vaqcz1griedbbg 45.77.157.7:2377')
-            if stdout.read().find("This node joined a swarm as a worker") != -1:
-                result ="add server success"
-            else:
-                result = "add server error"
-        else:
-            result ="docker not run"
-        ssh.close()
-        return Response(json.dumps({"result": result}), mimetype='application/json')
+        OS = request.form['os']
+        NAME = int(round(time.time() * 1000))
+        t1 = threading.Thread(target=AddHostTask, args=(SSHIP, int(SSHPORT), SSHUSER, SSHPASS,OS,NAME))
+        t1.start()
+        return Response(json.dumps({"result": NAME}), mimetype='application/json')
 
 @app.route('/')
 @app.route('/index')
@@ -95,4 +121,6 @@ if __name__ == '__main__':
     ALIYUN_RegionId = os.environ.get("ALIYUN_RegionId")
 
     DomainName = os.environ.get("DomainName")
+
+    Task = {}
     app.run(debug=True, host="127.0.0.1", port=8000)
