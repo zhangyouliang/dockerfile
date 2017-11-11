@@ -92,7 +92,10 @@ def addhost():
 
 @app.route('/taskresult/<int:taskid>')
 def InquireTaskResult(taskid):
-    return Response(json.dumps({"result": Task[taskid]}), mimetype='application/json')
+    if taskid in Task:
+        return Response(json.dumps({"result": Task[taskid]}), mimetype='application/json')
+    else:
+        return Response(json.dumps({"result": "None"}), mimetype='application/json')
 
 @app.route('/')
 @app.route('/index')
@@ -129,6 +132,5 @@ if __name__ == '__main__':
     ALIYUN_Secret = os.environ.get("ALIYUN_Secret")
     ALIYUN_RegionId = os.environ.get("ALIYUN_RegionId")
     DomainName = os.environ.get("DomainName")
-
     Task = {}
     app.run(debug=True, host="0.0.0.0", port=8000)
