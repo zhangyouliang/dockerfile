@@ -133,4 +133,4 @@ if __name__ == '__main__':
     ALIYUN_RegionId = os.environ.get("ALIYUN_RegionId")
     DomainName = os.environ.get("DomainName")
     Task = {}
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    app.run(host="0.0.0.0", port=8000)
