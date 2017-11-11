@@ -116,6 +116,7 @@ def index():
         if services.attrs['Endpoint']['Ports'][0]['TargetPort'] == 8388:
             tmp['PublishedPort'] = services.attrs['Endpoint']['Ports'][0]['PublishedPort']
         tmp['password'] = services.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env'][0].replace("PASSWORD=", "")
+        tmp['password'] = tmp['password'][:2] + "******" + tmp['password'][len(tmp['password']) - 2:]
         USERLIST.append(tmp)
     return render_template(
         "index.html",
@@ -127,7 +128,6 @@ if __name__ == '__main__':
     ALIYUN_ID = os.environ.get("ALIYUN_ID")
     ALIYUN_Secret = os.environ.get("ALIYUN_Secret")
     ALIYUN_RegionId = os.environ.get("ALIYUN_RegionId")
-
     DomainName = os.environ.get("DomainName")
 
     Task = {}
