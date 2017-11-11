@@ -225,7 +225,7 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">密码</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="ssrpass" lay-verify="sshuser" autocomplete="off" placeholder="请输入主机 SSH 用户" class="layui-input">
+                                        <input type="password" name="ssrpass" lay-verify="sshuser" autocomplete="off" placeholder="请输入主机 SSH 用户" class="layui-input">
                                     </div>
                                 </div>
 
@@ -233,12 +233,8 @@
                                     <label class="layui-form-label">加密方式</label>
                                     <div class="layui-input-block">
                                         <select name="passwdtype" lay-filter="aihao">
-                                            <option value="" selected=""></option>
-                                            <option value="0">写作</option>
-                                            <option value="1">阅读</option>
-                                            <option value="2">游戏</option>
-                                            <option value="3">音乐</option>
-                                            <option value="4">旅行</option>
+                                            <option value=""></option>
+                                            <option value="aes-256-cfb" selected="">aes-256-cfb</option>
                                         </select>
                                     </div>
                                 </div>
