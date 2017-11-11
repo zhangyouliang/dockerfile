@@ -88,7 +88,7 @@ def addhost():
         NAME = int(round(time.time() * 1000))
         t1 = threading.Thread(target=AddHostTask, args=(SSHIP, int(SSHPORT), SSHUSER, SSHPASS,OS,NAME))
         t1.start()
-        return Response(json.dumps({"result": NAME}), mimetype='application/json')
+        return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
 
 @app.route('/taskresult/<int:taskid>')
 def InquireTaskResult(taskid):
