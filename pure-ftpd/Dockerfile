@@ -12,9 +12,9 @@ RUN mkdir /usr/local/src \
     && wget -O /usr/local/src/pure-ftpd-${PUREFTPD_VERSION}.tar.gz https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-${PUREFTPD_VERSION}.tar.gz \
     && tar -zvxf /usr/local/src/pure-ftpd-${PUREFTPD_VERSION}.tar.gz -C /usr/local/src \
     && apk del --no-cache --virtual .build-deps \
-    && apk add --no-cache --update --virtual .build-deps g++ \
+    && apk add --no-cache --update --virtual .build-deps g++ make \
     && apk add --no-cache mariadb-dev \
-    # && cd /usr/local/src/pure-ftpd-${PUREFTPD_VERSION} \
-    # && ./configure ${PUREFTPD_CONFIGURE} \
-    # && make && make install \
-    # && apk del --no-cache --virtual .build-deps
+    && cd /usr/local/src/pure-ftpd-${PUREFTPD_VERSION} \
+    && ./configure ${PUREFTPD_CONFIGURE} \
+    && make && make install \
+    && apk del --no-cache --virtual .build-deps
