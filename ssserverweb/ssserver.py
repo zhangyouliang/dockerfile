@@ -91,7 +91,7 @@ def addhost():
         t1.start()
         return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
 
-@app.route('/tmp.html',methods=["Post"])
+@app.route('/erweima.html',methods=["Post"])
 def erweima():
     if request.method == 'POST':
         hostname = request.form['hostname']
