@@ -108,10 +108,8 @@ def erweima():
         qr.add_data("ss://%s" % (base64.b64encode("%s:%s@%s:%s" % (method,password,hostname,port))))
         qr.make(fit=True)
         img = qr.make_image()
-        img.save("pictname.png")
-        # return redirect(url_for('pictname.png'))
-        # return Response(json.dumps({"TaskID": "ss"}), mimetype='application/json')
-        return "{{ url_for('static', filename='pictname.png') }}"
+        img.save("static/erweima/pictname.png")
+        return redirect(url_for('static/erweima/pictname.png'))
 
 @app.route('/taskresult/<int:taskid>')
 def InquireTaskResult(taskid):

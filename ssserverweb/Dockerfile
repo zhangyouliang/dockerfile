@@ -10,6 +10,8 @@ ENV ALIYUN_RegionId cn-hangzhou
 
 ENV Domain NULL
 ENV ManagerIP NULL
+
+WORKDIR /app
 EXPOSE 8000
 
-CMD ["python","/app/ssserver.py"]
+CMD ["python","ssserver.py"]
