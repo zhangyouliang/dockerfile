@@ -4,26 +4,7 @@ COPY repositories /etc/apk/repositories
 
 ARG PUREFTPD_VERSION=1.0.47
 
-ARG PUREFTPD_CONFIGURE=--prefix=/usr/local/pureftpd \
-    CFLAGS=-O2 \
-    --with-mysql \
-    --with-puredb \
-    --with-quotas \
-    --with-cookie \
-    --with-virtualhosts \
-    --with-diraliases \
-    --with-sysquotas \
-    --with-ratios \
-    --with-altlog \
-    --with-paranoidmsg \
-    --with-shadow \
-    --with-welcomemsg \
-    --with-throttling \
-    --with-uploadscript \
-    --with-language=english \
-    --with-rfc2640 \
-    --with-ftpwho \
-    --with-tls
+ARG PUREFTPD_CONFIGURE="--prefix=/usr/local/pureftpd CFLAGS=-O2 --with-mysql --with-puredb --with-quotas --with-cookie --with-virtualhosts --with-diraliases --with-sysquotas --with-ratios --with-altlog --with-paranoidmsg --with-shadow --with-welcomemsg --with-throttling --with-uploadscript --with-language=english --with-rfc2640 --with-ftpwho --with-tls"
 
 RUN mkdir /usr/local/src \
     && apk add --no-cache --update --virtual .build-deps  ca-certificates openssl openssl-dev \
