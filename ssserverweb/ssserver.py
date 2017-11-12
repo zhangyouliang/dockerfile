@@ -109,7 +109,7 @@ def erweima():
         qr.make(fit=True)
         img = qr.make_image()
         img.save("static/erweima/pictname.png")
-        return redirect(url_for('static/erweima/pictname.png'))
+        return redirect(url_for('/static/erweima/pictname.png'))
 
 @app.route('/taskresult/<int:taskid>')
 def InquireTaskResult(taskid):
