@@ -91,7 +91,7 @@ def addhost():
         t1.start()
         return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
 
-@app.route('/erweima.html',methods=["Post"])
+@app.route('/tmp.html',methods=["Post"])
 def erweima():
     if request.method == 'POST':
         hostname = request.form['hostname']
@@ -109,8 +109,9 @@ def erweima():
         qr.make(fit=True)
         img = qr.make_image()
         img.save("pictname.png")
-        return redirect(url_for('pictname.png'))
-        return Response(json.dumps({"TaskID": "ss"}), mimetype='application/json')
+        # return redirect(url_for('pictname.png'))
+        # return Response(json.dumps({"TaskID": "ss"}), mimetype='application/json')
+        return "{{ url_for('static', filename='pictname.png') }}"
 
 @app.route('/taskresult/<int:taskid>')
 def InquireTaskResult(taskid):
