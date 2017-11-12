@@ -2,8 +2,8 @@
 # -*- coding: UTF-8 -*-
 # @Time    : 2017/11/10 14:45
 # @File    : ssserver.py
-import docker,json,os,paramiko,threading,time,re
-from flask import Flask,render_template,request,Response
+import docker,json,os,paramiko,threading,time,re,qrcode,base64
+from flask import Flask,render_template,request,Response,url_for,redirect
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
 
@@ -90,6 +90,27 @@ def addhost():
         t1.start()
         return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
 
+@app.route('/erweima.html',methods=["Post"])
+def erweima():
+    if request.method == 'POST':
+        hostname = request.form['hostname']
+        port = request.form['port']
+        password = request.form['password']
+        method = request.form['method']
+        print(hostname,port,password,method)
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data("ss://%s" % (base64.b64encode("%s:%s@%s:%s" % (method,password,hostname,port))))
+        qr.make(fit=True)
+        img = qr.make_image()
+        img.save("static/erweima/pictname.png")
+        return redirect(url_for('static/erweima/pictname.png'))
+        return Response(json.dumps({"TaskID": "ss"}), mimetype='application/json')
+
 @app.route('/taskresult/<int:taskid>')
 def InquireTaskResult(taskid):
     if taskid in Task:
@@ -103,24 +124,24 @@ def index():
     client = docker.DockerClient(base_url='unix://var/run/docker.sock')
     HOSTLIST = []
     USERLIST = []
-    Domain = GetAllDomainRecords(DomainName)
-    for nodes in client.nodes.list(filters={'role': 'worker'}):
-        tmp = {}
-        tmp['State'] = nodes.attrs['Status']['State']
-        if nodes.attrs['Status']['Addr'] in Domain:
-            tmp['Addr'] = Domain[nodes.attrs['Status']['Addr']]
-        else:
-            tmp['Addr'] = nodes.attrs['Status']['Addr']
-        tmp['MemoryBytes'] = int(nodes.attrs['Description']['Resources']['MemoryBytes']) / 1024 / 1024
-        HOSTLIST.append(tmp)
-    for services in client.services.list():
-        tmp = {}
-        tmp['name'] = services.name.replace("ss_","")
-        if services.attrs['Endpoint']['Ports'][0]['TargetPort'] == 8388:
-            tmp['PublishedPort'] = services.attrs['Endpoint']['Ports'][0]['PublishedPort']
-        tmp['password'] = services.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env'][0].replace("PASSWORD=", "")
-        tmp['password'] = tmp['password'][:2] + "******" + tmp['password'][len(tmp['password']) - 2:]
-        USERLIST.append(tmp)
+    # Domain = GetAllDomainRecords(DomainName)
+    # for nodes in client.nodes.list(filters={'role': 'worker'}):
+    #     tmp = {}
+    #     tmp['State'] = nodes.attrs['Status']['State']
+    #     if nodes.attrs['Status']['Addr'] in Domain:
+    #         tmp['Addr'] = Domain[nodes.attrs['Status']['Addr']]
+    #     else:
+    #         tmp['Addr'] = nodes.attrs['Status']['Addr']
+    #     tmp['MemoryBytes'] = int(nodes.attrs['Description']['Resources']['MemoryBytes']) / 1024 / 1024
+    #     HOSTLIST.append(tmp)
+    # for services in client.services.list():
+    #     tmp = {}
+    #     tmp['name'] = services.name.replace("ss_","")
+    #     if services.attrs['Endpoint']['Ports'][0]['TargetPort'] == 8388:
+    #         tmp['PublishedPort'] = services.attrs['Endpoint']['Ports'][0]['PublishedPort']
+    #     tmp['password'] = services.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env'][0].replace("PASSWORD=", "")
+    #     tmp['password'] = tmp['password'][:2] + "******" + tmp['password'][len(tmp['password']) - 2:]
+    #     USERLIST.append(tmp)
     return render_template(
         "index.html",
         HOSTLIST=HOSTLIST,

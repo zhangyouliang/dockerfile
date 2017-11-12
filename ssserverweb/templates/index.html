@@ -18,7 +18,7 @@
                         <li lay-id="2">用户列表</li>
                         <li lay-id="3">共享节点</li>
                         <li lay-id="4">下载中心</li>
-                        <li lay-id="5">生产二维码</li>
+                        <li lay-id="5">生成二维码</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
@@ -208,31 +208,32 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">主机</label>
                                     <div class="layui-input-block">
-                                        <select name="ssrhost" lay-filter="aihao">
+                                        <select name="hostname" lay-filter="aihao">
                                             <option value="" selected=""></option>
-                                            {% for HOST in HOSTLIST %}
-                                            <option value="{{ HOST.Addr }}">{{ HOST.Addr }}</option>
-                                            {% endfor %}
+                                            <option value="hk05.ssserver.cc">hk05.ssserver.cc</option>
+{#                                            {% for HOST in HOSTLIST %}#}
+{#                                            <option value="{{ HOST.Addr }}">{{ HOST.Addr }}</option>#}
+{#                                            {% endfor %}#}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">服务端口</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="ssrport" lay-verify="sshport" autocomplete="off" placeholder="请输入主机 SSH 端口" class="layui-input">
+                                        <input type="text" name="port" lay-verify="sshport" autocomplete="off" placeholder="请输入SS 端口" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">密码</label>
                                     <div class="layui-input-block">
-                                        <input type="password" name="ssrpass" lay-verify="sshuser" autocomplete="off" placeholder="请输入主机 SSH 用户" class="layui-input">
+                                        <input type="password" name="password" lay-verify="sshuser" autocomplete="off" placeholder="请输入连接密码" class="layui-input">
                                     </div>
                                 </div>
 
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">加密方式</label>
                                     <div class="layui-input-block">
-                                        <select name="passwdtype" lay-filter="aihao">
+                                        <select name="method" lay-filter="aihao">
                                             <option value=""></option>
                                             <option value="aes-256-cfb" selected="">aes-256-cfb</option>
                                         </select>
