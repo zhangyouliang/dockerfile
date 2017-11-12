@@ -210,10 +210,9 @@
                                     <div class="layui-input-block">
                                         <select name="hostname" lay-filter="aihao">
                                             <option value="" selected=""></option>
-                                            <option value="hk05.ssserver.cc">hk05.ssserver.cc</option>
-{#                                            {% for HOST in HOSTLIST %}#}
-{#                                            <option value="{{ HOST.Addr }}">{{ HOST.Addr }}</option>#}
-{#                                            {% endfor %}#}
+                                            {% for HOST in HOSTLIST %}
+                                            <option value="{{ HOST.Addr }}">{{ HOST.Addr }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
