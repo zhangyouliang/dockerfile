@@ -1,6 +1,6 @@
 FROM python:2.7.14
 
-RUN pip install aliyun-python-sdk-core aliyun-python-sdk-alidns flask docker paramiko qrcode
+RUN pip install aliyun-python-sdk-core aliyun-python-sdk-alidns flask docker paramiko qrcode pillow
 
 ADD . /app
 

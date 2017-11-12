@@ -3,6 +3,7 @@
 # @Time    : 2017/11/10 14:45
 # @File    : ssserver.py
 import docker,json,os,paramiko,threading,time,re,qrcode,base64
+from PIL import Image
 from flask import Flask,render_template,request,Response,url_for,redirect
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
