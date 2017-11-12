@@ -9,9 +9,9 @@ ARG PUREFTPD_CONFIGURE="--prefix=/usr/local/pureftpd CFLAGS=-O2 --with-mysql --w
 RUN mkdir /usr/local/src \
     && apk add --no-cache --update --virtual .build-deps  ca-certificates openssl openssl-dev \
     && update-ca-certificates \
-    && wget -c -O /usr/local/src/pure-ftpd--${PUREFTPD_VERSION}.tar.gz https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-${PUREFTPD_VERSION}.tar.gz \
-    && tar -zvxf /usr/local/src/pure-ftpd-${PUREFTPD_VERSION}.tar.gz -C /usr/local/src \
-    && apk del --no-cache --virtual .build-deps \
+    && wget -O /usr/local/src/pure-ftpd--${PUREFTPD_VERSION}.tar.gz https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-${PUREFTPD_VERSION}.tar.gz \
+    # && tar -zvxf /usr/local/src/pure-ftpd-${PUREFTPD_VERSION}.tar.gz -C /usr/local/src \
+    # && apk del --no-cache --virtual .build-deps \
     # && cd /usr/local/src/pure-ftpd-${PUREFTPD_VERSION}
     # && ./configure ${PUREFTPD_CONFIGURE}
     # && make && make install
