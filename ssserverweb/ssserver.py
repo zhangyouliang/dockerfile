@@ -91,6 +91,19 @@ def addhost():
         t1.start()
         return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
 
+@app.route('/adduser.html',methods=["Post"])
+def addhost():
+    if request.method == 'POST':
+        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+        client.services.create(
+            image="",
+            hostname="",
+            env=["PASSWORD=xiaomo"],
+            mode=,
+        )
+        WorkerToken = client.swarm.attrs['JoinTokens']['Worker']
+        # return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
+
 @app.route('/erweima.html',methods=["Post"])
 def erweima():
     if request.method == 'POST':
