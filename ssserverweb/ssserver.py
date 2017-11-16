@@ -17,7 +17,6 @@ global clt
 global DomainName
 global Task
 
-
 def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
     try:
         client = docker.DockerClient(base_url='unix://var/run/docker.sock')
