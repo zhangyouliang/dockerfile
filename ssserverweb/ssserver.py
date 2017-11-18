@@ -3,7 +3,7 @@
 # @Time    : 2017/11/10 14:45
 # @File    : ssserver.py
 import docker,json,os,paramiko,threading,time,re,qrcode,base64
-from PIL import Image
+# from PIL import Image
 from flask import Flask,render_template,request,Response,url_for,redirect
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
@@ -64,7 +64,6 @@ def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
         ssh.close()
     except:
         Task[NAME] = "Failure"
-    print(Task[NAME])
 
 def GetAllDomainRecords(DomainN):
     clt = client.AcsClient(ALIYUN_ID, ALIYUN_Secret, ALIYUN_RegionId)
@@ -89,6 +88,52 @@ def addhost():
         t1 = threading.Thread(target=AddHostTask, args=(SSHIP, int(SSHPORT), SSHUSER, SSHPASS,OS,NAME))
         t1.start()
         return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
+
+@app.route('/adduser.html',methods=["Post"])
+def adduser():
+    if request.method == 'POST':
+        USERNAME = request.form['ssuser']
+        PASSWORD = request.form['sspass']
+        SSPORT = request.form['ssport']
+        ADDPASS = request.form['addpass']
+        if ADDPASS != "liu123...":
+            return Response(json.dumps({"result": "error"}), mimetype='application/json')
+        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
+        try:
+            client.services.create(
+                name="ss_%s" % (USERNAME),
+                image="daocloud.io/buxiaomo/ssserver:2.8.2",
+                env={
+                    "PASSWORD": PASSWORD
+                },
+                mode=docker.types.ServiceMode(mode="global"),
+                endpoint_spec=docker.types.EndpointSpec(
+                    mode="vip",
+                    ports={
+                        int(SSPORT): (8388, 'tcp')
+                    }
+                ),
+                labels={
+                    "com.docker.stack.image": "daocloud.io/buxiaomo/ssserver:2.8.2",
+                    "com.docker.stack.namespace": "ss"
+                },
+                constraints=[
+                    "node.role == worker"
+                ],
+                container_labels={"com.docker.stack.namespace": "ss"},
+                networks=["ss"],
+                log_driver="splunk",
+                log_driver_options={
+                    "splunk-url": "http://106.14.155.217:8088",
+                    "splunk-token": "8e932813-e46c-4187-856d-a39a531e6ff0",
+                    "tag": "{{.Name}}"
+                }
+            )
+            result = "success"
+        except:
+            result = "error"
+        return Response(json.dumps({"result": result}), mimetype='application/json')
+
 
 @app.route('/erweima.html',methods=["Post"])
 def erweima():

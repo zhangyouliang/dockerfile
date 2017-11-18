@@ -16,9 +16,10 @@
                     <ul class="layui-tab-title">
                         <li class="layui-this" lay-id="1">节点状态</li>
                         <li lay-id="2">用户列表</li>
-                        <li lay-id="3">共享节点</li>
-                        <li lay-id="4">下载中心</li>
-                        <li lay-id="5">生成二维码</li>
+                        <li lay-id="3">添加用户</li>
+                        <li lay-id="4">共享节点</li>
+                        <li lay-id="5">下载中心</li>
+                        <li lay-id="6">生成二维码</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
@@ -84,6 +85,40 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <form class="layui-form" action="/adduser.html" method="post">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户名</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="ssuser" lay-verify="ssuser" autocomplete="off" placeholder="请输入Shadowsocks用户名" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">密码</label>
+                                    <div class="layui-input-block">
+                                        <input type="password" name="sspass" lay-verify="sspass" autocomplete="off" placeholder="请输入Shadowsocks密码" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">端口</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" name="ssport" lay-verify="ssport" autocomplete="off" placeholder="请输入Shadowsocks端口" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">口令</label>
+                                    <div class="layui-input-block">
+                                        <input type="password" name="addpass" lay-verify="addpass" autocomplete="off" placeholder="请输入认证口令" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit="" lay-filter="demo1">立即添加</button>
+                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="layui-tab-item">
                             <form class="layui-form" action="/addhost.html" method="post">
