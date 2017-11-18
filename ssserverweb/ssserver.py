@@ -90,19 +90,6 @@ def addhost():
         t1.start()
         return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
 
-@app.route('/adduser.html',methods=["Post"])
-def addhost():
-    if request.method == 'POST':
-        client = docker.DockerClient(base_url='unix://var/run/docker.sock')
-        client.services.create(
-            image="",
-            hostname="",
-            env=["PASSWORD=xiaomo"],
-            mode=,
-        )
-        WorkerToken = client.swarm.attrs['JoinTokens']['Worker']
-        # return Response(json.dumps({"TaskID": NAME}), mimetype='application/json')
-
 @app.route('/erweima.html',methods=["Post"])
 def erweima():
     if request.method == 'POST':
@@ -148,12 +135,13 @@ def index():
         HOSTLIST.append(tmp)
     for services in client.services.list():
         tmp = {}
-        tmp['name'] = services.name.replace("ss_","")
-        if services.attrs['Endpoint']['Ports'][0]['TargetPort'] == 8388:
-            tmp['PublishedPort'] = services.attrs['Endpoint']['Ports'][0]['PublishedPort']
-        tmp['password'] = services.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env'][0].replace("PASSWORD=", "")
-        tmp['password'] = tmp['password'][:2] + "******" + tmp['password'][len(tmp['password']) - 2:]
-        USERLIST.append(tmp)
+        if services.name.find("ss_") != -1:
+            tmp['name'] = services.name.replace("ss_","")
+            if services.attrs['Endpoint']['Ports'][0]['TargetPort'] == 8388:
+                tmp['PublishedPort'] = services.attrs['Endpoint']['Ports'][0]['PublishedPort']
+            tmp['password'] = services.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env'][0].replace("PASSWORD=", "")
+            tmp['password'] = tmp['password'][:2] + "******" + tmp['password'][len(tmp['password']) - 2:]
+            USERLIST.append(tmp)
     return render_template(
         "index.html",
         HOSTLIST=HOSTLIST,
