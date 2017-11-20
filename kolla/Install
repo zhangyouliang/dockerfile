@@ -13,8 +13,8 @@ fi
 if [ ${DOCKER_REGISTRY_PASSWORD} != "NULL" ];then
     sed -i "s|#docker_registry_password:.*|docker_registry_password: \"${DOCKER_REGISTRY_PASSWORD}\"|g" /etc/kolla/globals.yml
 fi
-sed -i "s|#openstack_release:.*|openstack_release: \"4.0.0\"|g" /etc/kolla/globals.yml
-sed -i "s|#docker_namespace:.*|docker_namespace: \"kolla\"|g" /etc/kolla/globals.yml
+sed -i "s|#openstack_release:.*|openstack_release: \"${OPENSTACK_RELEASE}\"|g" /etc/kolla/globals.yml
+sed -i "s|#docker_namespace:.*|docker_namespace: \"${DOCKER_REGISTRY_NAME}\"|g" /etc/kolla/globals.yml
 sed -i "s|#kolla_base_distro:.*|kolla_base_distro: \"ubuntu\"|g" /etc/kolla/globals.yml
 sed -i "s|#kolla_install_type:.*|kolla_install_type: \"source\"|g" /etc/kolla/globals.yml
 # pull docker images
