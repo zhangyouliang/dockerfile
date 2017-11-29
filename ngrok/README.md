@@ -31,7 +31,7 @@ daocloud.io/buxiaomo/ngrok:1.7.1
 
 ## 以挂载数据卷
 
-1、打包/etc/ngrok目录下所有文件，拷贝至新节点执行上面的命令即可
+1、打包/etc/ngrok目录下所有文件，拷贝至新节点执行上面的命令即可，注意修改挂载路径
 
 2、更改域名解析
 
@@ -39,6 +39,6 @@ daocloud.io/buxiaomo/ngrok:1.7.1
 
 1、执行`docker inspect ngrok-server | jq '.[0].Mounts[0].Source'`命令获取卷，打包此目录中的所有文件，拷贝至新节点
 
-2、启动ngrok-server容器
+2、启动ngrok-server容器，注意修改挂载路径
 
 3、更改域名解析
