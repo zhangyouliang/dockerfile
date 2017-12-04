@@ -22,8 +22,8 @@ ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 ENV PATH $PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 
 # Install Hadoop
-ENV HADOOP_VERSION 2.8.0
-ENV HADOOP_HOME /usr/local/hadoop-2.8.0
+ENV HADOOP_VERSION 2.8.1
+ENV HADOOP_HOME /usr/local/hadoop-${HADOOP_VERSION}
 ENV PATH $PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 RUN apt-get update \
     && apt-get install -y --no-install-recommends wget \
