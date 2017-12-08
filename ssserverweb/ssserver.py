@@ -127,7 +127,13 @@ def adduser():
                     "splunk-url": "http://106.14.155.217:8088",
                     "splunk-token": "8e932813-e46c-4187-856d-a39a531e6ff0",
                     "tag": "{{.Name}}"
-                }
+                },
+                healthcheck=docker.types.Healthcheck(
+                    test="nc -w 1 localhost 8388 -z",
+                    interval=10000000000,
+                    timeout=10000000000,
+                    retries=5
+                )
             )
             result = "success"
         except:
