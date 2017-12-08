@@ -94,6 +94,13 @@ ngrok.exe -config ngrok.cfg start ssh mstsc web
 pause
 EOF
     cat > start.sh << EOF
+#!/bin/bash
+if [ $# -eq 0 ];then
+    echo "Usage: ./$0 configfile tunnelsname[,tunnelsname,tunnelsname]"
+    echo "./$0 ngrok.yml ssh"
+    echo "./$0 ngrok.yml ssh,http"
+    exit 1
+fi
 ./ngrok -config \$1 start \`echo \$2 | sed 's/,/ /g'\`
 EOF
     chmod +x start.sh
