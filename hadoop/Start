@@ -45,13 +45,13 @@ if [ ${TYPE} == "master" ];then
             echo "wait for ${slave} ..."
             sleep 1
         done
-    done 
+    done
     /usr/local/hadoop-2.8.0/bin/hdfs namenode -format
     /usr/local/hadoop-2.8.0/sbin/start-dfs.sh
     /usr/local/hadoop-2.8.0/sbin/start-yarn.sh
     /usr/local/hadoop-2.8.0/sbin/mr-jobhistory-daemon.sh start historyserver
     cat /usr/local/hadoop-2.8.0/logs/*.log
     exec tailf /usr/local/hadoop-2.8.0/logs/*.log
-else 
+else
     exec /usr/sbin/sshd -D
 fi
