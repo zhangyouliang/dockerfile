@@ -2,7 +2,7 @@
 
 COBBLER_CONFIGFILE=/etc/cobbler/settings
 
-sed -i "s/^server: 127.0.0.1/server: ${Cobbler_SERVER_IP}/g" ${COBBLER_CONFIGFILE}
+sed -i "s/server: 127.0.0.1/server: ${Cobbler_SERVER_IP}/g" ${COBBLER_CONFIGFILE}
 sed -i "s/next_server:.*/next_server: ${Cobbler_NEXT_SERVER_IP}/g" ${COBBLER_CONFIGFILE}
 Cobbler_PASSWORD=$(openssl passwd -1 -salt '123456' "${Cobbler_PASSWORD}")
 sed -i "s|default_password_crypted:.*|default_password_crypted: \"${Cobbler_PASSWORD}\"|" ${COBBLER_CONFIGFILE}
