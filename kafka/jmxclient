@@ -1,0 +1,5 @@
+#!/bin/bash
+java -jar /usr/local/bin/cmdline-jmxclient-0.10.3.jar - 127.0.0.1:9999 $@
+# http://blog.51cto.com/navyaijm/1958376
+# jmxclient java.lang:type=Memory HeapMemoryUsage
+# jmxclient obj attr
