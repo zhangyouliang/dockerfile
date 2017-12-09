@@ -1,7 +1,7 @@
 FROM daocloud.io/library/debian:jessie
 MAINTAINER "Cloth Mo" <root@buxiaomo.com>
 
-ENV KAFKA_VERSION=0.10.2.0
+ENV KAFKA_VERSION=0.10.2.1
 ENV SCALA_VERSION=2.10
 
 COPY sources.list /etc/apt/sources.list
