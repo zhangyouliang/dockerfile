@@ -13,7 +13,7 @@ sed -i "s/192.168.1.0/${Cobbler_DHCP_SUBNET}/" /etc/cobbler/dhcp.template
 sed -i "s/192.168.1.5/${Cobbler_DHCP_ROUTER}/" /etc/cobbler/dhcp.template
 sed -i "s/192.168.1.1;/${Cobbler_DHCP_DNS};/" /etc/cobbler/dhcp.template
 sed -i "s/192.168.1.100 192.168.1.254/${Cobbler_DHCP_RANGE}/" /etc/cobbler/dhcp.template
-sed -i "s/^#ServerName www.example.com:80/ServerName localhost:80/" /etc/httpd/conf/httpd.conf
+sed -i "s/^#ServerName www.example.com:80/ServerName :80/" /etc/httpd/conf/httpd.conf
 sed -i "s/service %s restart/supervisorctl restart %s/g" /usr/lib/python2.7/site-packages/cobbler/modules/sync_post_restart_services.py
 
 rm -rf /run/httpd/*
@@ -22,7 +22,7 @@ rm -rf /run/httpd/*
 
 cobbler sync
 # cobbler get-loaders
-cobbler signature update
+# cobbler signature update
 
 pkill cobblerd
 pkill httpd
