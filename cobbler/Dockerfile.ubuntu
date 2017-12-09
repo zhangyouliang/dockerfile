@@ -1,16 +1,3 @@
 FROM ubuntu:16.04
 
 COPY sources.list /etc/apt/sources.list
-
-RUN apt-get install cobbler -y
-
-COPY tftp /etc/xinetd.d/tftp
-COPY docker-entrypoint.sh /usr/local/bin/
-
-ENV COBBLER_HOST NULL
-ENV COBBLER_PASS root
-
-EXPOSE 80/tcp 443/tcp 67/udp 67/tcp
-
-# docker run -it --rm -e COBBLER_HOST=192.168.0.110 -p 80:80 cobbler bash
-CMD ["docker-entrypoint.sh"]

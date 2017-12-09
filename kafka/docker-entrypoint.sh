@@ -41,6 +41,9 @@ if [ ${KAFKA_TOPICS} != "NULL" ];then
     # echo "create.topics=${KAFKA_TOPICS}" >> config/server.properties
 fi
 # 配置kafka参数
+
+sed -i '/export KAFKA_HEAP_OPTS/a\    export JMX_PORT="9999"' /usr/local/kafka_${SCALA_VERSION}-${KAFKA_VERSION}/bin/kafka-server-start.sh
+
 set_kafka_configure log.dirs /kafka
 set_kafka_configure log.cleanup.policy delete
 set_kafka_configure auto.create.topics.enable 'true'

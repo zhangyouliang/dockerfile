@@ -22,6 +22,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /kafka
 
+RUN wget -O /usr/local/src/jmxtrans-268.deb http://central.maven.org/maven2/org/jmxtrans/jmxtrans/268/jmxtrans-268.deb \
+    && dpkg -i /usr/local/src/jmxtrans-268.deb \
+    && rm -rf /usr/local/src/*
+
 WORKDIR /usr/local/kafka_${SCALA_VERSION}-${KAFKA_VERSION}
 
 ENV KAFKA_TOPICS NULL
@@ -31,10 +35,11 @@ ENV BROKER_ID NULL
 ENV KAFKA_HOST_IP NULL
 ENV KAFKA_PORT NULL
 
-EXPOSE 9092 2181
+EXPOSE 9092 2181 9999
 
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
+COPY cmdline-jmxclient-0.10.3.jar /usr/local/bin/cmdline-jmxclient-0.10.3.jar
+ADD jmxclient /usr/local/bin/jmxclient
 VOLUME ["/kafka"]
 
 CMD ["docker-entrypoint.sh"]

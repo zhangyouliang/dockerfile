@@ -5,7 +5,7 @@ sed -i "s/^server: 127.0.0.1/server: ${SERVER_IP}/g" ${COBBLER_CONFIGFILE}
 sed -i "s/next_server:.*/next_server: ${SERVER_IP}/g" ${COBBLER_CONFIGFILE}
 COBBLER_PASS=$(openssl passwd -1 -salt '123456' "${COBBLER_PASS}")
 sed -i "s|default_password_crypted:.*|default_password_crypted: \"${COBBLER_PASS}\"|" ${COBBLER_CONFIGFILE}
-sed -i 's/pxe_just_once: 0/pxe_just_once: 1/g' /etc/cobbler/settings
+sed -i 's/pxe_just_once: 0/pxe_just_once: 1/g' ${COBBLER_CONFIGFILE}
 
 sed -i 's/manage_dhcp: 0/manage_dhcp: 1/g' /etc/cobbler/settings
 sed -i "s/192.168.1.0/$DHCP_SUBNET/" /etc/cobbler/dhcp.template
@@ -20,7 +20,7 @@ rm -rf /run/httpd/*
 /usr/bin/cobblerd
 
 cobbler sync
-cobbler get-loaders
+# cobbler get-loaders
 cobbler signature update
 
 pkill cobblerd
