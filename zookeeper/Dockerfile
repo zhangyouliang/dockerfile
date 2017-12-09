@@ -1,21 +1,16 @@
-FROM daocloud.io/library/debian:jessie
+FROM openjdk:7u151
 MAINTAINER "Cloth Mo" <root@buxiaomo.com>
-
-ENV ZOOKEEPER_VERSION 3.4.10
 
 COPY sources.list /etc/apt/sources.list
 
 RUN echo "Asia/Shanghai" > /etc/timezone \
     && dpkg-reconfigure -f noninteractive tzdata
 
-RUN apt-get update \
-    && apt-get install openjdk-7-jdk --no-install-recommends -y \
-    && apt-get clean all \
-    && rm -rf /var/lib/apt/lists/*
 ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
 ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 ENV PATH $PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 
+ENV ZOOKEEPER_VERSION 3.4.10
 RUN apt-get update \
     && apt-get install axel --no-install-recommends -y \
     && axel -n 20 --output=/usr/local/src/zookeeper-${ZOOKEEPER_VERSION}.tar.gz http://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-${ZOOKEEPER_VERSION}/zookeeper-${ZOOKEEPER_VERSION}.tar.gz \
@@ -30,7 +25,6 @@ RUN cp /usr/local/zookeeper-${ZOOKEEPER_VERSION}/conf/zoo_sample.cfg /usr/local/
     && mkdir -p /var/lib/zookeeper
 ENV ZOOKEEPER_HOME /usr/local/zookeeper-${ZOOKEEPER_VERSION}
 ENV PATH $PATH:$ZOOKEEPER_HOME/bin
-# ADD log4j.properties /usr/local/zookeeper-${ZOOKEEPER_VERSION}/conf/
 
 WORKDIR /usr/local/zookeeper-${ZOOKEEPER_VERSION}
 
