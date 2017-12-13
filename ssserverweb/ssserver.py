@@ -203,7 +203,7 @@ def index():
     )
 
 if __name__ == '__main__':
-    if os.path.exists('unix://var/run/docker.sock') == False:
+    if os.path.exists('/var/run/docker.sock') == False:
         sys.exit()
     ALIYUN_ID = os.environ.get("ALIYUN_ID")
     ALIYUN_Secret = os.environ.get("ALIYUN_Secret")
