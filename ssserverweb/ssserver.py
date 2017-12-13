@@ -2,13 +2,16 @@
 # -*- coding: UTF-8 -*-
 # @Time    : 2017/11/10 14:45
 # @File    : ssserver.py
-import docker,json,os,paramiko,threading,time,re,qrcode,base64
-# from PIL import Image
+import docker,json,os,paramiko,threading,time,re,qrcode,base64,sys
+from PIL import Image
 from flask import Flask,render_template,request,Response,url_for,redirect
+from flask_login import LoginManager, login_required
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
 
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 global ALIYUN_ID
 global ALIYUN_Secret
@@ -42,7 +45,6 @@ def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
             command = [
                 'yum install -y yum-utils device-mapper-persistent-data lvm2 curl\n',
                 'yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo\n',
-                'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -\n',
                 'yum -y install docker-ce\n',
                 'systemctl restart  docker.service\n',
                 'docker swarm join --token %s %s:2377\n' % (WorkerToken,ManagerIP)
@@ -168,6 +170,7 @@ def InquireTaskResult(taskid):
     else:
         return Response(json.dumps({"result": "None"}), mimetype='application/json')
 
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -200,6 +203,8 @@ def index():
     )
 
 if __name__ == '__main__':
+    if os.path.exists('unix://var/run/docker.sock') == False:
+        sys.exit()
     ALIYUN_ID = os.environ.get("ALIYUN_ID")
     ALIYUN_Secret = os.environ.get("ALIYUN_Secret")
     ALIYUN_RegionId = os.environ.get("ALIYUN_RegionId")

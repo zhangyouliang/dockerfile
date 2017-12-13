@@ -25,6 +25,6 @@ COPY tftp /etc/xinetd.d/tftp
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY supervisord.d/conf.ini /etc/supervisord.d/conf.ini
 
-VOLUME /etc/cobbler /var/lib/cobbler /var/www/cobbler /var/log/cobbler /var/lib/tftpboot /ios
+VOLUME /etc/cobbler /var/lib/cobbler /var/www/cobbler /var/log/cobbler /var/lib/tftpboot /etc/xinetd.d/tftp /ios
 
 CMD ["docker-entrypoint.sh"]
