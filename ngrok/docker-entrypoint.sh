@@ -97,8 +97,8 @@ EOF
 #!/bin/bash
 if [ $# -eq 0 ];then
     echo "Usage: ./$0 configfile tunnelsname[,tunnelsname,tunnelsname]"
-    echo "./$0 ngrok.yml ssh"
-    echo "./$0 ngrok.yml ssh,http"
+    echo "$0 ngrok.yml ssh"
+    echo "$0 ngrok.yml ssh,http"
     exit 1
 fi
 ./ngrok -config \$1 start \`echo \$2 | sed 's/,/ /g'\`
@@ -109,7 +109,7 @@ EOF
     cp -p ./start.bat ./ngrok.yml bin/windows_amd64/ngrok.exe ${NGROK_CONFIG}/package/win64/
     cp -p ./start.bat ./ngrok.yml bin/windows_386/ngrok.exe ${NGROK_CONFIG}/package/win32/
 
-    cp -p ./start.bat ./ngrok.yml bin/linux_arm/ngrok ${NGROK_CONFIG}/package/arm/
+    cp -p ./start.sh ./ngrok.yml bin/linux_arm/ngrok ${NGROK_CONFIG}/package/arm/
 
     cp -p ./start.sh ./ngrok.yml bin/darwin_amd64/ngrok   ${NGROK_CONFIG}/package/mac64/
     cp -p ./start.sh ./ngrok.yml bin/darwin_386/ngrok   ${NGROK_CONFIG}/package/mac32/
