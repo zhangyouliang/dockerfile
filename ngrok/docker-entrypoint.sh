@@ -95,7 +95,7 @@ pause
 EOF
     cat > start.sh << EOF
 #!/bin/bash
-if [ $# -eq 0 ];then
+if [ \$# -eq 0 ];then
     echo "Usage: ./$0 configfile tunnelsname[,tunnelsname,tunnelsname]"
     echo "$0 ngrok.yml ssh"
     echo "$0 ngrok.yml ssh,http"
