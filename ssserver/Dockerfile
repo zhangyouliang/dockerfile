@@ -3,7 +3,7 @@ MAINTAINER "Cloth Mo" <root@buxiaomo.com>
 
 COPY repositories /etc/apk/repositories
 
-RUN apk add --no-cache python py-pip python-dev pwgen \
+RUN apk add --no-cache python py-pip python-dev pwgen bc \
     && pip install shadowsocks setuptools
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
