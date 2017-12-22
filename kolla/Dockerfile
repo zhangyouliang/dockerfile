@@ -20,8 +20,8 @@ ENV KOLLA_PORT 22
 ENV KILLA_INTERNAL_VIP_ADDRESS 192.168.1.100
 ENV NETWORK_INTERFACE eth0
 ENV NEUTRON_EXTERNAL_INTERFACE eth1
-ENV OPENSTACK_RELEASE 4.0.0
+ENV OPENSTACK_RELEASE 4.0.3
 
-ADD Install /usr/local/bin/Install
+ADD Install /usr/local/bin/docker-entrypoint.sh
 
-CMD ["Install"]
+CMD ["docker-entrypoint.sh"]

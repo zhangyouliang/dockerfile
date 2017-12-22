@@ -25,7 +25,7 @@ ${KOLLA_HOST} ansible_ssh_port=${KOLLA_PORT} ansible_ssh_user=${KOLLA_USER} ansi
 sed -i "s/localhost       ansible_connection=local/${KOLLA_HOST} ansible_ssh_port=${KOLLA_PORT} ansible_ssh_user=${KOLLA_USER} ansible_ssh_pass=${KOLLA_PASS}/g" /usr/local/share/kolla-ansible/ansible/inventory/all-in-one
 ansible -i /tmp/host kolla -m shell -a 'yum install epel-release ca-certificates -y'
 ansible -i /tmp/host kolla -m shell -a 'sed -i "s/#baseurl/baseurl/g" /etc/yum.repos.d/epel.repo'
-ansible -i /tmp/host kolla -m shell -a 'sed -i "s/mirrorlist/#mirrorlist/g" /etc/yum.repos.d/epel.repo" /etc/yum.repos.d/epel.repo'
+ansible -i /tmp/host kolla -m shell -a 'sed -i "s/mirrorlist/#mirrorlist/g" /etc/yum.repos.d/epel.repo'
 ansible -i /tmp/host kolla -m shell -a 'sed -i "s#http://download.fedoraproject.org/pub#https://mirrors.tuna.tsinghua.edu.cn#g" /etc/yum.repos.d/epel.repo'
 ansible -i /tmp/host kolla -m shell -a 'yum install python-docker-py git python-pip python-devel libffi-devel gcc openssl-devel -y'
 ansible -i /tmp/host kolla -m shell -a 'pip install -i https://pypi.tuna.tsinghua.edu.cn/simple python-openstackclient'
@@ -42,15 +42,15 @@ cat > /etc/kolla/config/nova/nova-compute.conf <<  EOF
 virt_type=qemu
 EOF
 kolla-genpwd
-if [ $? == 0 ];then
+if [ $? != 0 ];then
     exit 1
 fi
 kolla-ansible prechecks
-if [ $? == 0 ];then
+if [ $? != 0 ];then
     exit 1
 fi
 kolla-ansible deploy
-if [ $? == 0 ];then
+if [ $? ！= 0 ];then
     exit 1
 fi
 kolla-ansible post-deploy
