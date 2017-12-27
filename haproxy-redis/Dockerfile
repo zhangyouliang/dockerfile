@@ -1,10 +1,11 @@
-FROM daocloud.io/library/alpine:3.5
+FROM haproxy:1.8.2
 
-COPY repositories /etc/apk/repositories
+RUN useradd haproxy \
+    && mkdir /var/lib/haproxy
 
-RUN apk add --no-cache haproxy
+COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+COPY docker-entrypoint.sh /
 
-COPY haproxy.cfg /etc/haproxy/haproxy.cfg
-COPY docker-entrypoint.sh /docker-entrypoint.sh
+ENV REDIS_CLUSTER NULL
 
-CMD ["sh","/docker-entrypoint.sh"]
+EXPOSE 6379
