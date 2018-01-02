@@ -6,12 +6,15 @@
 
 如何启动etcd容器
 
-    docker run -it --rm -P --name etcd etcd:latest etcd \
-    --name 'default' \
-    --data-dir '${name}.etcd' \
-    --listen-peer-urls 'http://0.0.0.0:2380' \
-    --listen-client-urls 'http://0.0.0.0:2379' \
-    --advertise-client-urls 'http://0.0.0.0:2379'
+    docker run -it --rm -P --name etcd etcd:latest etcd
+    -e ETCD_NAME=default
+    -e ETCD_LISTEN_PEER_URLS=http://${ETCD_NAME}:2380 \
+    -e ETCD_LISTEN_CLIENT_URLS=http://127.0.0.1:2379,http://${ETCD_NAME}:2379,http://0.0.0.0:2380 \
+    -e ETCD_INITIAL_ADVERTISE_PEER_URLS=http://${ETCD_NAME}:2380 \
+    -e ETCD_INITIAL_CLUSTER_STATE=new \
+    -e ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster \
+    -e ETCD_ADVERTISE_CLIENT_URLS=http://${ETCD_NAME}:2380 \
+    -e ETCD_INITIAL_CLUSTER=NULL
 
 添加一个特权账号并开启认证
 
