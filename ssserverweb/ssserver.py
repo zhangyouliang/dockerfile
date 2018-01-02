@@ -5,13 +5,12 @@
 import docker,json,os,paramiko,threading,time,re,qrcode,base64,sys
 from PIL import Image
 from flask import Flask,render_template,request,Response,url_for,redirect
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager,login_user,UserMixin,logout_user,login_required
+from flask_sqlalchemy import SQLAlchemy
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
 
 app = Flask(__name__)
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 global ALIYUN_ID
 global ALIYUN_Secret

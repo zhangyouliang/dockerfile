@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 if [[ "${ZOOKEEPER_CLUSTER}" != "NULL" ]];then
     if [[ "${ZOOKEEPER_ID}" == "NULL" ]];then
         echo "Please Set ZOOKEEPER_ID"

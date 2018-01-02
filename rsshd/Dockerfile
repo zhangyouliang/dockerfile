@@ -20,5 +20,6 @@ ENV USER=root \
     PASSWORD=root
 
 EXPOSE 22
+EXPOSE 10000-10100
 
 CMD ["/docker-entrypoint.sh"]

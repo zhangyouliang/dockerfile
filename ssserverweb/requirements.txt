@@ -7,3 +7,4 @@ Flask-WTF==0.14.2
 paramiko==2.4.0
 Pillow==4.3.0
 qrcode==5.3
+flask-sqlalchemy
