@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 if [ "$GIT_URL" != "**NULL**" ];then
     git clone ${GIT_URL} /www/blog
     if [ -e /www/blog/conf.yaml ];then
