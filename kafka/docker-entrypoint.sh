@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 function set_kafka_configure() {
     grep -w "#$1" config/server.properties &> /dev/null && sed -i "s/#$1/$1/g" config/server.properties
     grep -w $1 config/server.properties &> /dev/null
