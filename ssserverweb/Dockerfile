@@ -15,6 +15,9 @@ ENV ALIYUN_RegionId cn-hangzhou
 ENV Domain NULL
 ENV ManagerIP NULL
 
+ENV SPLUNK_URL http://http.splunk.com:8088
+ENV SPLUNK_TOKEN xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
 EXPOSE 8000
 
 CMD ["python","ssserver.py"]

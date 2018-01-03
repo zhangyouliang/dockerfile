@@ -18,6 +18,8 @@ global ALIYUN_RegionId
 global clt
 global DomainName
 global Task
+global SPLUNK_URL
+global SPLUNK_TOKEN
 
 def AddHostTask(SSHIP,SSHPORT, SSHUSER, SSHPASS,OS,NAME):
     try:
@@ -125,8 +127,8 @@ def adduser():
                 networks=["ss"],
                 log_driver="splunk",
                 log_driver_options={
-                    "splunk-url": "http://106.14.155.217:8088",
-                    "splunk-token": "8e932813-e46c-4187-856d-a39a531e6ff0",
+                    "splunk-url": SPLUNK_URL,
+                    "splunk-token": SPLUNK_TOKEN,
                     "tag": "{{.Name}}"
                 },
                 healthcheck=docker.types.Healthcheck(
@@ -208,5 +210,7 @@ if __name__ == '__main__':
     ALIYUN_Secret = os.environ.get("ALIYUN_Secret")
     ALIYUN_RegionId = os.environ.get("ALIYUN_RegionId")
     DomainName = os.environ.get("DomainName")
+    SPLUNK_URL = os.environ.get("SPLUNKHOST")
+    SPLUNK_TOKEN = os.environ.get("SPLUNK_TOKEN")
     Task = {}
     app.run(debug=True, host="0.0.0.0", port=8000)
