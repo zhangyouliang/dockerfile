@@ -1,9 +1,9 @@
-FROM java:8u111-jdk
+FROM java:8u111-jre
 
 COPY sources.list /etc/apt/sources.list
 
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar \
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre \
+    CLASSPATH=.:$JAVA_HOME/lib/ \
     PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 
 RUN wget -O /usr/local/src/Mycat-server-1.6.5-release-20171008170112-linux.tar.gz http://dl.mycat.io/1.6.5-BETA/Mycat-server-1.6.5-release-20171008170112-linux.tar.gz \
