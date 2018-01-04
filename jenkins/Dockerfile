@@ -41,7 +41,7 @@ RUN wget -O /usr/local/src/docker-17.03.0-ce.tgz  https://get.docker.com/builds/
     && tar --strip-components=1 -xvzf /usr/local/src/docker-17.03.0-ce.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker-17.03.0-ce.tgz
 
-ENV Jenkins_Version 2.73.1
+ENV Jenkins_Version 2.89.2
 RUN mkdir -p /usr/share/jenkins /var/jenkins \
     && wget -O /usr/share/jenkins/jenkins.war https://mirrors.tuna.tsinghua.edu.cn/jenkins/war-stable/${Jenkins_Version}/jenkins.war \
     && apt-get clean all \
