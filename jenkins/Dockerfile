@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER "Cloth Mo" <root@buxiaomo.com>
 
-# COPY sources.list /etc/apt/sources.list
+COPY sources.list /etc/apt/sources.list
 
 RUN apt-get update \
     && apt-get install tzdata --no-install-recommends -y \
@@ -33,13 +33,15 @@ ENV MAVEN_HOME /usr/share/maven/
 ENV PATH $PATH:$MAVEN_HOME/bin
 
 RUN apt-get update \
-    && apt-get install git wget --no-install-recommends -y \
+    && apt-get install git wget curl --no-install-recommends -y \
     && apt-get clean all \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget -O /usr/local/src/docker-17.03.0-ce.tgz  https://get.docker.com/builds/Linux/x86_64/docker-17.03.0-ce.tgz \
-    && tar --strip-components=1 -xvzf /usr/local/src/docker-17.03.0-ce.tgz -C /usr/local/bin \
-    && rm -rf /usr/local/src/docker-17.03.0-ce.tgz
+ENV DOCKER_CHANNEL stable
+ENV DOCKER_VERSION 17.12.0-ce
+RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
+    && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
+    && rm -rf /usr/local/src/docker.tgz
 
 ENV Jenkins_Version 2.89.2
 RUN mkdir -p /usr/share/jenkins /var/jenkins \
