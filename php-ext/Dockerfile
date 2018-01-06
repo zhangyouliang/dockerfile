@@ -12,6 +12,7 @@ RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev \
 
 # mcrypt
 RUN apk add --no-cache -t .build autoconf g++ make \
+    apk add --no-cache libmcrypt-dev \
     && pecl install mcrypt-1.0.1 \
     && docker-php-ext-enable mcrypt \
     && apk del -t .build
