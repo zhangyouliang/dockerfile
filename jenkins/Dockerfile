@@ -24,6 +24,15 @@ RUN apt-get update \
 ENV MAVEN_HOME /usr/share/maven/
 ENV PATH $PATH:$MAVEN_HOME/bin
 
+RUN apt-get update \
+    && apt-get install git wget curl --no-install-recommends -y \
+    && apt-get clean all \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV  DOCKER_COMPOSE_VERSION 1.18.0
+RUN curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m`" -o /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose
+
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 17.12.0-ce
 RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
