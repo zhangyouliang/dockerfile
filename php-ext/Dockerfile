@@ -3,7 +3,7 @@ FROM php:7.2.0-fpm-alpine3.7
 COPY repositories /etc/apk/repositories
 
 # Mysql
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo_mysql mysqli
 
 # gd
 RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev \
@@ -12,7 +12,7 @@ RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev \
 
 # mcrypt
 RUN apk add --no-cache -t .build autoconf g++ make \
-    apk add --no-cache libmcrypt-dev \
+    && apk add --no-cache libmcrypt-dev \
     && pecl install mcrypt-1.0.1 \
     && docker-php-ext-enable mcrypt \
     && apk del -t .build
