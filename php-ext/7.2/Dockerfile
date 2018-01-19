@@ -28,3 +28,7 @@ RUN set -x \
     && git clone -b master https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
     && apk del -t .build
+
+# Zip
+RUN apk add --no-cache zlib-dev \
+    && docker-php-ext-install zip
