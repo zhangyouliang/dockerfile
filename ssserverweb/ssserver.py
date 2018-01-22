@@ -105,9 +105,9 @@ def adduser():
         try:
             client.services.create(
                 name="ss_%s" % (USERNAME),
-                image="daocloud.io/buxiaomo/ssserver:2.8.2",
+                image="daocloud.io/buxiaomo/ssserver:1.2.1",
                 env={
-                    "PASSWORD": PASSWORD
+                    "SS_PASSWORD": PASSWORD
                 },
                 mode=docker.types.ServiceMode(mode="global"),
                 endpoint_spec=docker.types.EndpointSpec(
@@ -117,7 +117,7 @@ def adduser():
                     }
                 ),
                 labels={
-                    "com.docker.stack.image": "daocloud.io/buxiaomo/ssserver:2.8.2",
+                    "com.docker.stack.image": "daocloud.io/buxiaomo/ssserver:1.2.1",
                     "com.docker.stack.namespace": "ss"
                 },
                 constraints=[
@@ -125,12 +125,12 @@ def adduser():
                 ],
                 container_labels={"com.docker.stack.namespace": "ss"},
                 networks=["ss"],
-                log_driver="splunk",
-                log_driver_options={
-                    "splunk-url": SPLUNK_URL,
-                    "splunk-token": SPLUNK_TOKEN,
-                    "tag": "{{.Name}}"
-                },
+                # log_driver="splunk",
+                # log_driver_options={
+                #     "splunk-url": SPLUNK_URL,
+                #     "splunk-token": SPLUNK_TOKEN,
+                #     "tag": "{{.Name}}"
+                # },
                 healthcheck=docker.types.Healthcheck(
                     test="nc -w 1 localhost 8388 -z",
                     interval=10000000000,
