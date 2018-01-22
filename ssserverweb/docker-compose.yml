@@ -1,0 +1,22 @@
+version: "3"
+services:
+    ssserver:
+        image: daocloud.io/buxiaomo/ssserverweb:latest
+        hostname: xiaomo
+        ports:
+            - 8080:8000/tcp
+        environment:
+            - ALIYUN_ID=xxxxxx
+            - ManagerIP=xxx.xxx.xxx.xxx
+            - ALIYUN_Secret=xxxxxx
+            - DomainName=xxxxxx
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        deploy:
+            mode: global
+            placement:
+                constraints: [node.role == manager]
+        networks:
+            - ssserver
+networks:
+    ssserver:
