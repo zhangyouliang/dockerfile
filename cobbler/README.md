@@ -14,18 +14,25 @@ docker run -d --net host --name cobbler \
 -v /root/iso:/iso:ro \
 cobbler:2.8
 ```
+Cobbler Web：http://${Cobbler_SERVER_IP}/cobbler_web/
+
+登录用户：cobbler
+
+登录密码：cobbler
+
 # 导入镜像
 
-将镜像在宿主机mount到 `/root/ios` 目录，以CentOS为例：
+1、将镜像在宿主机mount到 `/root/ios` 目录，以CentOS为例：
 
 ```Shell
 mkdir /root/iso/centos
 mount /root/CentOS-7-x86_64-DVD-1611.iso /root/iso/centos
 ```
 
-导入镜像
+2、导入镜像
 
 ```shell
 docker exec -it cobbler ls /ios
 docker exec -it cobbler cobbler import --name=CentOS-7.3.1611-x86_64 --path=/iso/centos/
+docker exec -it cobbler cobbler sync
 ```

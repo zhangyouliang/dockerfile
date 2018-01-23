@@ -33,6 +33,6 @@ ENV Cobbler_SERVER_IP=null \
     Cobbler_DHCP_DNS=114.114.114.114 \
     Cobbler_DHCP_RANGE=null
 
-VOLUME /etc/cobbler /var/lib/cobbler /var/www/cobbler /var/log/cobbler /var/lib/tftpboot  /ios
-# /etc/xinetd.d/tftp
+VOLUME /etc/cobbler /var/lib/cobbler /var/www/cobbler /var/log/cobbler /var/lib/tftpboot
+
 CMD ["docker-entrypoint.sh"]
