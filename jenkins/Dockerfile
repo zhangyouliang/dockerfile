@@ -43,7 +43,7 @@ RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/dock
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz
 
-ENV Jenkins_Version 2.89.2
+ENV Jenkins_Version 2.89.3
 RUN mkdir -p /usr/share/jenkins /var/jenkins \
     && wget -O /usr/share/jenkins/jenkins.war https://mirrors.tuna.tsinghua.edu.cn/jenkins/war-stable/${Jenkins_Version}/jenkins.war \
     && apt-get clean all \
