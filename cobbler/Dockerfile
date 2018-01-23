@@ -25,6 +25,14 @@ COPY tftp /etc/xinetd.d/tftp
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY supervisord.d/conf.ini /etc/supervisord.d/conf.ini
 
-VOLUME /etc/cobbler /var/lib/cobbler /var/www/cobbler /var/log/cobbler /var/lib/tftpboot /etc/xinetd.d/tftp /ios
+ENV Cobbler_SERVER_IP=null \
+    Cobbler_NEXT_SERVER_IP=null \
+    Cobbler_PASSWORD=root \
+    Cobbler_DHCP_SUBNET=null \
+    Cobbler_DHCP_ROUTER=null \
+    Cobbler_DHCP_DNS=114.114.114.114 \
+    Cobbler_DHCP_RANGE=null
 
+VOLUME /etc/cobbler /var/lib/cobbler /var/www/cobbler /var/log/cobbler /var/lib/tftpboot  /ios
+# /etc/xinetd.d/tftp
 CMD ["docker-entrypoint.sh"]
