@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,jsonify
 import requests,json,os,sys
 
 app = Flask(__name__)
@@ -32,9 +32,26 @@ def namespace(namespace):
 
 @app.route('/i/<namespace>/<name>')
 def imageinfo(namespace,name):
+    TAG=[]
     res = requests.get("http://%s/v2/%s/tags/list" % (RegistryURL,namespace+"/"+name))
-    # json.loads()
-    return res.text
+    for tag in json.loads(res.text)['tags']:
+        t_tmp = {}
+        t_tmp['name'] = tag
+        tagres = requests.get(
+            "http://%s/v2/%s/manifests/%s" % (RegistryURL, namespace + "/" + name,tag),
+            headers={'Accept':'application/vnd.docker.distribution.manifest.v2+json'}
+        )
+        tagres = json.loads(tagres.text)
+        size = 0
+        for layers in tagres['layers']:
+            size += int(layers['size'])
+        if size / 1024 /1024 < 1024:
+            size = str(size / 1024 /1024) + " MB"
+        else:
+            size = str(size / 1024 / 1024 /1024) + " GB"
+        t_tmp['size'] = size
+        TAG.append(t_tmp)
+    return jsonify({"tasks": TAG})
 
 if __name__ == '__main__':
     RegistryURL = os.environ.get("RegistryURL")

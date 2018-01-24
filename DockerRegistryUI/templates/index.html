@@ -51,7 +51,7 @@
                         {% for repositorie in repositories %}
                             <tr>
                                 <td width="10%">
-                                    <a href="i/{{ repositorie.namespace }}/{{ repositorie.name }}">{{ repositorie.name }}</a>
+                                    <a href="#" onclick="geinfo('i/{{ repositorie.namespace }}/{{ repositorie.name }}');">{{ repositorie.name }}</a>
                                 </td>
                                 <td width="40%">{{ repositorie.addr }}</td>
                             </tr>
@@ -63,5 +63,60 @@
     </div>
 </div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    版本
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>名称</th>
+                                <th>更新时间</th>
+                                <th>压缩后大小</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tag">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="id_ad_search">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    function geinfo(geturl) {
+        $.getJSON(geturl,function(data){
+            //此处返回的data已经是json对象
+            //以下其他操作同第一种情况
+            var text ="" ;
+            $.each(data.tasks,function(idx,item){
+                text = text + "<tr><td width='30%'>" + item.name + "</td><td width='20%'>7 天前</td><td width='20%'>" + item.size + "</td><td>删除</td></tr>"
+
+            });
+            {#alert(text);#}
+            $("#tag").html(text);
+            $('#myModal').modal('show');
+        });
+        return false;
+    }
+</script>
 </body>
 </html>
