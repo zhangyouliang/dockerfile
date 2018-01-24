@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from flask import Flask,render_template,jsonify
 import requests,json,os,sys
 
@@ -23,12 +24,34 @@ def index():
         allimagenumber=len(json.loads(res.text)['repositories']),
         repositories=repositories,
         namespace=namespace,
+        registry=u"全部",
+        activenamespace = u"全部"
     )
 
 @app.route('/u/<namespace>')
-def namespace(namespace):
-    print(namespace)
-    return "fff"
+def namespaceimage(namespace):
+    repositories = []
+    t_namespace = {}
+    res = requests.get("http://%s/v2/_catalog" % (RegistryURL))
+    for repo in json.loads(res.text)['repositories']:
+        r = repo.split('/')
+        t_repositories = {}
+        t_repositories['name'] = r[1]
+        t_repositories['namespace'] = r[0]
+        t_repositories['addr'] = RegistryURL + "/" + repo
+        if t_repositories['namespace'] == namespace:
+            repositories.append(t_repositories)
+        if not t_namespace.has_key(str(r[0])):
+            t_namespace[r[0]] = 0
+        t_namespace[r[0]] = int(t_namespace[r[0]]) + 1
+    return render_template(
+        'index.html',
+        allimagenumber=len(json.loads(res.text)['repositories']),
+        repositories=repositories,
+        namespace=t_namespace,
+        registry=namespace,
+        activenamespace=namespace
+    )
 
 @app.route('/i/<namespace>/<name>')
 def imageinfo(namespace,name):

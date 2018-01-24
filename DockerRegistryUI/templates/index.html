@@ -12,31 +12,34 @@
 <div class="container">
     <div class="row">
         <nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid">
-	<div class="navbar-header">
-		<a class="navbar-brand" href="#">Docker Registry UI</a>
-	</div>
-	</div>
-</nav>
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Docker Registry UI</a>
+                </div>
+            </div>
+        </nav>
     </div>
     <div class="row">
         <div class="col-md-2">
-{#<ul class="nav nav-pills nav-stacked">#}
-{#<li class="active"><a href="#">全部</a></li>#}
-{#<li><a href="#">SVN</a></li>#}
-{##}
-{#</ul>#}
             <ul class="list-group">
-                <a href="u/all" class="list-group-item active"><span class="badge">{{ allimagenumber }}</span>全部</a>
+                {% if activenamespace == '全部' %}
+                    <a href="/" class="list-group-item active"><span class="badge">{{ allimagenumber }}</span>全部</a>
+                {% else %}
+                    <a href="/" class="list-group-item"><span class="badge">{{ allimagenumber }}</span>全部</a>
+                {% endif %}
                 {% for n in namespace -%}
-                    <a href="u/{{ n }}" class="list-group-item" id="{{ n }}"><span class="badge">{{ namespace[n] }}</span>{{ n }}</a>
+                    {% if activenamespace == n %}
+                        <a href="/u/{{ n }}" class="list-group-item active" id="{{ n }}"><span class="badge">{{ namespace[n] }}</span>{{ n }}</a>
+                    {% else %}
+                        <a href="/u/{{ n }}" class="list-group-item" id="{{ n }}"><span class="badge">{{ namespace[n] }}</span>{{ n }}</a>
+                    {% endif %}
                 {%- endfor %}
             </ul>
         </div>
         <div class="col-md-10">
             <ol class="breadcrumb">
-            <li><a href="#">Registry</a></li>
-            <li class="active">All</li>
+                <li><a href="/">Registry</a></li>
+                <li class="active">{{ registry }}</li>
             </ol>
             <div class="table-responsive">
                 <table class="table">
@@ -44,14 +47,13 @@
                         <tr>
                             <th>镜像名称</th>
                             <th>镜像地址</th>
-
                         </tr>
                     </thead>
                     <tbody>
                         {% for repositorie in repositories %}
                             <tr>
                                 <td width="10%">
-                                    <a href="#" onclick="geinfo('i/{{ repositorie.namespace }}/{{ repositorie.name }}');">{{ repositorie.name }}</a>
+                                    <a href="#" onclick="getimagetag('/i/{{ repositorie.namespace }}/{{ repositorie.name }}');">{{ repositorie.name }}</a>
                                 </td>
                                 <td width="40%">{{ repositorie.addr }}</td>
                             </tr>
@@ -98,8 +100,8 @@
 </div>
 
 <script>
-    function geinfo(geturl) {
-        $.getJSON(geturl,function(data){
+    function getimagetag(url) {
+        $.getJSON(url,function(data){
             //此处返回的data已经是json对象
             //以下其他操作同第一种情况
             var text ="" ;
