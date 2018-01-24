@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
-from flask import Flask,render_template,jsonify
+from flask import Flask,render_template,jsonify,request
 import requests,json,os,sys
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/',methods=['GET'])
 def index():
     repositories = []
     namespace = {}
@@ -28,7 +28,7 @@ def index():
         activenamespace = u"全部"
     )
 
-@app.route('/u/<namespace>')
+@app.route('/u/<namespace>',methods=['GET'])
 def namespaceimage(namespace):
     repositories = []
     t_namespace = {}
@@ -53,7 +53,7 @@ def namespaceimage(namespace):
         activenamespace=namespace
     )
 
-@app.route('/i/<namespace>/<name>')
+@app.route('/i/<namespace>/<name>',methods=['GET'])
 def imageinfo(namespace,name):
     TAG=[]
     res = requests.get("http://%s/v2/%s/tags/list" % (RegistryURL,namespace+"/"+name))
@@ -73,6 +73,7 @@ def imageinfo(namespace,name):
         else:
             size = str(size / 1024 / 1024 /1024) + " GB"
         t_tmp['size'] = size
+        t_tmp['del'] = "/i/d/%s/%s/%s" %(namespace,name,t_tmp['name'])
         TAG.append(t_tmp)
     return jsonify({"tasks": TAG})
 
