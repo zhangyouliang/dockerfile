@@ -4,7 +4,7 @@ import requests,json,os,sys
 
 app = Flask(__name__)
 
-@app.route('/',methods=['GET'])
+@app.route('/', methods=['GET'])
 def index():
     repositories = []
     namespace = {}
@@ -28,7 +28,7 @@ def index():
         activenamespace = u"全部"
     )
 
-@app.route('/u/<namespace>',methods=['GET'])
+@app.route('/u/<namespace>', methods=['GET'])
 def namespaceimage(namespace):
     repositories = []
     t_namespace = {}
@@ -53,7 +53,7 @@ def namespaceimage(namespace):
         activenamespace=namespace
     )
 
-@app.route('/i/<namespace>/<name>',methods=['GET'])
+@app.route('/i/<namespace>/<name>', methods=['GET'])
 def imageinfo(namespace,name):
     TAG=[]
     res = requests.get("http://%s/v2/%s/tags/list" % (RegistryURL,namespace+"/"+name))
@@ -73,9 +73,26 @@ def imageinfo(namespace,name):
         else:
             size = str(size / 1024 / 1024 /1024) + " GB"
         t_tmp['size'] = size
-        t_tmp['del'] = "/i/d/%s/%s/%s" %(namespace,name,t_tmp['name'])
+        t_tmp['del'] = "/i/d/%s/%s/%s" % (namespace,name,t_tmp['name'])
         TAG.append(t_tmp)
     return jsonify({"tasks": TAG})
+
+@app.route('/i/d/<namespace>/<name>/<tag>',methods=['GET'])
+def imagedel(namespace,name,tag):
+    res = requests.get(
+        "http://%s/v2/%s/%s/manifests/%s" %(RegistryURL,namespace,name,tag),
+        headers={'Accept':'application/vnd.docker.distribution.manifest.v2+json'}
+    )
+    res = requests.delete("http://%s/v2/%s/%s/manifests/%s" % (RegistryURL,namespace,name,res.headers['Docker-Content-Digest']))
+    if res.status_code == 202:
+        result="Success"
+    else:
+        result="Error"
+    return jsonify({"result": result})
+
+@app.route('/clean',methods=['GET'])
+def clean():
+    return jsonify({"result": "test"})
 
 if __name__ == '__main__':
     RegistryURL = os.environ.get("RegistryURL")

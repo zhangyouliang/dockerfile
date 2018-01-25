@@ -34,6 +34,7 @@
                         <a href="/u/{{ n }}" class="list-group-item" id="{{ n }}"><span class="badge">{{ namespace[n] }}</span>{{ n }}</a>
                     {% endif %}
                 {%- endfor %}
+                <a href="/clean" class="list-group-item">清理仓库</a>
             </ul>
         </div>
         <div class="col-md-10">
@@ -47,6 +48,7 @@
                         <tr>
                             <th>镜像名称</th>
                             <th>镜像地址</th>
+{#                            <th>版本数</th>#}
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +58,7 @@
                                     <a href="#" onclick="getimagetag('/i/{{ repositorie.namespace }}/{{ repositorie.name }}');">{{ repositorie.name }}</a>
                                 </td>
                                 <td width="40%">{{ repositorie.addr }}</td>
+{#                                <td width="30%">4</td>#}
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -105,10 +108,19 @@
         $.getJSON(url,function(data){
             var text ="" ;
             $.each(data.tasks,function(idx,item){
-                text = text + "<tr><td width='30%'>" + item.name + "</td><td width='20%'>7 天前</td><td width='20%'>" + item.size + "</td><td><a href='#' onclick='delimage('" +item.del + "');'>删除</a></td></tr>"
+                {#alert(item.del);#}
+                text = text + "<tr><td width='30%'>" + item.name + "</td><td width='20%'>7 天前</td><td width='20%'>" + item.size + "</td><td><a href='#' onclick=\"delimage('" + item.del + "');\">删除</a></td></tr>"
             });
             $("#tag").html(text);
             $('#myModal').modal('show');
+        });
+        return false;
+    }
+    function delimage(url) {
+        alert(url);
+        $.getJSON(url,function(data){
+            alert(data.result);
+            $('#myModal').modal('hide');
         });
         return false;
     }
