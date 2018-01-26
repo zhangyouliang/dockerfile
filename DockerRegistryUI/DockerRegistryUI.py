@@ -1,7 +1,9 @@
 # -*- coding: UTF-8 -*-
-from flask import Flask,render_template,jsonify,request
+from flask import Flask,render_template,jsonify
 import requests,json,os,sys
 import hashlib
+from multiprocessing.dummy import Pool as ThreadPool
+import datetime
 
 app = Flask(__name__)
 
@@ -54,33 +56,47 @@ def namespaceimage(namespace):
         activenamespace=namespace
     )
 
+def MapTag(Tag):
+    t_tmp = {}
+    t_tmp['name'] = Tag['tag']
+    tagres = requests.get(
+        "http://%s/v2/%s/manifests/%s" % (RegistryURL, Tag['namespace'] + "/" + Tag['name'], Tag['tag']),
+        headers={'Accept': 'application/vnd.docker.distribution.manifest.v2+json'}
+    )
+    tagres = json.loads(tagres.text)
+    size = 0
+    for layer in tagres['layers']:
+        size += int(layer['size'])
+    if size / 1024 / 1024 < 1024:
+        size = str(size / 1024 / 1024) + " MB"
+    else:
+        size = str(size / 1024 / 1024 / 1024) + " GB"
+    t_tmp['size'] = size
+    t_tmp['del'] = "/i/d/%s/%s/%s" % (Tag['namespace'], Tag['name'], t_tmp['name'])
+    t_tmp['pull'] = "docker pull %s/%s:%s" % (RegistryURL, Tag['namespace'] + "/" + Tag['name'], Tag['tag'])
+    return t_tmp
+
 @app.route('/i/<namespace>/<name>', methods=['GET'])
 def imageinfo(namespace,name):
-    TAG=[]
+    starttime = datetime.datetime.now()
+    TAG = []
     res = requests.get("http://%s/v2/%s/tags/list" % (RegistryURL,namespace+"/"+name))
     res = json.loads(res.text)
     if not res.has_key("tags"):
         return jsonify({"tasks": "Null"})
     for tag in res['tags']:
-        t_tmp = {}
-        t_tmp['name'] = tag
-        tagres = requests.get(
-            "http://%s/v2/%s/manifests/%s" % (RegistryURL, namespace + "/" + name,tag),
-            headers={'Accept':'application/vnd.docker.distribution.manifest.v2+json'}
-        )
-        tagres = json.loads(tagres.text)
-        size = 0
-        for layer in tagres['layers']:
-            size += int(layer['size'])
-        if size / 1024 /1024 < 1024:
-            size = str(size / 1024 /1024) + " MB"
-        else:
-            size = str(size / 1024 / 1024 /1024) + " GB"
-        t_tmp['size'] = size
-        t_tmp['del'] = "/i/d/%s/%s/%s" % (namespace,name,t_tmp['name'])
-        t_tmp['pull'] = "docker pull %s/%s:%s" % (RegistryURL, namespace + "/" + name,tag)
-        TAG.append(t_tmp)
-    return jsonify({"tasks": TAG})
+        tmp = {}
+        tmp['namespace'] = namespace
+        tmp['name'] = name
+        tmp['tag'] = tag
+        TAG.append(tmp)
+    pool = ThreadPool(processes = len(res['tags']))
+    results = pool.map(MapTag,TAG)
+    pool.close()
+    pool.join()
+    endtime = datetime.datetime.now()
+    print (endtime - starttime).seconds
+    return jsonify({"tasks": results})
 
 @app.route('/i/d/<namespace>/<name>/<tag>',methods=['GET'])
 def imagedel(namespace,name,tag):
