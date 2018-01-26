@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/msgbox.css')}}">
 </head>
 <body>
 
@@ -79,7 +80,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>名称</th>
@@ -99,6 +100,23 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+
+<div class="modal fade" id="DelTag" tabindex="-1" role="dialog" aria-labelledby="DelTagLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="DelTagLabel">询问</h4>
+            </div>
+            <div class="modal-body">是否删除该Tag，此操作无法撤销！！！</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">确定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
 </div>
 
 
@@ -106,10 +124,12 @@
 <script type="text/javascript">
     function getimagetag(url) {
         $.getJSON(url,function(data){
+            if (data.tasks == "Null"){
+                ShowMsg("没有Tag");
+            }
             var text ="" ;
             $.each(data.tasks,function(idx,item){
-                {#alert(item.del);#}
-                text = text + "<tr><td width='30%'>" + item.name + "</td><td width='20%'>7 天前</td><td width='20%'>" + item.size + "</td><td><a href='#' onclick=\"delimage('" + item.del + "');\">删除</a></td></tr>"
+                text = text + "<tr><td width='30%'>" + item.name + "</td><td width='20%'>7 天前</td><td width='20%'>" + item.size + "</td><td><button type=\"button\" class=\"btn btn-primary btn-xs\" onClick=\"copypullcommand('"+ item.pull +"')\">PULL</button> <button type=\"button\" class=\"btn btn-danger btn-xs\" onClick=\"delimage('"+ item.del +"')\">删除</button></td></tr>"
             });
             $("#tag").html(text);
             $('#myModal').modal('show');
@@ -117,13 +137,21 @@
         return false;
     }
     function delimage(url) {
-        alert(url);
         $.getJSON(url,function(data){
-            alert(data.result);
-            $('#myModal').modal('hide');
+            {#$('#myModal').modal('hide');#}
+            if(data == "Success"){
+                ShowMsg("删除成功");
+            }
+            else {
+                ShowFailure("删除成功");
+            }
         });
         return false;
     }
+    function copypullcommand(text) {
+        window.clipboardData.setData("Text",text);
+    }
 </script>
+<script src="{{ url_for('static', filename='js/msgbox.js')}}"></script>
 </body>
 </html>

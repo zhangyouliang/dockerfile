@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from flask import Flask,render_template,jsonify,request
 import requests,json,os,sys
+import hashlib
 
 app = Flask(__name__)
 
@@ -57,7 +58,10 @@ def namespaceimage(namespace):
 def imageinfo(namespace,name):
     TAG=[]
     res = requests.get("http://%s/v2/%s/tags/list" % (RegistryURL,namespace+"/"+name))
-    for tag in json.loads(res.text)['tags']:
+    res = json.loads(res.text)
+    if not res.has_key("tags"):
+        return jsonify({"tasks": "Null"})
+    for tag in res['tags']:
         t_tmp = {}
         t_tmp['name'] = tag
         tagres = requests.get(
@@ -66,14 +70,15 @@ def imageinfo(namespace,name):
         )
         tagres = json.loads(tagres.text)
         size = 0
-        for layers in tagres['layers']:
-            size += int(layers['size'])
+        for layer in tagres['layers']:
+            size += int(layer['size'])
         if size / 1024 /1024 < 1024:
             size = str(size / 1024 /1024) + " MB"
         else:
             size = str(size / 1024 / 1024 /1024) + " GB"
         t_tmp['size'] = size
         t_tmp['del'] = "/i/d/%s/%s/%s" % (namespace,name,t_tmp['name'])
+        t_tmp['pull'] = "docker pull %s/%s:%s" % (RegistryURL, namespace + "/" + name,tag)
         TAG.append(t_tmp)
     return jsonify({"tasks": TAG})
 
@@ -99,4 +104,7 @@ if __name__ == '__main__':
     if RegistryURL is None:
         print("Please set RegistryURL !")
         sys.exit()
+    # C = 'a small string'
+    # B = hashlib.sha256(C)
+    # D = 'sha256:' + B.hexdigest()
     app.run(host="0.0.0.0", port=5000)
