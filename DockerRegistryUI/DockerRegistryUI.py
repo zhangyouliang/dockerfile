@@ -82,6 +82,7 @@ def imageinfo(namespace,name):
     TAG = []
     res = requests.get("http://%s/v2/%s/tags/list" % (RegistryURL,namespace+"/"+name))
     res = json.loads(res.text)
+    print(res.has_key("tags"))
     if not res.has_key("tags"):
         return jsonify({"tasks": "Null"})
     for tag in res['tags']:
