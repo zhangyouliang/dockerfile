@@ -1,11 +1,10 @@
-FROM redis:3.2.11
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+FROM redis:4.0.7-alpine
+MAINTAINER "Cloth Mo" <root@xmitd.com>
 
-COPY sentinel.sh /usr/bin/
-COPY sentinel.conf /etc/redis/sentinel.conf
+RUN apk add --no-cache git
 
-RUN chmod +x /usr/bin/sentinel.sh
+COPY docker-entrypoint.sh /usr/local/bin/
 
-EXPOSE 6379
-
-CMD ["redis-server","/etc/redis.conf"]
+ENV GIT_URL=NULL \
+		Configure_SCR=NULL \
+		Configure_DEST=NULL
