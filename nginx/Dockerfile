@@ -9,4 +9,4 @@ ENV GIT_URL=NULL \
 		Configure_SCR=NULL \
 		Configure_DEST=NULL
 
-CMD ["/usr/sbin/nginx","-g","daemon off;"]
+CMD ["docker-entrypoint.sh"]
