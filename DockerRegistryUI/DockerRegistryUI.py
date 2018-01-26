@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from flask import Flask,render_template,jsonify
 import requests,json,os,sys
-import hashlib
+import base64
 from multiprocessing.dummy import Pool as ThreadPool
 import datetime
 
@@ -12,7 +12,17 @@ def index():
     repositories = []
     namespace = {}
     res = requests.get("http://%s/v2/_catalog" % (RegistryURL))
-    for repo in json.loads(res.text)['repositories']:
+    res = json.loads(res.text)
+    if not res.has_key("repositories"):
+        return render_template(
+            'index.html',
+            allimagenumber=0,
+            repositories=repositories,
+            namespace=namespace,
+            registry=u"全部",
+            activenamespace=u"全部"
+        )
+    for repo in res['repositories']:
         r = repo.split('/')
         t_repositories = {}
         t_repositories['name'] = r[1]
@@ -24,7 +34,7 @@ def index():
         namespace[r[0]] = int(namespace[r[0]]) + 1
     return render_template(
         'index.html',
-        allimagenumber=len(json.loads(res.text)['repositories']),
+        allimagenumber=len(res['repositories']),
         repositories=repositories,
         namespace=namespace,
         registry=u"全部",
@@ -82,7 +92,6 @@ def imageinfo(namespace,name):
     TAG = []
     res = requests.get("http://%s/v2/%s/tags/list" % (RegistryURL,namespace+"/"+name))
     res = json.loads(res.text)
-    print(res.has_key("tags"))
     if not res.has_key("tags"):
         return jsonify({"tasks": "Null"})
     for tag in res['tags']:
@@ -116,12 +125,16 @@ def imagedel(namespace,name,tag):
 def clean():
     return jsonify({"result": "test"})
 
+def get_basic_auth_str(username, password):
+    temp_str = username + ':' + password
+    bytesString = temp_str.encode(encoding="utf-8")
+    encodestr = base64.b64encode(bytesString)
+    return 'Basic ' + encodestr.decode()
+
 if __name__ == '__main__':
     RegistryURL = os.environ.get("RegistryURL")
     if RegistryURL is None:
         print("Please set RegistryURL !")
         sys.exit()
-    # C = 'a small string'
-    # B = hashlib.sha256(C)
-    # D = 'sha256:' + B.hexdigest()
+    # print(get_basic_auth_str("admin", "admin."))
     app.run(host="0.0.0.0", port=5000)

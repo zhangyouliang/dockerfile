@@ -2,7 +2,7 @@
 function ShowTip(tip, type) {
     var $tip = $('#tip');
     if ($tip.length == 0) {
-        $tip = $('<strong id="tip" style="position:absolute;top:50px;left: 50%;z-index:9999"></strong>');
+        $tip = $('<strong id="tip" style="position:absolute;top:500px;left: 50%;z-index:9999"></strong>');
         $('body').append($tip);
     }
     $tip.stop(true).prop('class', 'alert alert-' + type).text(tip).css('margin-left', -$tip.outerWidth() / 2).fadeIn(500).delay(2000).fadeOut(500);
