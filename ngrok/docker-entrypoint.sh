@@ -57,7 +57,7 @@ if [ ! -e ${NGROK_CONFIG}/install.lock ];then
     cat > ngrok.yml << EOF
 server_addr: "$NGROK_DOMAIN:${NGROK_PORT}"
 trust_host_root_certs: false
-auth_token: ${NGROK_USER}:${NGROK_PAAS}
+auth_token: ${NGROK_USER}:${NGROK_PASS}
 
 tunnels:
     ssh:
