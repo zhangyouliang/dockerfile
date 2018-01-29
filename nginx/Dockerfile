@@ -5,8 +5,6 @@ RUN apk add --no-cache git
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-ENV GIT_URL=NULL \
-		Configure_SCR=NULL \
-		Configure_DEST=NULL
+ENV GIT_URL=NULL
 
 CMD ["docker-entrypoint.sh"]
