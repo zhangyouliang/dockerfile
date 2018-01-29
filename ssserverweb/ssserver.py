@@ -11,6 +11,14 @@ from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
 
 app = Flask(__name__)
+login_manager = LoginManager(app)
+
+login_manager.login_view = 'login'
+login_manager.login_message = 'Unauthorized User'
+login_manager.login_message_category = "info"
+
+class User(UserMixin):
+    pass
 
 global ALIYUN_ID
 global ALIYUN_Secret
@@ -143,7 +151,6 @@ def adduser():
             result = "error"
         return Response(json.dumps({"result": result}), mimetype='application/json')
 
-
 @app.route('/erweima.html',methods=["Post"])
 def erweima():
     if request.method == 'POST':
@@ -190,11 +197,11 @@ def index():
         HOSTLIST.append(tmp)
     for services in client.services.list():
         tmp = {}
-        if services.name.find("ss_") != -1:
+        if (services.name[:3] == "ss_") and (services.attrs['Endpoint'].has_key("Ports")):
             tmp['name'] = services.name.replace("ss_","")
             if services.attrs['Endpoint']['Ports'][0]['TargetPort'] == 8388:
                 tmp['PublishedPort'] = services.attrs['Endpoint']['Ports'][0]['PublishedPort']
-            tmp['password'] = services.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env'][0].replace("PASSWORD=", "")
+            tmp['password'] = services.attrs['Spec']['TaskTemplate']['ContainerSpec']['Env'][0].replace("SS_PASSWORD=", "")
             tmp['password'] = tmp['password'][:2] + "******" + tmp['password'][len(tmp['password']) - 2:]
             USERLIST.append(tmp)
     return render_template(
