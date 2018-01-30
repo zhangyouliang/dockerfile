@@ -1,10 +1,10 @@
 version: "3"
 services:
-    ssserver:
+    web:
         image: daocloud.io/buxiaomo/ssserverweb:latest
-        hostname: xiaomo
+        hostname: ssserver_web
         ports:
-            - 8080:8000/tcp
+            - 80:8000/tcp
         environment:
             - ALIYUN_ID=xxxxxx
             - ManagerIP=xxx.xxx.xxx.xxx
@@ -16,7 +16,13 @@ services:
             mode: global
             placement:
                 constraints: [node.role == manager]
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8000"]
+            interval: 3s
+            timeout: 1s
+            retries: 5
         networks:
             - ssserver
 networks:
     ssserver:
+        external: true

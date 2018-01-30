@@ -1,7 +1,7 @@
-version: '2'
+version: '3.4'
 services:
     zookeeper01:
-        image: daocloud.io/buxiaomo/zookeeper
+        image: hub.xmitd.com/swarm/zookeeper:3.4.10
         ports:
             - 2181/tcp
             - 2888/tcp
@@ -13,8 +13,16 @@ services:
             zookeeper:
                 aliases:
                     - zookeeper01
+        deploy:
+            mode: replicated
+            replicas: 1
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
     zookeeper02:
-        image: daocloud.io/buxiaomo/zookeeper
+        image: hub.xmitd.com/swarm/zookeeper:3.4.10
         ports:
             - 2181/tcp
             - 2888/tcp
@@ -26,8 +34,16 @@ services:
             zookeeper:
                 aliases:
                     - zookeeper02
+        deploy:
+            mode: replicated
+            replicas: 1
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
     zookeeper03:
-        image: daocloud.io/buxiaomo/zookeeper
+        image: hub.xmitd.com/swarm/zookeeper:3.4.10
         ports:
             - 2181/tcp
             - 2888/tcp
@@ -39,6 +55,14 @@ services:
             zookeeper:
                 aliases:
                     - zookeeper03
+        deploy:
+            mode: replicated
+            replicas: 1
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
 networks:
     zookeeper:
         external: true
