@@ -2,7 +2,6 @@ FROM centos:7.3.1611
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
     && yum install yum-utils epel-release wget pykickstart curl -y \
-    && yum-config-manager --add-repo http://mirrors.aliyun.com/repo/epel-7.repo \
     && yum-config-manager --add-repo http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/CentOS_7/home:libertas-ict:cobbler28.repo \
     && yum makecache \
     && yum -y install cobbler tftp-server dhcp openssl cobbler-web supervisor \
