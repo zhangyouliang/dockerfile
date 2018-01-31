@@ -12,7 +12,7 @@ docker run -d --net host --name cobbler \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
 -e Cobbler_DHCP_RANGE="10.3.236.200 10.3.236.210" \
 -v /root/iso:/iso:ro \
-daocloud.io/buxiaomo/cobbler:2.8.2
+hub.xmitd.com/public/cobbler:2.8.2
 ```
 Cobbler Web：http://${Cobbler_SERVER_IP}/cobbler_web/
 

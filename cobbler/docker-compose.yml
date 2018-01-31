@@ -1,0 +1,37 @@
+version: '3.4'
+services:
+    cobbler:
+        image: hub.xmitd.com/public/cobbler:2.8.2
+        hostname: cobbler
+        network_mode: host
+        volumes:
+            - tftpboot:/var/lib/tftpboot
+            - log:/var/log/cobbler
+            - www:/var/www/cobbler
+            - lib:/var/lib/cobbler
+            - etc:/etc/cobbler
+            - ./iso:/iso:ro
+        environment:
+            - Cobbler_SERVER_IP=10.0.0.36
+            - Cobbler_NEXT_SERVER_IP=10.0.0.36
+            - Cobbler_PASSWORD=root
+            - Cobbler_DHCP_SUBNET=10.0.0.0
+            - Cobbler_DHCP_ROUTER=10.0.0.1
+            - Cobbler_DHCP_DNS=114.114.114.114
+            - Cobbler_DHCP_RANGE="10.0.0.240 10.0.0.245"
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+volumes:
+    tftpboot:
+        driver: local
+    log:
+        driver: local
+    www:
+        driver: local
+    lib:
+        driver: local
+    etc:
+        driver: local
