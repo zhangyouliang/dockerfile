@@ -1,9 +1,19 @@
 #!/bin/bash
 # REDIS_CLUSTER="redis_master01:6379,redis_slave01:6379"
 set -e
-if [ "${REDIS_CLUSTER}" = "NULL" ];then
-    echo "REDIS_CLUSTER is NULL"
-    exit 1
+if [[ ${GIT_URL} != "NULL" ]];then
+    git clone ${GIT_URL} /configure
+    for n in $(seq 30);do
+        if [[ $(echo $(eval echo \$\{Configure_File_SCR_${n}\}) | wc -L) != 0 ]]; then
+            if [[ -e $(eval echo \$\{Configure_File_DEST_${n}\}) ]]; then
+                rm -rf $(eval echo \$\{Configure_File_DEST_${n}\})
+            fi
+            cp -r /configure/$(eval echo \$\{Configure_File_SCR_${n}\}) $(eval echo \$\{Configure_File_DEST_${n}\})
+            echo "Copy configfile /configure/$(eval echo \$\{Configure_File_SCR_${n}\}) to $(eval echo \$\{Configure_File_DEST_${n}\})"
+        else
+            break
+        fi
+    done
 fi
 i=0
 for host in `echo ${REDIS_CLUSTER} | sed "s/,/\n/g"`

@@ -5,20 +5,27 @@
 import docker,json,os,paramiko,threading,time,re,qrcode,base64,sys
 from PIL import Image
 from flask import Flask,render_template,request,Response,url_for,redirect
-from flask_login import LoginManager,login_user,UserMixin,logout_user,login_required
 from flask_sqlalchemy import SQLAlchemy
 from aliyunsdkcore import client
 from aliyunsdkalidns.request.v20150109 import DescribeDomainRecordsRequest
 
 app = Flask(__name__)
-login_manager = LoginManager(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////user.db'
+db = SQLAlchemy(app)
 
-login_manager.login_view = 'login'
-login_manager.login_message = 'Unauthorized User'
-login_manager.login_message_category = "info"
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120), unique=True)
+    port = db.Column(db.String(120), unique=True)
+    passwd = db.Column(db.String(120), unique=True)
 
-class User(UserMixin):
-    pass
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 global ALIYUN_ID
 global ALIYUN_Secret

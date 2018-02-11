@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Config Cobbler"
-sed -i "s/server:.*/server: $Cobbler_SERVER_IP/g" /etc/cobbler/settings
-sed -i "s/next_server:.*/next_server: $Cobbler_NEXT_SERVER_IP/g" /etc/cobbler/settings
+sed -i "s/^server:.*/server: $Cobbler_SERVER_IP/g" /etc/cobbler/settings
+sed -i "s/^next_server:.*/next_server: $Cobbler_NEXT_SERVER_IP/g" /etc/cobbler/settings
 Cobbler_PASSWORD=$(openssl passwd -1 -salt '123456' "$Cobbler_PASSWORD")
 sed -i "s|default_password_crypted:.*|default_password_crypted: \"$Cobbler_PASSWORD\"|" /etc/cobbler/settings
 sed -i 's/pxe_just_once:.*/pxe_just_once: 1/g' /etc/cobbler/settings

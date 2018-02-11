@@ -3,14 +3,14 @@
 eg:
 
 ```shell
-docker run -d --net host --name cobbler \
--e Cobbler_SERVER_IP=10.3.236.240 \
--e Cobbler_NEXT_SERVER_IP=10.3.236.240 \
+docker run -it --net host --name cobbler1 \
+-e Cobbler_SERVER_IP=10.0.0.36 \
+-e Cobbler_NEXT_SERVER_IP=10.0.0.36 \
 -e Cobbler_PASSWORD=root \
--e Cobbler_DHCP_SUBNET=10.3.236.0 \
--e Cobbler_DHCP_ROUTER=10.3.236.254 \
+-e Cobbler_DHCP_SUBNET=10.0.0.0 \
+-e Cobbler_DHCP_ROUTER=10.0.0.10 \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
--e Cobbler_DHCP_RANGE="10.3.236.200 10.3.236.210" \
+-e Cobbler_DHCP_RANGE="10.0.0.240 10.0.0.250" \
 -v /root/iso:/iso:ro \
 hub.xmitd.com/public/cobbler:2.8.2
 ```
@@ -32,7 +32,7 @@ mount /root/CentOS-7-x86_64-DVD-1611.iso /root/iso/centos
 2、导入镜像
 
 ```shell
-docker exec -it cobbler ls /ios
-docker exec -it cobbler cobbler import --name=CentOS-7.3.1611-x86_64 --path=/iso/centos/
+docker exec -it cobbler ls /iso
+docker exec -it cobbler cobbler import --name=CentOS-7.2.1511-x86_64 --path=/iso/centos/
 docker exec -it cobbler cobbler sync
 ```
