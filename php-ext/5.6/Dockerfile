@@ -25,3 +25,13 @@ RUN set -x \
 # Zip
 RUN apk add --no-cache zlib-dev \
     && docker-php-ext-install zip
+
+RUN apk add --no-cache git
+
+COPY docker-entrypoint.sh /usr/local/bin/
+
+ENV GIT_URL=NULL \
+		Configure_SCR=NULL \
+		Configure_DEST=NULL
+
+CMD ["docker-entrypoint.sh"]
