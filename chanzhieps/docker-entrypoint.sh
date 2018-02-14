@@ -42,6 +42,7 @@ $PASS = getenv('CHANZHI_DB_PASS');
 $NAME = getenv('CHANZHI_DB_NAME');
 // 尝试10次连接MySQL
 $maxTries = 10;
+$stderr = fopen('php://stderr', 'w');
 do {
     $mysql = new mysqli($HOST, $USER, $PASS, '', $PORT, $SOCKET);
     if ($mysql->connect_error) {
