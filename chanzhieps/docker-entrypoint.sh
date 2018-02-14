@@ -55,7 +55,8 @@ do {
     }
 } while ($mysql->connect_error);
 // 创建数据库
-if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string($NAME) . '`')) {
+echo 'CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string($NAME) . '`';
+if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $NAME . '`')) {
     fwrite($stderr, "\n" . 'MySQL "CREATE DATABASE" Error: ' . $mysql->error . "\n");
     $mysql->close();
     exit(1);
