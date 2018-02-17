@@ -25,7 +25,7 @@ if [ ! -n ${CHANZHI_DB_HOST} ] || [ ! -n ${CHANZHI_DB_USER}  ] || [ ! -n ${CHANZ
 fi
 CHANZHI_DB_NAME="${CHANZHI_DB_NAME:-chanzhi}"
 CHANZHI_TABLE_PREFIX="${CHANZHI_TABLE_PREFIX:-eps_}"
-
+# 创建数据库
 TERM=dumb php -- <<'EOPHP'
 <?php
 // 通过环境变量获取MySQL服务器信息
@@ -34,7 +34,7 @@ $port = 0;
 if (is_numeric($SOCKET)) {
     $PORT = (int) $SOCKET;
     $SOCKET = null;
-}else {
+} else {
     $PORT = 3306;
 }
 $USER = getenv('CHANZHI_DB_USER');
@@ -55,13 +55,19 @@ do {
     }
 } while ($mysql->connect_error);
 // 创建数据库
-echo 'CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string($NAME) . '`';
 if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $NAME . '`')) {
+    echo "Database NOT Found";
     fwrite($stderr, "\n" . 'MySQL "CREATE DATABASE" Error: ' . $mysql->error . "\n");
     $mysql->close();
+    $HAVEDATA = false;
     exit(1);
 }
-// 关闭连接
+////导入数据库
+//echo "$HAVEDATA";
+//if ( $HAVEDATA == false){
+//    mysqli_query($mysql,'use ' . $NAME . ';' . 'source /var/www/html/system/db/chanzhi.sql');
+//}
+// 关闭MySQL
 $mysql->close();
 ?>
 EOPHP
