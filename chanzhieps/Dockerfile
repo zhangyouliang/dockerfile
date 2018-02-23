@@ -14,4 +14,5 @@ RUN set -ex; \
 VOLUME /var/www/html
 
 COPY docker-entrypoint.sh /usr/local/bin/
-CMD ["docker-entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]
