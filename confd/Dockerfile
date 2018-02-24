@@ -1,10 +1,12 @@
 FROM alpine:3.6
 MAINTAINER "Mo" <root@buxiaomo.com>
 
-RUN apk --update add go bash
+COPY repositories /etc/apk/repositories
+
+RUN apk --update add --no-cache go bash
 
 ENV CONDF_VERSIOV 0.15.0
-RUN apk add --no-cache wget \
+RUN apk add --no-cache wget ca-certificates \
 	&& wget --no-check-certificate -O /usr/local/bin/confd https://github.com/kelseyhightower/confd/releases/download/v${CONDF_VERSIOV}/confd-${CONDF_VERSIOV}-linux-amd64 \
 	&& apk del --no-cache wget \
 	&& chmod +x /usr/local/bin/confd \
@@ -13,7 +15,7 @@ RUN apk add --no-cache wget \
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 17.12.0-ce
 RUN mkdir -p /usr/local/src \
-		&& wget --no-check-certificate -O /usr/local/src/docker.tgz "http://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
+		&& wget -O /usr/local/src/docker.tgz https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz \
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz
 
