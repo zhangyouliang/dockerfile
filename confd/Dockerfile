@@ -22,13 +22,13 @@ RUN mkdir -p /etc/confd/conf.d /etc/confd/templates
 
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 17.12.0-ce
-RUN apk add --no-cache --update --virtual .build openssl \
+RUN apk add --no-cache --virtual .build openssl \
     && mkdir -p /usr/local/src \
     && wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz \
     && rm -rf /usr/local/src/* \
-    && apk del --no-cache --virtual .build
+    && apk del --no-cache .build
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["confd"]
