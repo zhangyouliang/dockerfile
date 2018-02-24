@@ -12,7 +12,7 @@ RUN apk add --no-cache wget \
 
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 17.12.0-ce
-RUN curl -o /usr/local/src/docker.tgz -fSL "http://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz"
+RUN curl -o /usr/local/src/docker.tgz -fSL "http://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz
 
