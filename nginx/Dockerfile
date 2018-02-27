@@ -8,3 +8,4 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENV GIT_URL=NULL
 
 CMD ["docker-entrypoint.sh"]
+#ffff
