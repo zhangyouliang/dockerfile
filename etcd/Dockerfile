@@ -15,4 +15,4 @@ VOLUME /etcd
 
 EXPOSE 2379 2380
 
-ENTRYPOINT ["etcd"]
+CMD ["etcd"]
