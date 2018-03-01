@@ -16,3 +16,4 @@ VOLUME /etcd
 EXPOSE 2379 2380 4001 7001
 
 ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["etcd"]
