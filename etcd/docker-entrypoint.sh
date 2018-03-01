@@ -19,4 +19,4 @@ set -e
 # ETCD_CMD="etcd -data-dir=/etcd -listen-peer-urls=${PEER_URLS} -listen-client-urls=${CLIENT_URLS} $*"
 # echo -e "Running '$ETCD_CMD'\nBEGIN ETCD OUTPUT\n"
 
-exec $ETCD_CMD
+exec $@
