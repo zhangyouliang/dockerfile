@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}" />
+    <meta name="keywords" content="{{ keywords }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" media="screen" />
+    <link href="{{ url_for('static', filename='main.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-4">
+                        <input type="text" style="width: 200px; display: inline-block;" class="form-control" id="domain" placeholder="请输入域名">
+                        <a type="submit" class="btn btn-default" onclick="checkdamin();">查询</a>
+
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>域名</th>
+                                            <th>状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tag">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+            </form>
+        </div>
+        <video id="bgvideo" autoplay="true" width="100%" loop="loop" name="media" poster="{{ backgroundimg }}">
+            <source src="{{ mp4 }}" type="video/mp4"/>
+            您的浏览器不支持 video 标签。请使用更先进的浏览器,如<a href="http://www.google.cn/chrome/browser/" target="_blank">Chrome浏览器</a>或<a href="http://www.firefox.com.cn/download/" target="_blank">Firefox浏览器</a>
+        </video>
+    </div>
+    <script>
+        function checkdamin() {
+            var domain = document.getElementById("domain").value;
+            if(domain == ""){
+                ShowWarn("请填写域名");
+            }
+            $.post("/check",{"domain":domain},function(result){
+                var rs = JSON.parse(result);
+                if(rs.r){
+                    ShowMsg("以注册");
+                } else {
+                    ShowMsg("未注册");
+                }
+                $("#tag").html(text);
+            });
+        }
+    </script>
+    <script src="{{ url_for('static', filename='msgbox.js')}}"></script>
+</body>
+</html>
