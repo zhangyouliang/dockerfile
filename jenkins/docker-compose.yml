@@ -1,15 +1,27 @@
-version: '2'
+version: '3.4'
 services:
-  jenkins:
-    image: daocloud.io/buxiaomo/jenkins
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      jenkins:
-        aliases:
-          - jenkins
-    ports:
-      - 8080:8080/tcp
+    jenkins:
+        image: daocloud.io/buxiaomo/jenkins:2.89.3
+        ports:
+            - 3001:8080/tcp
+        environment:
+            - LC_ALL=C.UTF-8
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - /mnt/nfs/jenkins/data:/var/jenkins:rw
+        networks:
+            jenkins:
+                aliases:
+                    - jenkins
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+            placement:
+                constraints:
+                    - node.role == worker
 networks:
-  jenkins:
-    external: true
+    jenkins:
+      external: true

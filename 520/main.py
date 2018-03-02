@@ -33,6 +33,7 @@ def check():
         else:
             r = True
     return json.dumps({"r": r})
+
 @app.route('/')
 def index():
     if request.host.find("xn--rhqy1la1825a.xn--6qq986b3xl") == -1:
