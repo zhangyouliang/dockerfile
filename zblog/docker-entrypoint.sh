@@ -4,7 +4,7 @@
 # group="${APACHE_RUN_GROUP:-www-data}"
 user='www-data'
 group='www-data'
-if ! [ -e VERSION -a -e www/index.php ]; then
+if ! [ -e zb_system/login.php -a -e index.php ]; then
     echo >&2 "Z-Blog not found in $PWD - copying now..."
     if [ "$(ls -A)" ]; then
         echo >&2 "WARNING: $PWD is not empty - press Ctrl+C now if this is an error!"
@@ -24,7 +24,6 @@ if [ ! -n ${ZBLOG_DB_HOST} ] || [ ! -n ${ZBLOG_DB_USER}  ] || [ ! -n ${ZBLOG_DB_
     exit 1
 fi
 ZBLOG_DB_NAME="${CHANZHI_DB_NAME:-zblog}"
-ZBLOG_TABLE_PREFIX="${CHANZHI_TABLE_PREFIX:-zbp_}"
 # 创建数据库
 TERM=dumb php -- <<'EOPHP'
 <?php
@@ -67,3 +66,13 @@ $mysql->close();
 ?>
 EOPHP
 exec "$@"
+
+
+
+
+TERM=dumb php -- <<'EOPHP'
+<?php
+$NAME = getenv('ZBLOG_DB_NAME');
+echo "Database NOT Found";
+?>
+EOPHP
