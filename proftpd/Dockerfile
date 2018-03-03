@@ -11,8 +11,8 @@ RUN groupmod -g 82 www-data \
     && sed -i "s/# RequireValidShell/RequireValidShell/g" /etc/proftpd/proftpd.conf \
     && sed -i "s|#Include /etc/proftpd/sql.conf|Include /etc/proftpd/sql.conf|g" /etc/proftpd/proftpd.conf \
     && sed -i "s/#LoadModule mod_sql\.c/LoadModule mod_sql\.c/g" /etc/proftpd/modules.conf \
-    && sed -i "s/#LoadModule mod_sql_mysql.c/LoadModule mod_sql_mysql.c/g" /etc/proftpd/modules.conf \
-    && sed -i "s/# PassivePorts.*/PassivePorts 60000 65535/g" /etc/proftpd/proftpd.conf
+    && sed -i "s/#LoadModule mod_sql_mysql.c/LoadModule mod_sql_mysql.c/g" /etc/proftpd/modules.conf
+    # && sed -i "s/# PassivePorts.*/PassivePorts 60000 65535/g" /etc/proftpd/proftpd.conf
 
 VOLUME /var/www
 
