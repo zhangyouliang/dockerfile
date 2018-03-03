@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-COPY sources.list /etc/apt/sources.list
+# COPY sources.list /etc/apt/sources.list
 
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends proftpd-mod-mysql mariadb-client-10.0 -y --allow-unauthenticated \
