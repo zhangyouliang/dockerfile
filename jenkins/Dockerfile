@@ -30,7 +30,7 @@ RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/dock
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz
 
-ENV Jenkins_Version 2.89.3
+ENV Jenkins_Version 2.89.4
 RUN apt-get update \
     && apt-get install git wget --no-install-recommends -y \
     && mkdir -p /usr/share/jenkins /var/jenkins \
