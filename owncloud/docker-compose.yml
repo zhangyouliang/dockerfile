@@ -1,0 +1,18 @@
+version: "3"
+services:
+  owncloud:
+    image: owncloud:9
+    restart: always
+    links:
+      - mysql:mysql
+    ports:
+      - "4001:80"
+    volumes:
+      - /data/owncloud/data:/var/www/data:rw
+    labels:
+      aliyun.routing.port_80: 'owncloud'
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: 123456
