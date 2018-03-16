@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+    <table class="table table-condensed">
+        <tr>
+            <td>ID</td>
+            <td>标题</td>
+            <td>时长</td>
+            <td>图片</td>
+            <td>链接</td>
+            <td>480p</td>
+        </tr>
+    {% for entry in entries %}
+        <tr>
+            <td>{{  entry['_id'] }}</td>
+            <td>{{  entry['video_title'] }}</td>
+            <td>{{ entry['video_duration'] }}</td>
+            <td><img src="{{ entry['image_url'] }}" width="120px" height="67px"/></td>
+            <td><a href="{{ entry['link_url'] }}">链接</a></td>
+            <td><a href="{{ entry['quality_480p'] }}">链接</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+    <ul class="pager">
+        <li class="previous {% if not pagination.has_pre %} disabled {% endif %}"><a href="{{ url_for('index', page=pagination.pre_page) }}">&larr; Older</a></li>
+        <li class="next {% if not pagination.has_next %} disabled {% endif %}"><a href="{{ url_for('index', page=pagination.next_page) }}">Newer &rarr;</a></li>
+    </ul>
+{% endblock %}
