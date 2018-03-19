@@ -22,7 +22,7 @@ docker run -it --name kolla \
 -e NETWORK_INTERFACE=eno33554984 \
 -e NEUTRON_EXTERNAL_INTERFACE=eno16777736 \
 -e OPENSTACK_RELEASE=4.0.3 \
-daocloud.io/buxiaomo/kolla bash
+daocloud.io/buxiaomo/kolla
 
 参数说明：
 `DOCKER_REGISTRY` Kolla镜像仓库地址

@@ -4,7 +4,7 @@ COPY repositories /etc/apk/repositories
 
 RUN docker-php-ext-install pdo_mysql mysqli
 
-ENV CHANZHI_VERSION 6.7.1
+ENV CHANZHI_VERSION 6.4.1
 RUN set -ex; \
 	curl -o chanzhieps.zip -fSL "http://dl.cnezsoft.com/chanzhi/${CHANZHI_VERSION}/chanzhiEPS.${CHANZHI_VERSION}.zip"; \
 	unzip chanzhieps.zip -d /usr/src/; \

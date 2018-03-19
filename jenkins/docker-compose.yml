@@ -1,9 +1,9 @@
 version: '3.4'
 services:
     jenkins:
-        image: daocloud.io/buxiaomo/jenkins:2.89.3
+        image: daocloud.io/buxiaomo/jenkins:2.89.4
         ports:
-            - 80:8080/tcp
+            - 3004:8080/tcp
         environment:
             - LC_ALL=C.UTF-8
         volumes:
@@ -19,6 +19,9 @@ services:
             update_config:
                 parallelism: 1
                 delay: 10s
+            placement:
+                constraints:
+                    - node.labels.jenkins == true
 networks:
     jenkins:
       external: true
