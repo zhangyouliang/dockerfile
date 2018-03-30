@@ -1,0 +1,6 @@
+APScheduler==3.5.1
+configparser==3.5.0
+DBUtils==1.2
+PyMySQL==0.8.0
+redis==2.10.6
+requests==2.18.4
