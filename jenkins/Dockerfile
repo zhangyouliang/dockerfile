@@ -32,7 +32,6 @@ RUN apt-get update \
 ENV  DOCKER_COMPOSE_VERSION 1.18.0
 RUN wget -O /usr/local/bin/docker-compose  "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m`"  \
     && chmod +x /usr/local/bin/docker-compose
-
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 17.12.0-ce
 RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
