@@ -1,4 +1,4 @@
-FROM wordpress:4.9.2-php5.6-fpm-alpine
+FROM wordpress:4.9.4-php7.2-fpm-alpine
 MAINTAINER "Cloth Mo" <root@xmitd.com>
 
 RUN apk add --no-cache git
