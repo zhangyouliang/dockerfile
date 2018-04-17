@@ -9,3 +9,5 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 ENV MAVEN_HOME /usr/share/maven/
 ENV PATH $PATH:$MAVEN_HOME/bin
+
+COPY settings.xml /etc/maven/settings.xml
