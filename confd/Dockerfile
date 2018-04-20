@@ -1,4 +1,5 @@
 FROM golang:1.9-alpine as confd
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 
