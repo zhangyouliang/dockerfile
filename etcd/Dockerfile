@@ -1,5 +1,5 @@
 FROM alpine:3.7
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 ENV ETCD_VERSION v3.2.9
 RUN mkdir -p /usr/local/src/ /etcd \

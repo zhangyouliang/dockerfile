@@ -1,4 +1,5 @@
 FROM haproxy:1.8.2
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN useradd haproxy \
     && mkdir /var/lib/haproxy

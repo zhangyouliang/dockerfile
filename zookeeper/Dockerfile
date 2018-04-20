@@ -1,5 +1,5 @@
 FROM openjdk:7u151
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Cloth Mo" <root@xiaomo.red>
 
 COPY sources.list /etc/apt/sources.list
 

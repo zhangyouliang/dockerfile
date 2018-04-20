@@ -1,4 +1,5 @@
 FROM node:9.6.1
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY sources.list /etc/apt/sources.list
 

@@ -1,5 +1,5 @@
 FROM haproxy:1.8.3-alpine
-MAINTAINER "Cloth Mo" <root@xmitd.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN apk add --no-cache git
 

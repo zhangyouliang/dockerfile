@@ -1,5 +1,5 @@
 FROM openjdk:8u151-jdk-alpine3.7
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 
