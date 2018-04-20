@@ -23,13 +23,13 @@ services:
                 parallelism: 1
                 delay: 10s
                 order: stop-first
-            resources:
-                limits:
-                    cpus: '4'
-                    memory: 4G
-                reservations:
-                    cpus: '2'
-                    memory: 2G
+            # resources:
+            #     limits:
+            #         cpus: '2'
+            #         memory: 1G
+            #     reservations:
+            #         cpus: '1'
+            #         memory: 500M
             placement:
                 constraints:
                     - node.labels.zookeeper.node01 == true
@@ -61,13 +61,13 @@ services:
                 parallelism: 1
                 delay: 10s
                 order: stop-first
-            resources:
-                limits:
-                    cpus: '4'
-                    memory: 4G
-                reservations:
-                    cpus: '2'
-                    memory: 2G
+            # resources:
+            #     limits:
+            #         cpus: '2'
+            #         memory: 1G
+            #     reservations:
+            #         cpus: '1'
+            #         memory: 500M
             placement:
                 constraints:
                     - node.labels.zookeeper.node02 == true
@@ -100,16 +100,16 @@ services:
                 parallelism: 1
                 delay: 10s
                 order: stop-first
-            resources:
-                limits:
-                    cpus: '4'
-                    memory: 4G
-                reservations:
-                    cpus: '2'
-                    memory: 2G
+            # resources:
+            #     limits:
+            #         cpus: '2'
+            #         memory: 1G
+            #     reservations:
+            #         cpus: '1'
+            #         memory: 500M
             placement:
                 constraints:
-                    - node.labels.zookeeper.node02 == true
+                    - node.labels.zookeeper.node03 == true
         logging:
             driver: json-file
             options:

@@ -7,14 +7,14 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=1
-                advertised.host.name=10.211.55.14
+                host.name=10.211.55.29
+                advertised.host.name=10.211.55.29
                 advertised.port=9092
-                zookeeper.connect=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+                zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
                 num.partitions=6
                 delete.topic.enable=true
                 auto.create.topics.enable=true
                 log.cleanup.policy=delete
-                host.name=10.211.55.14
         volumes:
             - /var/lib/kafka:/var/lib/kafka:rw
             - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
@@ -48,14 +48,14 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=2
-                advertised.host.name=10.211.55.14
+                host.name=10.211.55.30
+                advertised.host.name=10.211.55.30
                 advertised.port=9092
-                zookeeper.connect=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+                zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
                 num.partitions=6
                 delete.topic.enable=true
                 auto.create.topics.enable=true
                 log.cleanup.policy=delete
-                host.name=10.211.55.14
         volumes:
             - /var/lib/kafka:/var/lib/kafka:rw
             - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
@@ -89,14 +89,14 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=3
-                advertised.host.name=10.211.55.14
+                host.name=10.211.55.31
+                advertised.host.name=10.211.55.31
                 advertised.port=9092
-                zookeeper.connect=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+                zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
                 num.partitions=6
                 delete.topic.enable=true
                 auto.create.topics.enable=true
                 log.cleanup.policy=delete
-                host.name=10.211.55.14
         volumes:
             - /var/lib/kafka:/var/lib/kafka:rw
             - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
