@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 # COPY sources.list /etc/apt/sources.list
 
