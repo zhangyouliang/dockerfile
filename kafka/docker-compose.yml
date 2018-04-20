@@ -1,47 +1,129 @@
-version: '2'
+version: '3.4'
 services:
-    kafka01:
-        image: daocloud.io/buxiaomo/kafka
-        ports:
-            - 8001:9092/tcp
-        environment:
-            - BROKER_ID=1
-            - KAFKA_HOST_IP=10.3.236.215
-            - KAFKA_PORT=8001
-            - ZOOKEEPER_CLUSTER=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+    node01:
+        image: kafka:latest
         networks:
             kafka:
-                aliases:
-                    - kafka01
-        # command: ping www.baidu.com
-    kafka02:
-        image: daocloud.io/buxiaomo/kafka
-        ports:
-            - 8002:9092/tcp
         environment:
-            - BROKER_ID=2
-            - KAFKA_HOST_IP=10.3.236.215
-            - KAFKA_PORT=8002
-            - ZOOKEEPER_CLUSTER=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+            KAFKA_CONFIG: |
+                broker.id=1
+                advertised.host.name=10.211.55.14
+                advertised.port=9092
+                zookeeper.connect=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+                num.partitions=6
+                delete.topic.enable=true
+                auto.create.topics.enable=true
+                log.cleanup.policy=delete
+                host.name=10.211.55.14
+        volumes:
+            - /var/lib/kafka:/var/lib/kafka:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '4'
+                    memory: 4G
+                reservations:
+                    cpus: '2'
+                    memory: 2G
+            placement:
+                constraints:
+                    - node.labels.kafka.node01 == true
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+    node02:
+        image: kafka:latest
         networks:
             kafka:
-                aliases:
-                    - kafka02
-        # command: ping www.baidu.com
-    kafka03:
-        image: daocloud.io/buxiaomo/kafka
-        ports:
-            - 8003:9092/tcp
         environment:
-            - BROKER_ID=3
-            - KAFKA_HOST_IP=10.3.236.215
-            - KAFKA_PORT=8003
-            - ZOOKEEPER_CLUSTER=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+            KAFKA_CONFIG: |
+                broker.id=2
+                advertised.host.name=10.211.55.14
+                advertised.port=9092
+                zookeeper.connect=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+                num.partitions=6
+                delete.topic.enable=true
+                auto.create.topics.enable=true
+                log.cleanup.policy=delete
+                host.name=10.211.55.14
+        volumes:
+            - /var/lib/kafka:/var/lib/kafka:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '4'
+                    memory: 4G
+                reservations:
+                    cpus: '2'
+                    memory: 2G
+            placement:
+                constraints:
+                    - node.labels.kafka.node02 == true
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+    node03:
+        image: kafka:latest
         networks:
             kafka:
-                aliases:
-                    - kafka03
-        # command: ping www.baidu.com
+        environment:
+            KAFKA_CONFIG: |
+                broker.id=3
+                advertised.host.name=10.211.55.14
+                advertised.port=9092
+                zookeeper.connect=zookeeper01:2181,zookeeper02:2181,zookeeper03:2181
+                num.partitions=6
+                delete.topic.enable=true
+                auto.create.topics.enable=true
+                log.cleanup.policy=delete
+                host.name=10.211.55.14
+        volumes:
+            - /var/lib/kafka:/var/lib/kafka:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '4'
+                    memory: 4G
+                reservations:
+                    cpus: '2'
+                    memory: 2G
+            placement:
+                constraints:
+                    - node.labels.kafka.node03 == true
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
 networks:
     kafka:
-        external: true
+        external:
+            name: "host"
