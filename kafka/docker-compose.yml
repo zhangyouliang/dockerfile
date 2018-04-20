@@ -1,7 +1,7 @@
 version: '3.4'
 services:
     node01:
-        image: kafka:latest
+        image: daocloud.io/buxiaomo/kafka:0.10.2.1
         networks:
             kafka:
         environment:
@@ -42,7 +42,7 @@ services:
                 max-size: 100m
 
     node02:
-        image: kafka:latest
+        image: daocloud.io/buxiaomo/kafka:0.10.2.1
         networks:
             kafka:
         environment:
@@ -83,7 +83,7 @@ services:
                 max-size: 100m
 
     node03:
-        image: kafka:latest
+        image: daocloud.io/buxiaomo/kafka:0.10.2.1
         networks:
             kafka:
         environment:

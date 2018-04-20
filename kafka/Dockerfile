@@ -17,13 +17,14 @@ RUN apt-get update \
     && axel -n 20 --output=/usr/local/src/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz http://mirrors.tuna.tsinghua.edu.cn/apache/kafka/${KAFKA_VERSION}/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz \
     && tar -zxf /usr/local/src/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz -C /usr/local/ \
     && rm -rf /usr/local/src/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz \
+    && sed -i "s#log.dirs=.*#log.dirs=/var/lib/kafka#g" /usr/local/kafka_${SCALA_VERSION}-${KAFKA_VERSION}/config/server.properties \
+    && mkdir -p /var/lib/kafka \
     && apt-get remove axel -y \
     && apt-get clean all \
-    && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p /var/lib/kafka
+    && rm -rf /var/lib/apt/lists/*
 
 ENV KAFKA_HOME=/usr/local/kafka_${SCALA_VERSION}-${KAFKA_VERSION} \
-    PATH=$KAFKA_HOME:$PATH
+    PATH=$KAFKA_HOME/bin:$PATH
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
