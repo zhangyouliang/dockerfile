@@ -3,7 +3,18 @@
 eg:
 
 ```shell
-docker run -it --net host --name cobbler1 \
+docker run -d --net host --name cobbler \
+-e Cobbler_SERVER_IP=10.211.55.14 \
+-e Cobbler_NEXT_SERVER_IP=10.211.55.14 \
+-e Cobbler_PASSWORD=root \
+-e Cobbler_DHCP_SUBNET=10.211.55.0 \
+-e Cobbler_DHCP_ROUTER=10.211.55.1 \
+-e Cobbler_DHCP_DNS=114.114.114.114 \
+-e Cobbler_DHCP_RANGE="10.211.55.100 10.211.55.150" \
+-v /root/iso:/iso:ro \
+cobbler:2.8.2
+
+docker run -d --net host --name cobbler \
 -e Cobbler_SERVER_IP=10.0.0.36 \
 -e Cobbler_NEXT_SERVER_IP=10.0.0.36 \
 -e Cobbler_PASSWORD=root \
@@ -12,7 +23,7 @@ docker run -it --net host --name cobbler1 \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
 -e Cobbler_DHCP_RANGE="10.0.0.240 10.0.0.250" \
 -v /root/iso:/iso:ro \
-hub.xmitd.com/public/cobbler:2.8.2
+cobbler:2.8.2
 ```
 Cobbler Web：http://${Cobbler_SERVER_IP}/cobbler_web/
 
