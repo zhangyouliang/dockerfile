@@ -1,68 +1,122 @@
 version: '3.4'
 services:
-    zookeeper01:
-        image: hub.xmitd.com/swarm/zookeeper:3.4.10
-        ports:
-            - 2181/tcp
-            - 2888/tcp
-            - 3888/tcp
-        environment:
-            - ZOOKEEPER_ID=1
-            - ZOOKEEPER_CLUSTER=server.1=zookeeper01:2888:3888,server.2=zookeeper02:2888:3888,server.3=zookeeper03:2888:3888
+    node01:
+        image: daocloud.io/buxiaomo/zookeeper:3.4.10
         networks:
             zookeeper:
-                aliases:
-                    - zookeeper01
+        environment:
+            ZOOKEEPER_CONFIG: |
+                id=1
+                tickTime=2000
+                initLimit=10
+                syncLimit=5
+                clientPort=2181
+                maxClientCnxns=60
+                zookeeper.cluster=server.1=10.211.55.29:2888:3888,server.2=10.211.55.30:2888:3888,server.3=10.211.55.31:2888:3888
+        volumes:
+            - /var/lib/zookeeper:/var/lib/zookeeper:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
         deploy:
             mode: replicated
             replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '4'
+                    memory: 4G
+                reservations:
+                    cpus: '2'
+                    memory: 2G
+            placement:
+                constraints:
+                    - node.labels.zookeeper.node01 == true
         logging:
             driver: json-file
             options:
                 max-file: '3'
                 max-size: 100m
-    zookeeper02:
-        image: hub.xmitd.com/swarm/zookeeper:3.4.10
-        ports:
-            - 2181/tcp
-            - 2888/tcp
-            - 3888/tcp
-        environment:
-            - ZOOKEEPER_ID=2
-            - ZOOKEEPER_CLUSTER=server.1=zookeeper01:2888:3888,server.2=zookeeper02:2888:3888,server.3=zookeeper03:2888:3888
+    node02:
+        image: daocloud.io/buxiaomo/zookeeper:3.4.10
         networks:
             zookeeper:
-                aliases:
-                    - zookeeper02
+        environment:
+            ZOOKEEPER_CONFIG: |
+                id=2
+                tickTime=2000
+                initLimit=10
+                syncLimit=5
+                clientPort=2181
+                maxClientCnxns=60
+                zookeeper.cluster=server.1=10.211.55.29:2888:3888,server.2=10.211.55.30:2888:3888,server.3=10.211.55.31:2888:3888
+        volumes:
+            - /var/lib/zookeeper:/var/lib/zookeeper:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
         deploy:
             mode: replicated
             replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '4'
+                    memory: 4G
+                reservations:
+                    cpus: '2'
+                    memory: 2G
+            placement:
+                constraints:
+                    - node.labels.zookeeper.node02 == true
         logging:
             driver: json-file
             options:
                 max-file: '3'
                 max-size: 100m
-    zookeeper03:
-        image: hub.xmitd.com/swarm/zookeeper:3.4.10
-        ports:
-            - 2181/tcp
-            - 2888/tcp
-            - 3888/tcp
-        environment:
-            - ZOOKEEPER_ID=3
-            - ZOOKEEPER_CLUSTER=server.1=zookeeper01:2888:3888,server.2=zookeeper02:2888:3888,server.3=zookeeper03:2888:3888
+
+    node03:
+        image: daocloud.io/buxiaomo/zookeeper:3.4.10
         networks:
             zookeeper:
-                aliases:
-                    - zookeeper03
+        environment:
+            ZOOKEEPER_CONFIG: |
+                id=2
+                tickTime=2000
+                initLimit=10
+                syncLimit=5
+                clientPort=2181
+                maxClientCnxns=60
+                zookeeper.cluster=server.1=10.211.55.29:2888:3888,server.2=10.211.55.30:2888:3888,server.3=10.211.55.31:2888:3888
+        volumes:
+            - /var/lib/zookeeper:/var/lib/zookeeper:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
         deploy:
             mode: replicated
             replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '4'
+                    memory: 4G
+                reservations:
+                    cpus: '2'
+                    memory: 2G
+            placement:
+                constraints:
+                    - node.labels.zookeeper.node02 == true
         logging:
             driver: json-file
             options:
                 max-file: '3'
                 max-size: 100m
+
 networks:
     zookeeper:
-        external: true
+        external:
+            name: "host"
