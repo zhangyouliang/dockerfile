@@ -1,4 +1,5 @@
 FROM centos:7.3.1611
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
     && yum install yum-utils epel-release wget pykickstart curl -y \
