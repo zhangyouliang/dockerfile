@@ -1,11 +1,12 @@
 # etcd
 
 构建容器
-
-    docker build -t etcd:latest .
+```
+docker build -t daocloud.io/buxiaomo/etcd:3.2.9 .
+```
 
 如何启动etcd容器
-
+```
 docker run -d --name etcd \
 --net host \
 daocloud.io/buxiaomo/etcd:3.2.9 \
@@ -13,7 +14,7 @@ daocloud.io/buxiaomo/etcd:3.2.9 \
 --data-dir /etcd \
 --advertise-client-urls http://0.0.0.0:4001 \
 --initial-advertise-peer-urls http://0.0.0.0:7001
-
+```
 添加一个特权账号并开启认证
 
     docker exec -it etcd etcdctl user add root
