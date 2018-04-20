@@ -1,7 +1,7 @@
 FROM golang:1.9.1
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
-# COPY sources.list /etc/apt/sources.list
+COPY sources.list /etc/apt/sources.list
 
 ENV REPO https://github.com/prikevs/ngrok.git
 ENV NGROK_HOME /usr/local/ngrok

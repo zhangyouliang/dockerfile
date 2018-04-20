@@ -1,5 +1,5 @@
 FROM alpine:3.5
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 

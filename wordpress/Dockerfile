@@ -1,5 +1,5 @@
 FROM wordpress:4.9.4-php7.2-fpm-alpine
-MAINTAINER "Cloth Mo" <root@xmitd.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN apk add --no-cache git
 

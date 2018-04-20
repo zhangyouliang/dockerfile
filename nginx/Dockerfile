@@ -1,5 +1,5 @@
 FROM nginx:1.13.8-alpine
-MAINTAINER "Cloth Mo" <root@xmitd.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN apk add --no-cache git
 

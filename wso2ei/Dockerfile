@@ -1,4 +1,5 @@
 FROM ubuntu:16.04
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN apt-get update \
     && apt-get install curl unzip wget -y \

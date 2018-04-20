@@ -1,4 +1,5 @@
 FROM php:5.6.33-fpm-alpine3.4
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 

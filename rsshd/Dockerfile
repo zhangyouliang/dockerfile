@@ -1,5 +1,5 @@
 FROM alpine:3.6
-MAINTAINER MoMo <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 ENV LANG=en_US.UTF-8 \
     TZ=Asia/Shanghai

@@ -1,4 +1,5 @@
 FROM alpine:3.5
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 

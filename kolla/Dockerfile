@@ -1,5 +1,5 @@
 FROM docker.io/betacloud/kolla-ansible:4.0.2
-MAINTAINER "Cloth Mo" <root@xmtid.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 USER root
 

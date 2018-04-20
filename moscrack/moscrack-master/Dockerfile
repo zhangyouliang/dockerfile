@@ -1,5 +1,5 @@
 FROM debian:jessie
-MAINTAINER "Mo" <root@ywclub.org>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 # 构建软件运行环境
 RUN apt-get update \

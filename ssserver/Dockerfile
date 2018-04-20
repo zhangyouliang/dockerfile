@@ -1,5 +1,5 @@
 FROM alpine:3.5
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 ENV SS_VERSION 1.2.1
 RUN apk add --virtual build --no-cache curl  \

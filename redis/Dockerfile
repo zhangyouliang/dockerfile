@@ -1,5 +1,5 @@
 FROM redis:4.0.7-alpine
-MAINTAINER "Cloth Mo" <root@xmitd.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN apk add --no-cache git
 

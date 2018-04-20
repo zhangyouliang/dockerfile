@@ -1,4 +1,5 @@
 FROM java:8u111-jre
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY sources.list /etc/apt/sources.list
 

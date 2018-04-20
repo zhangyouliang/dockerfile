@@ -1,4 +1,5 @@
 FROM splunk/universalforwarder:7.0.0
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY sources.list /etc/apt/sources.list
 

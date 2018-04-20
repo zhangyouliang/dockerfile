@@ -1,4 +1,5 @@
 FROM debian:jessie
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN apt-get update \
     && apt-get install wget --no-install-recommends -y \
