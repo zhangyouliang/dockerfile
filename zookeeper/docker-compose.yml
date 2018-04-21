@@ -74,7 +74,7 @@ services:
             zookeeper:
         environment:
             ZOOKEEPER_CONFIG: |
-                id=2
+                id=3
                 zookeeper.cluster=10.211.55.29:2888:3888,10.211.55.30:2888:3888,10.211.55.31:2888:3888
         volumes:
             - /var/lib/zookeeper:/var/lib/zookeeper:rw
