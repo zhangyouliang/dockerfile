@@ -20,13 +20,18 @@ do
     case ${K} in
         "id" )
             if [ ! -e /var/lib/zookeeper/myid ];then
-                echo "${K}" > /var/lib/zookeeper/myid
+                echo "${V}" > /var/lib/zookeeper/myid
             fi
             id=true
         ;;
         "zookeeper.cluster" )
             if [ ! -e /var/lib/zookeeper/myid ];then
-                echo ${K} | sed "s/,/\n/g" >> ${ZOOKEEPER_HOME}/conf/zoo.cfg
+                i=1
+                for node in $(echo ${V} | sed "s/,/\n/g")
+                do
+                    echo "server.${i}=${node}"  >> ${ZOOKEEPER_HOME}/conf/zoo.cfg
+                done
+                i=i+1
             fi
             cluster=true
         ;;
