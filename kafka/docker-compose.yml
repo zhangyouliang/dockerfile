@@ -11,6 +11,7 @@ services:
                 advertised.host.name=10.211.55.29
                 advertised.port=9092
                 zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
+                default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
                 auto.create.topics.enable=true
@@ -27,11 +28,11 @@ services:
                 order: stop-first
             resources:
                 limits:
-                    cpus: '4'
-                    memory: 4G
-                reservations:
                     cpus: '2'
-                    memory: 2G
+                    memory: 1G
+                reservations:
+                    cpus: '1'
+                    memory: 500M
             placement:
                 constraints:
                     - node.labels.kafka.node01 == true
@@ -52,6 +53,7 @@ services:
                 advertised.host.name=10.211.55.30
                 advertised.port=9092
                 zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
+                default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
                 auto.create.topics.enable=true
@@ -68,11 +70,11 @@ services:
                 order: stop-first
             resources:
                 limits:
-                    cpus: '4'
-                    memory: 4G
-                reservations:
                     cpus: '2'
-                    memory: 2G
+                    memory: 1G
+                reservations:
+                    cpus: '1'
+                    memory: 500M
             placement:
                 constraints:
                     - node.labels.kafka.node02 == true
@@ -93,6 +95,7 @@ services:
                 advertised.host.name=10.211.55.31
                 advertised.port=9092
                 zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
+                default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
                 auto.create.topics.enable=true
@@ -109,11 +112,11 @@ services:
                 order: stop-first
             resources:
                 limits:
-                    cpus: '4'
-                    memory: 4G
-                reservations:
                     cpus: '2'
-                    memory: 2G
+                    memory: 1G
+                reservations:
+                    cpus: '1'
+                    memory: 500M
             placement:
                 constraints:
                     - node.labels.kafka.node03 == true
