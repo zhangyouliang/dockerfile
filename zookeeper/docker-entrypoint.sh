@@ -18,22 +18,23 @@ do
     K=$(echo ${C} | awk -F '=' '{print $1}')
     V=$(echo ${C} | awk -F '=' '{print $2}')
     case ${K} in
+        "zookeeper.cluster" )
+            i=1
+            for node in $(echo ${V} | sed "s/,/\n/g")
+            do
+                grep -w "server.${i}=${node}" ${ZOOKEEPER_HOME}/conf/zoo.cfg &> /dev/null
+                if [ $? -ne 0 ];then
+                    echo "server.${i}=${node}"  >> ${ZOOKEEPER_HOME}/conf/zoo.cfg
+                fi
+                i=$(($i+1))
+            done
+            cluster=true
+        ;;
         "id" )
             if [ ! -e /var/lib/zookeeper/myid ];then
                 echo "${V}" > /var/lib/zookeeper/myid
             fi
             id=true
-        ;;
-        "zookeeper.cluster" )
-            if [ ! -e /var/lib/zookeeper/myid ];then
-                i=1
-                for node in $(echo ${V} | sed "s/,/\n/g")
-                do
-                    echo "server.${i}=${node}"  >> ${ZOOKEEPER_HOME}/conf/zoo.cfg
-                done
-                i=i+1
-            fi
-            cluster=true
         ;;
         * )
             if [ ${K} != "dataDir" ];then
