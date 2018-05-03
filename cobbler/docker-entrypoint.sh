@@ -10,6 +10,7 @@ sed -i 's/manage_dhcp:.*/manage_dhcp: 1/g' /etc/cobbler/settings
 sed -i "s/192.168.1.0/${Cobbler_DHCP_SUBNET}/" /etc/cobbler/dhcp.template
 sed -i "s/192.168.1.5/${Cobbler_DHCP_ROUTER}/" /etc/cobbler/dhcp.template
 sed -i "s/192.168.1.1;/${Cobbler_DHCP_DNS};/" /etc/cobbler/dhcp.template
+sed -i "s/255.255.255.0/${Cobbler_DHCP_NETMASK}/" /etc/cobbler/dhcp.template
 sed -i "s/192.168.1.100 192.168.1.254/${Cobbler_DHCP_RANGE}/" /etc/cobbler/dhcp.template
 sed -i "s/^#ServerName www.example.com:80/ServerName :80/" /etc/httpd/conf/httpd.conf
 sed -i "s/service %s restart/supervisorctl restart %s/g" /usr/lib/python2.7/site-packages/cobbler/modules/sync_post_restart_services.py
@@ -25,5 +26,5 @@ cobbler sync
 pkill cobblerd
 pkill httpd
 rm -rf /run/httpd/*
-
+# docker volume rm cobbler_etc cobbler_lib cobbler_log cobbler_tftpboot cobbler_www
 exec supervisord -n -c /etc/supervisord.conf

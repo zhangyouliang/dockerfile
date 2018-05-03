@@ -1,24 +1,33 @@
 version: '3.4'
 services:
-    cobbler:
-        image: hub.xmitd.com/public/cobbler:2.8.2
-        hostname: cobbler
-        network_mode: host
+    server:
+        image: cobbler:2.8.2
+        networks:
+            cobbler:
         volumes:
             - tftpboot:/var/lib/tftpboot
             - log:/var/log/cobbler
             - www:/var/www/cobbler
             - lib:/var/lib/cobbler
             - etc:/etc/cobbler
-            - ./iso:/iso:ro
+            - /mnt/iso:/iso:ro
         environment:
-            - Cobbler_SERVER_IP=10.0.0.36
-            - Cobbler_NEXT_SERVER_IP=10.0.0.36
+            - Cobbler_SERVER_IP=10.0.8.254
+            - Cobbler_NEXT_SERVER_IP=10.0.8.254
             - Cobbler_PASSWORD=root
             - Cobbler_DHCP_SUBNET=10.0.0.0
-            - Cobbler_DHCP_ROUTER=10.0.0.1
+            - Cobbler_DHCP_ROUTER=10.0.1.1
             - Cobbler_DHCP_DNS=114.114.114.114
-            - Cobbler_DHCP_RANGE="10.0.0.240 10.0.0.245"
+            - Cobbler_DHCP_RANGE="10.0.8.100 10.0.8.200"
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+            placement:
+                constraints:
+                    - node.labels.cobbler == true
         logging:
             driver: json-file
             options:
@@ -35,3 +44,8 @@ volumes:
         driver: local
     etc:
         driver: local
+
+networks:
+    cobbler:
+        external:
+            name: "host"

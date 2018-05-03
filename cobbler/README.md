@@ -24,6 +24,17 @@ docker run -d --net host --name cobbler \
 -e Cobbler_DHCP_RANGE="10.0.0.240 10.0.0.250" \
 -v /root/iso:/iso:ro \
 cobbler:2.8.2
+
+docker run -d --net host --name cobbler \
+-e Cobbler_SERVER_IP=10.0.8.254 \
+-e Cobbler_NEXT_SERVER_IP=10.0.8.254 \
+-e Cobbler_PASSWORD=root \
+-e Cobbler_DHCP_SUBNET=10.0.0.0 \
+-e Cobbler_DHCP_ROUTER=10.0.1.1 \
+-e Cobbler_DHCP_DNS=114.114.114.114 \
+-e Cobbler_DHCP_RANGE="10.0.9.100 10.0.9.200" \
+-v /root/iso:/iso:ro \
+cobbler:2.8.2
 ```
 Cobbler Web：http://${Cobbler_SERVER_IP}/cobbler_web/
 
