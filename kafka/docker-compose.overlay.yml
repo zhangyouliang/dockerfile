@@ -1,0 +1,151 @@
+version: '3.4'
+services:
+    node01:
+        image: daocloud.io/buxiaomo/kafka:0.10.2.1
+        command: ping localhost
+        networks:
+            kafka:
+                aliases:
+                    - kafka01
+            zookeeper:
+                aliases:
+                    - kafka01
+        environment:
+            KAFKA_CONFIG: |
+                broker.id=1
+                host.name=10.211.55.29
+                advertised.host.name=10.211.55.29
+                advertised.port=9092
+                zookeeper.connect=zk01:2181,zk02:2181,zk03:2181
+                default.replication.factor=2
+                num.partitions=6
+                delete.topic.enable=true
+                auto.create.topics.enable=true
+                log.cleanup.policy=delete
+        volumes:
+            - /var/lib/kafka:/var/lib/kafka:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '2'
+                    memory: 1G
+                reservations:
+                    cpus: '1'
+                    memory: 500M
+            placement:
+                constraints:
+                    - node.labels.kafka.node01 == true
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+    node02:
+        image: daocloud.io/buxiaomo/kafka:0.10.2.1
+        command: ping localhost
+        networks:
+            kafka:
+                aliases:
+                    - kafka02
+            zookeeper:
+                aliases:
+                    - kafka02
+        environment:
+            KAFKA_CONFIG: |
+                broker.id=2
+                host.name=10.211.55.30
+                advertised.host.name=10.211.55.30
+                advertised.port=9092
+                zookeeper.connect=zk01:2181,zk02:2181,zk03:2181
+                default.replication.factor=2
+                num.partitions=6
+                delete.topic.enable=true
+                auto.create.topics.enable=true
+                log.cleanup.policy=delete
+        volumes:
+            - /var/lib/kafka:/var/lib/kafka:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '2'
+                    memory: 1G
+                reservations:
+                    cpus: '1'
+                    memory: 500M
+            placement:
+                constraints:
+                    - node.labels.kafka.node02 == true
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+    node03:
+        image: daocloud.io/buxiaomo/kafka:0.10.2.1
+        command: ping localhost
+        networks:
+            kafka:
+                aliases:
+                    - kafka03
+            zookeeper:
+                aliases:
+                    - kafka03
+        environment:
+            KAFKA_CONFIG: |
+                broker.id=3
+                host.name=10.211.55.31
+                advertised.host.name=10.211.55.31
+                advertised.port=9092
+                zookeeper.connect=zk01:2181,zk02:2181,zk03:2181
+                default.replication.factor=2
+                num.partitions=6
+                delete.topic.enable=true
+                auto.create.topics.enable=true
+                log.cleanup.policy=delete
+        volumes:
+            - /var/lib/kafka:/var/lib/kafka:rw
+            - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: stop-first
+            resources:
+                limits:
+                    cpus: '2'
+                    memory: 1G
+                reservations:
+                    cpus: '1'
+                    memory: 500M
+            placement:
+                constraints:
+                    - node.labels.kafka.node03 == true
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
+networks:
+    kafka:
+        external: true
+    zookeeper:
+        external: true

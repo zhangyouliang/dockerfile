@@ -1,7 +1,7 @@
 FROM java:8u111-jre
 MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
-COPY sources.list /etc/apt/sources.list
+COPY sources.jessie.list /etc/apt/sources.list
 
 RUN echo "Asia/Shanghai" > /etc/timezone \
     && dpkg-reconfigure -f noninteractive tzdata
@@ -22,9 +22,17 @@ RUN apt-get update \
     && apt-get remove axel -y \
     && apt-get clean all \
     && rm -rf /var/lib/apt/lists/*
-
 ENV KAFKA_HOME=/usr/local/kafka_${SCALA_VERSION}-${KAFKA_VERSION} \
     PATH=$KAFKA_HOME/bin:$PATH
+
+# Curl
+COPY sources.ubuntu.list /etc/apt/sources.list
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 \
+    && apt-get update \
+    && apt-get install curl jq --no-install-recommends -y \
+    && apt-get autoremove -y \
+    && apt-get clean all \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
