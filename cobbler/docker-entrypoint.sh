@@ -109,8 +109,21 @@ cobbler sync
 # cobbler get-loaders
 # cobbler signature update
 
+
+for file in $(ls /iso/*.iso)
+do
+    echo "import ${file}"
+    dirname=$(echo ${file}  | awk -F '/' '{print $NF}' | sed 's/.iso//g')
+    mkdir -p /mnt/${dirname}
+    mount ${file} /mnt/${dirname}
+    cobbler import --name=${dirname} --path=/mnt/${dirname}
+    umount /mnt/${dirname}
+done
+cobbler sync
+
 pkill cobblerd
 pkill httpd
 rm -rf /run/httpd/*
 # docker volume rm cobbler_etc cobbler_lib cobbler_log cobbler_tftpboot cobbler_www
+
 exec supervisord -n -c /etc/supervisord.conf

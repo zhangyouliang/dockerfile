@@ -15,23 +15,25 @@
 
 ```shell
 docker run -d --net host --name cobbler \
+--privileged=true \
 -e Cobbler_SERVER_IP=10.211.55.14 \
 -e Cobbler_PASSWORD=root \
 -e Cobbler_DHCP_SUBNET=10.211.55.0 \
 -e Cobbler_DHCP_ROUTER=10.211.55.1 \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
--e Cobbler_DHCP_RANGE=10.211.55.100 10.211.55.150 \
--v /root/iso:/iso:ro \
-cobbler:2.8.2
+-e Cobbler_DHCP_RANGE='10.211.55.100 10.211.55.150' \
+-e Cobbler_DHCP_NETMASK=255.255.255.0 \
+-v /mnt/iso:/iso:ro cobbler
 
 docker run -d --net host --name cobbler \
+--privileged=true \
 -e Cobbler_SERVER_IP=10.0.0.36 \
 -e Cobbler_PASSWORD=root \
 -e Cobbler_DHCP_SUBNET=10.0.0.0 \
 -e Cobbler_DHCP_ROUTER=10.0.0.10 \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
 -e Cobbler_DHCP_RANGE=10.0.0.240 10.0.0.250 \
--v /root/iso:/iso:ro \
+-v /mnt/iso:/iso:ro \
 cobbler:2.8.2
 ```
 ## Cobbler Web
@@ -42,20 +44,41 @@ Cobbler Web：http://${Cobbler_SERVER_IP}/cobbler_web
 
 登录密码：cobbler
 
-# 导入镜像
-
-1、将镜像在宿主机mount到 `/root/ios` 目录，以CentOS为例：
+## 导入镜像
+### 自动导入
+​        将镜像放在宿主机mount到 `/ios` 目录，以上面的启动命令中的参数为例，将ISO镜像放在 `/mnt/iso` 目录并启动Cobbler容器，容器启动后将会自动导入镜像：
 
 ```Shell
-mkdir /root/iso/centos
-mount CentOS-7-x86_64-DVD-1511.iso /root/iso/centos
+root@Docker:~# ls /mnt/iso/
+CentOS-7-x86_64-DVD-1511.iso  CentOS-7-x86_64-DVD-1611.iso  CentOS-7-x86_64-DVD-1708.iso  ubuntu-16.04.3-server-amd64.iso
 ```
 
-2、导入镜像
+### 手动导入
+
+​        将镜像放在宿主机mount到 `/ios` 目录，以上面的启动命令中的参数为例，将ISO镜像放在 `/mnt/iso` 目录或使用 `docker cp` 命令本示例以mount方式：
 
 ```shell
-docker exec -it cobbler ls /iso
-docker exec -it cobbler cobbler import --name=CentOS-7.3.1611-x86_64 --path=/iso/centos
+# 查看镜像文件
+root@Docker:~# docker exec -it cobbler ls /iso
+CentOS-7-x86_64-DVD-1511.iso  CentOS-7-x86_64-DVD-1708.iso
+CentOS-7-x86_64-DVD-1611.iso  ubuntu-16.04.3-server-amd64.iso
+
+# 挂在镜像
+root@Docker:~# docker exec -it cobbler mount /iso/CentOS-7-x86_64-DVD-1511.iso /tmp
+mount: /dev/loop0 is write-protected, mounting read-only
+
+# 导入镜像
+root@Docker:~# docker exec -it cobbler cobbler import --name=CentOS-7-x86_64-DVD-1511 --path=/tmp
+task started: 2018-05-04_200944_import
+task started (id=Media import, time=Fri May  4 20:09:44 2018)
+......
+*** TASK COMPLETE ***
+
+# 卸载镜像
+root@Docker:~# docker exec -it cobbler umount /tmp
+
+# 同步相关文件
 docker exec -it cobbler cobbler sync
 ```
+
 

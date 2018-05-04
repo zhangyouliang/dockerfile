@@ -2,7 +2,7 @@ FROM centos:7.3.1611
 MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
-    && yum install yum-utils epel-release wget pykickstart curl file -y \
+    && yum install yum-utils epel-release wget pykickstart curl file util-linux -y \
     && yum-config-manager --add-repo http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/CentOS_7/home:libertas-ict:cobbler28.repo \
     && yum makecache \
     && yum -y install cobbler-2.8.2-6.1 cobbler-web-2.8.2-6.1 tftp-server dhcp openssl supervisor \
@@ -26,12 +26,12 @@ COPY docker-entrypoint.sh /usr/local/bin/
 COPY supervisord.d/conf.ini /etc/supervisord.d/conf.ini
 
 ENV Cobbler_SERVER_IP=null \
-    Cobbler_NEXT_SERVER_IP=null \
     Cobbler_PASSWORD=root \
     Cobbler_DHCP_SUBNET=null \
     Cobbler_DHCP_ROUTER=null \
     Cobbler_DHCP_DNS=114.114.114.114 \
-    Cobbler_DHCP_RANGE=null
+    Cobbler_DHCP_RANGE=null \
+    Cobbler_DHCP_NETMASK=null
 
 VOLUME /etc/cobbler /var/lib/cobbler /var/www/cobbler /var/log/cobbler /var/lib/tftpboot
 
