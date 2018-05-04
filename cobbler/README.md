@@ -9,7 +9,7 @@
 | Cobbler_DHCP_SUBNET | 子网地址 | null |
 | Cobbler_DHCP_ROUTER | 网关地址 | null |
 | Cobbler_DHCP_DNS | DNS地址 | 114.114.114.114 |
-| Cobbler_DHCP_RANGE | 装机是分配的IP地址池 | null |
+| Cobbler_DHCP_RANGE | 装机时分配的IP地址池 | null |
 
 ## 示例
 
@@ -23,7 +23,8 @@ docker run -d --net host --name cobbler \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
 -e Cobbler_DHCP_RANGE='10.211.55.100 10.211.55.150' \
 -e Cobbler_DHCP_NETMASK=255.255.255.0 \
--v /mnt/iso:/iso:ro cobbler
+-v /mnt/iso:/iso:ro \
+mo2017/cobbler:2.8.2
 
 docker run -d --net host --name cobbler \
 --privileged=true \
@@ -34,7 +35,7 @@ docker run -d --net host --name cobbler \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
 -e Cobbler_DHCP_RANGE=10.0.0.240 10.0.0.250 \
 -v /mnt/iso:/iso:ro \
-cobbler:2.8.2
+mo2017/cobbler:2.8.2
 ```
 ## Cobbler Web
 

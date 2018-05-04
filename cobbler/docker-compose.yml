@@ -1,7 +1,7 @@
 version: '3.4'
 services:
     server:
-        image: cobbler:2.8.2
+        image: mo2017/cobbler:2.8.2
         networks:
             cobbler:
         volumes:
@@ -18,6 +18,7 @@ services:
             - Cobbler_DHCP_ROUTER=10.0.1.1
             - Cobbler_DHCP_DNS=114.114.114.114
             - Cobbler_DHCP_RANGE=10.0.8.100 10.0.8.200
+            - Cobbler_DHCP_NETMASK=255.255.255.0
         deploy:
             mode: replicated
             replicas: 1
