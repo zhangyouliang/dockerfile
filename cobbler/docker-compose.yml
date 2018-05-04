@@ -13,12 +13,11 @@ services:
             - /mnt/iso:/iso:ro
         environment:
             - Cobbler_SERVER_IP=10.0.8.254
-            - Cobbler_NEXT_SERVER_IP=10.0.8.254
             - Cobbler_PASSWORD=root
             - Cobbler_DHCP_SUBNET=10.0.0.0
             - Cobbler_DHCP_ROUTER=10.0.1.1
             - Cobbler_DHCP_DNS=114.114.114.114
-            - Cobbler_DHCP_RANGE="10.0.8.100 10.0.8.200"
+            - Cobbler_DHCP_RANGE=10.0.8.100 10.0.8.200
         deploy:
             mode: replicated
             replicas: 1

@@ -2,12 +2,12 @@ FROM centos:7.3.1611
 MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 RUN localedef -i en_US -f UTF-8 en_US.UTF-8 \
-    && yum install yum-utils epel-release wget pykickstart curl -y \
+    && yum install yum-utils epel-release wget pykickstart curl file -y \
     && yum-config-manager --add-repo http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/CentOS_7/home:libertas-ict:cobbler28.repo \
     && yum makecache \
-    && yum -y install cobbler tftp-server dhcp openssl cobbler-web supervisor \
+    && yum -y install cobbler-2.8.2-6.1 cobbler-web-2.8.2-6.1 tftp-server dhcp openssl supervisor \
     && yum clean all \
-    && yum -y update
+    && rm -rf /var/cache/yum/*
 
 RUN wget -O /var/lib/cobbler/loaders/README http://cobbler.github.io/loaders/README \
     && wget -O /var/lib/cobbler/loaders/COPYING.elilo http://cobbler.github.io/loaders/COPYING.elilo \
