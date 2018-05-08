@@ -109,7 +109,6 @@ cobbler sync
 # cobbler get-loaders
 # cobbler signature update
 
-
 for file in $(ls /iso/*.iso)
 do
     echo "import ${file}"
@@ -124,6 +123,5 @@ cobbler sync
 pkill cobblerd
 pkill httpd
 rm -rf /run/httpd/*
-# docker volume rm cobbler_etc cobbler_lib cobbler_log cobbler_tftpboot cobbler_www
 
 exec supervisord -n -c /etc/supervisord.conf

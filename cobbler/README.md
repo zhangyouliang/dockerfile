@@ -14,17 +14,27 @@
 ## 示例
 
 ```shell
+docker volume create 
+docker volume create 
+docker volume create 
+docker volume create 
+docker volume create 
+
 docker run -d --net host --name cobbler \
 --privileged=true \
--e Cobbler_SERVER_IP=10.211.55.14 \
+-e Cobbler_SERVER_IP=10.0.11.253 \
 -e Cobbler_PASSWORD=root \
--e Cobbler_DHCP_SUBNET=10.211.55.0 \
--e Cobbler_DHCP_ROUTER=10.211.55.1 \
+-e Cobbler_DHCP_SUBNET=10.0.0.0 \
+-e Cobbler_DHCP_ROUTER=10.0.1.1 \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
--e Cobbler_DHCP_RANGE='10.211.55.100 10.211.55.150' \
--e Cobbler_DHCP_NETMASK=255.255.255.0 \
--v /mnt/iso:/iso:ro \
-mo2017/cobbler:2.8.2
+-e Cobbler_DHCP_RANGE='10.0.11.200 10.0.11.210' \
+-e Cobbler_DHCP_NETMASK=255.255.0.0 \
+-v cobbler_tftpboot:/var/lib/tftpboot \
+-v cobbler_log:/var/log/cobbler \
+-v cobbler_www:/var/www/cobbler \
+-v cobbler_lib:/var/lib/cobbler \
+-v cobbler_etc:/etc/cobbler \
+-v /mnt/iso:/iso:ro cobbler:2.8.2
 
 docker run -d --net host --name cobbler \
 --privileged=true \
@@ -34,8 +44,13 @@ docker run -d --net host --name cobbler \
 -e Cobbler_DHCP_ROUTER=10.0.0.10 \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
 -e Cobbler_DHCP_RANGE=10.0.0.240 10.0.0.250 \
--v /mnt/iso:/iso:ro \
-mo2017/cobbler:2.8.2
+-v tftpboot:/var/lib/tftpboot \
+-v cobbler_tftpboot:/var/lib/tftpboot \
+-v cobbler_log:/var/log/cobbler \
+-v cobbler_www:/var/www/cobbler \
+-v cobbler_lib:/var/lib/cobbler \
+-v cobbler_etc:/etc/cobbler \
+cobbler:2.8.2
 ```
 ## Cobbler Web
 
@@ -69,7 +84,7 @@ root@Docker:~# docker exec -it cobbler mount /iso/CentOS-7-x86_64-DVD-1511.iso /
 mount: /dev/loop0 is write-protected, mounting read-only
 
 # 导入镜像
-root@Docker:~# docker exec -it cobbler cobbler import --name=CentOS-7-x86_64-DVD-1511 --path=/tmp
+root@Docker:~# docker exec -it cobbler cobbler import --name=CentOS-7-x86_64-DVD-1708 --path=/mnt/iso/centos1708
 task started: 2018-05-04_200944_import
 task started (id=Media import, time=Fri May  4 20:09:44 2018)
 ......
