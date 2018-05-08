@@ -1,7 +1,7 @@
 version: '3.4'
 services:
     server:
-        image: cobbler:2.8.2
+        image: mo2017/cobbler:2.8.2
         networks:
             cobbler:
         volumes:

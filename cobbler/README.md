@@ -14,12 +14,6 @@
 ## 示例
 
 ```shell
-docker volume create 
-docker volume create 
-docker volume create 
-docker volume create 
-docker volume create 
-
 docker run -d --net host --name cobbler \
 --privileged=true \
 -e Cobbler_SERVER_IP=10.0.11.253 \
@@ -50,7 +44,7 @@ docker run -d --net host --name cobbler \
 -v cobbler_www:/var/www/cobbler \
 -v cobbler_lib:/var/lib/cobbler \
 -v cobbler_etc:/etc/cobbler \
-cobbler:2.8.2
+-v /mnt/iso:/iso:ro mo2017/cobbler:2.8.2
 ```
 ## Cobbler Web
 
