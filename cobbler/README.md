@@ -32,13 +32,13 @@ docker run -d --net host --name cobbler \
 
 docker run -d --net host --name cobbler \
 --privileged=true \
--e Cobbler_SERVER_IP=10.0.0.36 \
+-e Cobbler_SERVER_IP=10.211.55.14 \
 -e Cobbler_PASSWORD=root \
--e Cobbler_DHCP_SUBNET=10.0.0.0 \
--e Cobbler_DHCP_ROUTER=10.0.0.10 \
+-e Cobbler_DHCP_SUBNET=10.211.55.0 \
+-e Cobbler_DHCP_ROUTER=10.211.55.1 \
 -e Cobbler_DHCP_DNS=114.114.114.114 \
--e Cobbler_DHCP_RANGE=10.0.0.240 10.0.0.250 \
--v tftpboot:/var/lib/tftpboot \
+-e Cobbler_DHCP_RANGE='10.211.55.100 10.211.55.110' \
+-e Cobbler_DHCP_NETMASK=255.255.255.0 \
 -v cobbler_tftpboot:/var/lib/tftpboot \
 -v cobbler_log:/var/log/cobbler \
 -v cobbler_www:/var/www/cobbler \
@@ -90,5 +90,6 @@ root@Docker:~# docker exec -it cobbler umount /tmp
 # 同步相关文件
 docker exec -it cobbler cobbler sync
 ```
+cobbler import --name=EXSI6.5 --path=/iso/esxi
 
 

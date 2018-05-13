@@ -47,6 +47,15 @@ logvol /  --fstype="xfs" --size=51200 --name=root --vgname=centos
 logvol swap  --fstype="swap" --size=2048 --name=swap --vgname=centos
 logvol /home  --fstype="xfs" --size=10240 --name=home --vgname=centos
 
+%include /tmp/part-include
+%pre --interpreter=/bin/bash
+ls /sys/block/
+disk=$(while read line;do awk ‘BEGIN{} {if ($3 == "33554432" && $2 == "0") print $4} END{}‘;done < /proc/partitions)
+cat > /tmp/part-include << EOF
+part / --asprimary --fstype="ext4" --ondisk=$disk --size=24576
+part swap --fstype="swap" --ondisk=$disk --size=8191
+%end
+
 %packages
 @^minimal
 @core

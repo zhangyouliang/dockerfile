@@ -108,16 +108,17 @@ rm -rf /run/httpd/*
 cobbler sync
 # cobbler get-loaders
 # cobbler signature update
-
-for file in $(ls /iso/*.iso)
-do
-    echo "import ${file}"
-    dirname=$(echo ${file}  | awk -F '/' '{print $NF}' | sed 's/.iso//g')
-    mkdir -p /mnt/${dirname}
-    mount ${file} /mnt/${dirname}
-    cobbler import --name=${dirname} --path=/mnt/${dirname}
-    umount /mnt/${dirname}
-done
+# if [ $(ls -l /iso/*.iso &> /dev/null | wc -l) -gt 0 ];then
+    for file in $(ls /iso/*.iso)
+    do
+        echo "import ${file}"
+        dirname=$(echo ${file}  | awk -F '/' '{print $NF}' | sed 's/.iso//g')
+        mkdir -p /mnt/${dirname}
+        mount ${file} /mnt/${dirname}
+        cobbler import --name=${dirname} --path=/mnt/${dirname}
+        umount /mnt/${dirname}
+    done
+# fi
 cobbler sync
 
 pkill cobblerd
