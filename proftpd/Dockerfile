@@ -22,7 +22,7 @@ RUN groupmod -g 82 www-data \
     && sed -i "s/#LoadModule mod_sql\.c/LoadModule mod_sql\.c/g" /etc/proftpd/modules.conf \
     && sed -i "s/#LoadModule mod_sql_mysql.c/LoadModule mod_sql_mysql.c/g" /etc/proftpd/modules.conf \
     && sed -i "s/#LoadModule mod_quotatab_sql.c/LoadModule mod_quotatab_sql.c/g" /etc/proftpd/modules.conf \
-    && sed -i "s/^#.PassivePorts.*/PassivePorts 60000 60100/g" /etc/proftpd/proftpd.conf 
+    && sed -i "s/^#.PassivePorts.*/PassivePorts 60000 60100/g" /etc/proftpd/proftpd.conf
 
 EXPOSE 20 21 60000-60100
 
