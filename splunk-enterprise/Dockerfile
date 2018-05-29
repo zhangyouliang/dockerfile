@@ -1,2 +1,2 @@
-FROM splunk/splunk:7.1.0
+FROM splunk/splunk:7.0.4
 MAINTAINER "Xiao Mo" <root@xiaomo.red>
