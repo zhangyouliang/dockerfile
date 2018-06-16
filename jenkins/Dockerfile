@@ -25,7 +25,7 @@ ENV MAVEN_HOME /usr/share/maven/
 ENV PATH $PATH:$MAVEN_HOME/bin
 
 ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 17.12.0-ce
+ENV DOCKER_VERSION 18.03.1-ce
 RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz

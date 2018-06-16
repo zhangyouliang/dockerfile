@@ -7,10 +7,10 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=1
-                host.name=10.211.55.29
-                advertised.host.name=10.211.55.29
+                host.name=172.16.0.6
+                advertised.host.name=172.16.0.6
                 advertised.port=9092
-                zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
+                zookeeper.connect=172.16.0.6:2181,172.16.0.11:2181,172.16.0.2:2181
                 default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
@@ -26,13 +26,13 @@ services:
                 parallelism: 1
                 delay: 10s
                 order: stop-first
-            resources:
-                limits:
-                    cpus: '2'
-                    memory: 1G
-                reservations:
-                    cpus: '1'
-                    memory: 500M
+            # resources:
+            #     limits:
+            #         cpus: '2'
+            #         memory: 1G
+            #     reservations:
+            #         cpus: '1'
+            #         memory: 500M
             placement:
                 constraints:
                     - node.labels.kafka.node01 == true
@@ -49,10 +49,10 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=2
-                host.name=10.211.55.30
-                advertised.host.name=10.211.55.30
+                host.name=172.16.0.11
+                advertised.host.name=172.16.0.11
                 advertised.port=9092
-                zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
+                zookeeper.connect=172.16.0.6:2181,172.16.0.11:2181,172.16.0.2:2181
                 default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
@@ -68,13 +68,13 @@ services:
                 parallelism: 1
                 delay: 10s
                 order: stop-first
-            resources:
-                limits:
-                    cpus: '2'
-                    memory: 1G
-                reservations:
-                    cpus: '1'
-                    memory: 500M
+            # resources:
+            #     limits:
+            #         cpus: '2'
+            #         memory: 1G
+            #     reservations:
+            #         cpus: '1'
+            #         memory: 500M
             placement:
                 constraints:
                     - node.labels.kafka.node02 == true
@@ -91,10 +91,10 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=3
-                host.name=10.211.55.31
-                advertised.host.name=10.211.55.31
+                host.name=172.16.0.2
+                advertised.host.name=172.16.0.2
                 advertised.port=9092
-                zookeeper.connect=10.211.55.29:2181,10.211.55.30:2181,10.211.55.31:2181
+                zookeeper.connect=172.16.0.6:2181,172.16.0.11:2181,172.16.0.2:2181
                 default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
@@ -110,13 +110,13 @@ services:
                 parallelism: 1
                 delay: 10s
                 order: stop-first
-            resources:
-                limits:
-                    cpus: '2'
-                    memory: 1G
-                reservations:
-                    cpus: '1'
-                    memory: 500M
+            # resources:
+            #     limits:
+            #         cpus: '2'
+            #         memory: 1G
+            #     reservations:
+            #         cpus: '1'
+            #         memory: 500M
             placement:
                 constraints:
                     - node.labels.kafka.node03 == true

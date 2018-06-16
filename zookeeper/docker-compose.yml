@@ -7,11 +7,11 @@ services:
         environment:
             ZOOKEEPER_CONFIG: |
                 id=1
-                zookeeper.cluster=10.211.55.29:2888:3888,10.211.55.30:2888:3888,10.211.55.31:2888:3888
-        configs:
-            - source: zk01
-              target: /usr/local/zookeeper-3.4.10/conf/zoo.cfg
-              mode: 0644
+                zookeeper.cluster=172.16.0.6:2888:3888,172.16.0.11:2888:3888,172.16.0.2:2888:3888
+        # configs:
+        #     - source: zk01
+        #       target: /usr/local/zookeeper-3.4.10/conf/zoo.cfg
+        #       mode: 0644
         volumes:
             - /var/lib/zookeeper:/var/lib/zookeeper:rw
             - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
@@ -45,11 +45,11 @@ services:
         environment:
             ZOOKEEPER_CONFIG: |
                 id=2
-                zookeeper.cluster=10.211.55.29:2888:3888,10.211.55.30:2888:3888,10.211.55.31:2888:3888
-        configs:
-            - source: zk02
-              target: /usr/local/zookeeper-3.4.10/conf/zoo.cfg
-              mode: 0644
+                zookeeper.cluster=172.16.0.6:2888:3888,172.16.0.11:2888:3888,172.16.0.2:2888:3888
+        # configs:
+        #     - source: zk02
+        #       target: /usr/local/zookeeper-3.4.10/conf/zoo.cfg
+        #       mode: 0644
         volumes:
             - /var/lib/zookeeper:/var/lib/zookeeper:rw
             - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
@@ -83,11 +83,11 @@ services:
         environment:
             ZOOKEEPER_CONFIG: |
                 id=3
-                zookeeper.cluster=10.211.55.29:2888:3888,10.211.55.30:2888:3888,10.211.55.31:2888:3888
-        configs:
-            - source: zk03
-              target: /usr/local/zookeeper-3.4.10/conf/zoo.cfg
-              mode: 0644
+                zzookeeper.cluster=172.16.0.6:2888:3888,172.16.0.11:2888:3888,172.16.0.2:2888:3888
+        # configs:
+        #     - source: zk03
+        #       target: /usr/local/zookeeper-3.4.10/conf/zoo.cfg
+        #       mode: 0644
         volumes:
             - /var/lib/zookeeper:/var/lib/zookeeper:rw
             - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro
@@ -113,13 +113,13 @@ services:
             options:
                 max-file: '3'
                 max-size: 100m
-configs:
-    zk01:
-        file: ./zk01.cfg
-    zk02:
-        file: ./zk02.cfg
-    zk03:
-        file: ./zk03.cfg
+# configs:
+#     zk01:
+#         file: ./zk01.cfg
+#     zk02:
+#         file: ./zk02.cfg
+#     zk03:
+#         file: ./zk03.cfg
 
 networks:
     zookeeper:

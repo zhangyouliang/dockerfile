@@ -1,13 +1,13 @@
-FROM java:8u111-jre
+FROM daocloud.io/buxiaomo/maven:latest as builder
 
-ENV VERISON=1.2.3
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre \
+    CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar \
+    PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
 
-RUN wget -O /usr/local/src/v${VERISON}.tar.gz \
-        https://github.com/smartloli/kafka-eagle-bin/archive/v${VERISON}.tar.gz \
-    && tar -zvxf /usr/local/src/v${VERISON}.tar.gz -C /usr/local/src/ \
-    && tar -zvxf /usr/local/src/kafka-eagle-bin-${VERISON}/kafka-eagle-web-${VERISON}-bin.tar.gz -C /usr/local/ \
-    && rm -rf /usr/local/src/* 
-ENV KE_HOME=/usr/local/kafka-eagle-web-${VERISON} \
-    PATH=$PATH:$KE_HOME/bin
+RUN git clone https://github.com/smartloli/kafka-eagle.git /usr/local/src/kafka-eagle \
+    && cd /usr/local/src/kafka-eagle \
+    && ./build.sh
 
-EXPOSE 8048
+# FROM java:8u111-jre
+# COPY --from=builder /app/jarfile/
+# CMD ["./app"]
