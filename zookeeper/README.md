@@ -1,4 +1,18 @@
-# zookeeper
+# 设置参数
+设置各节点： `id` ，以及 `zookeeper.cluster` 信息，本实例集群使用host网络，所以IP为宿主机的IP的地址
+
+`id` 集群唯一，不要重复
+
+`zookeeper.cluster` 各zookeeper节点通讯地址，可以使用下面的命令修改全部：
+
+```shell
+cluster=10.211.55.75:2888:3888,10.211.55.76:2888:3888,10.211.55.77:2888:3888
+sed -i "s/10.211.55.75:2888:3888,10.211.55.76:2888:3888,10.211.55.77:2888:3888/${cluster}/g" zookeeper.yml
+```
+
+
+
+# 设置节点标签
 
 ```
 docker node update --label-add zookeeper.node01=true Docker01
@@ -6,17 +20,16 @@ docker node update --label-add zookeeper.node02=true Docker02
 docker node update --label-add zookeeper.node03=true Docker03
 ```
 
-# 清理数据
+# 创建各节点数据目录
+
 ```
-HOST_LIST=(
-    'root@10.0.1.10'
-    'root@10.0.1.11'
-    'root@10.0.1.12'
-)
-for HOST in ${HOST_LIST[*]};
-do
-    ssh ${HOST} 'rm -rf /var/lib/zookeeper/* /var/lib/kafka/*'
-done
+mkdir -p /var/lib/zookeeper
 ```
 
-sed -i "s/10.211.55.29:2888:3888,10.211.55.30:2888:3888,10.211.55.31:2888:3888/10.0.1.10:2888:3888,10.0.1.11:2888:3888,10.0.1.12:2888:3888/g" zookeeper.yml
+# 部署集群
+
+```
+docker stack deploy -c zookeeper.yml zookeeper
+```
+
+
