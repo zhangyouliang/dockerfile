@@ -7,10 +7,10 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=1
-                host.name=172.16.0.6
-                advertised.host.name=172.16.0.6
+                host.name=10.211.55.75
+                advertised.host.name=10.211.55.75
                 advertised.port=9092
-                zookeeper.connect=172.16.0.6:2181,172.16.0.11:2181,172.16.0.2:2181
+                zookeeper.connect=10.211.55.75:2181,10.211.55.76:2181,10.211.55.77:2181
                 default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
@@ -49,10 +49,10 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=2
-                host.name=172.16.0.11
-                advertised.host.name=172.16.0.11
+                host.name=10.211.55.76
+                advertised.host.name=10.211.55.76
                 advertised.port=9092
-                zookeeper.connect=172.16.0.6:2181,172.16.0.11:2181,172.16.0.2:2181
+                zookeeper.connect=10.211.55.75:2181,10.211.55.76:2181,10.211.55.77:2181
                 default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true
@@ -91,10 +91,10 @@ services:
         environment:
             KAFKA_CONFIG: |
                 broker.id=3
-                host.name=172.16.0.2
-                advertised.host.name=172.16.0.2
+                host.name=10.211.55.77
+                advertised.host.name=10.211.55.77
                 advertised.port=9092
-                zookeeper.connect=172.16.0.6:2181,172.16.0.11:2181,172.16.0.2:2181
+                zookeeper.connect=10.211.55.75:2181,10.211.55.76:2181,10.211.55.77:2181
                 default.replication.factor=2
                 num.partitions=6
                 delete.topic.enable=true

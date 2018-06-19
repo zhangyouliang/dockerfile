@@ -1,19 +1,22 @@
-# Kafka
+# 设置参数
+参考编排文件
+
+# 设置节点标签
+
 ```
 docker node update --label-add kafka.node01=true Docker01
 docker node update --label-add kafka.node02=true Docker02
 docker node update --label-add kafka.node03=true Docker03
 ```
 
-# 清理数据
+# 创建各节点数据目录
+
 ```
-HOST_LIST=(
-    'root@10.0.1.10'
-    'root@10.0.1.11'
-    'root@10.0.1.12'
-)
-for HOST in ${HOST_LIST[*]};
-do
-    ssh ${HOST} 'rm -rf /var/lib/zookeeper/* /var/lib/kafka/*'
-done
+mkdir -p /var/lib/kafka
+```
+
+# 部署集群
+
+```
+docker stack deploy -c kafka.yml kafka
 ```
