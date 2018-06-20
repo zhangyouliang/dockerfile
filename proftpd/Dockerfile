@@ -4,12 +4,7 @@ MAINTAINER "Xiao Mo" <root@xiaomo.red>
 COPY sources.list /etc/apt/sources.list
 
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends install curl jq netcat -y \
-    && apt-get clean all \
-    && rm -rf /var/lib/{apt,dpkg,cache,log}
-
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends proftpd-mod-mysql mariadb-client-10.0 -y --allow-unauthenticated \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends curl jq netcat proftpd-mod-mysql mariadb-client-10.0 -y --allow-unauthenticated \
     && apt-get clean all \
     && rm -rf /var/lib/{apt,dpkg,cache,log}
 

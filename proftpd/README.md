@@ -54,8 +54,6 @@ SELECT concat(round(sum(DATA_LENGTH/1024/1024),2),'MB') AS Size From TABLES;
 SELECT concat(round(sum(DATA_LENGTH/1024/1024),2),'MB') AS Size From TABLES WHERE table_schema='wuxin_wp';
 
 
-
-
 #######################
 echo "deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse
 deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse
@@ -90,4 +88,3 @@ INSERT INTO `ftp_group` (`groupname`, `gid`, `members`) VALUES ('www-data', 82, 
 INSERT INTO `ftp_user` (`userid`, `passwd`, `uid`, `gid`, `homedir`, `shell`, `count`, `accessed`, `modified`) VALUES ('ftpuser', ENCRYPT('ftppassword'), 82, 82, '/var/www', '/sbin/nologin', 0, '2018-03-02 13:45:45', '2018-03-02 13:45:45')
 
 
-chmod 775 /var/www
