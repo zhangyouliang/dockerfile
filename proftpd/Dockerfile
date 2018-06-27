@@ -4,7 +4,7 @@ MAINTAINER "Xiao Mo" <root@xiaomo.red>
 COPY sources.list /etc/apt/sources.list
 
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends curl jq netcat proftpd-mod-mysql mariadb-client-10.0 -y --allow-unauthenticated \
+    && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends curl jq netcat proftpd-mod-mysql mariadb-client-10.0 openssl -y --allow-unauthenticated \
     && apt-get clean all \
     && rm -rf /var/lib/{apt,dpkg,cache,log}
 
@@ -21,7 +21,14 @@ RUN groupmod -g 82 www-data \
 
 EXPOSE 20 21 60000-60100
 
-ENV MYSQL_PORT=3306 MYSQL_DATABASE=ftp MYSQL_HOST=mysql MYSQL_USER=root MYSQL_PASSWORD=root
+ENV MYSQL_PORT=3306 \
+    MYSQL_DATABASE=ftp \
+    MYSQL_HOST=mysql \
+    MYSQL_USER=root \
+    MYSQL_PASSWORD=root \
+    MasqueradeAddress=**IP** \
+    TSL_CERTFILE=null \
+    TSL_KEYFILE=null
 
 VOLUME /var/www
 
