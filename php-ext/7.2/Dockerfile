@@ -34,12 +34,14 @@ RUN set -x \
 RUN apk add --no-cache zlib-dev \
     && docker-php-ext-install zip
 
-RUN apk add --no-cache git
+# Imagick
+RUN set -x \
+    && apk add --no-cache -t .build g++ make autoconf \
+    && apk add --no-cache libtool imagemagick-dev \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && apk del .build
 
 COPY docker-entrypoint.sh /usr/local/bin/
-
-ENV GIT_URL=NULL \
-		Configure_SCR=NULL \
-		Configure_DEST=NULL
 
 CMD ["docker-entrypoint.sh"]

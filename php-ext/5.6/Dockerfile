@@ -21,18 +21,19 @@ RUN set -x \
     && mkdir -p /usr/src/php/ext/ \
     && git clone -b master https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
-    && apk del -t .build
+    && apk del .build
 
+# Imagick
+RUN set -x \
+    && apk add --no-cache -t .build g++ make autoconf \
+    && apk add --no-cache libtool imagemagick-dev \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && apk del .build
 # Zip
 RUN apk add --no-cache zlib-dev \
     && docker-php-ext-install zip
 
-RUN apk add --no-cache git
-
 COPY docker-entrypoint.sh /usr/local/bin/
-
-ENV GIT_URL=NULL \
-		Configure_SCR=NULL \
-		Configure_DEST=NULL
 
 CMD ["docker-entrypoint.sh"]

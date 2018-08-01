@@ -16,7 +16,7 @@
 ```shell
 docker run -d --net host --name cobbler \
 --privileged=true \
--e Cobbler_SERVER_IP=10.0.11.253 \
+-e Cobbler_SERVER_IP=10.0.3.254 \
 -e Cobbler_PASSWORD=root \
 -e Cobbler_DHCP_SUBNET=10.0.0.0 \
 -e Cobbler_DHCP_ROUTER=10.0.1.1 \

@@ -86,5 +86,3 @@ CREATE INDEX groups_gid_idx ON ftp_group (gid);
 
 INSERT INTO `ftp_group` (`groupname`, `gid`, `members`) VALUES ('www-data', 82, 'ftpuser')
 INSERT INTO `ftp_user` (`userid`, `passwd`, `uid`, `gid`, `homedir`, `shell`, `count`, `accessed`, `modified`) VALUES ('ftpuser', ENCRYPT('ftppassword'), 82, 82, '/var/www', '/sbin/nologin', 0, '2018-03-02 13:45:45', '2018-03-02 13:45:45')
-
-
