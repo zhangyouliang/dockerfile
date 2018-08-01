@@ -21,7 +21,8 @@ RUN set -x \
     && mkdir -p /usr/src/php/ext/ \
     && git clone -b master https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
     && docker-php-ext-install redis \
-    && apk del .build
+    && apk del .build \
+    && rm -rf /usr/src/php/ext/redis 
 
 # Imagick
 RUN set -x \
@@ -30,6 +31,16 @@ RUN set -x \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apk del .build
+
 # Zip
 RUN apk add --no-cache zlib-dev \
     && docker-php-ext-install zip
+
+# iconv
+RUN docker-php-ext-install iconv
+
+# mcrypt
+RUN apk add --no-cache libmcrypt-dev \
+    && docker-php-ext-install mcrypt
+
+# memcached

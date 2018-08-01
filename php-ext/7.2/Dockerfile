@@ -41,3 +41,13 @@ RUN set -x \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apk del .build
+
+# iconv
+RUN docker-php-ext-install iconv
+
+# memcached
+RUN apk add --no-cache -t .build g++ make autoconf \
+    && apk add --no-cache libmemcached-dev \
+    && pecl install memcached \
+    && docker-php-ext-enable memcached \
+    && apk del .build
