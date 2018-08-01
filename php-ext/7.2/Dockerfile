@@ -41,7 +41,3 @@ RUN set -x \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apk del .build
-
-COPY docker-entrypoint.sh /usr/local/bin/
-
-CMD ["docker-entrypoint.sh"]
