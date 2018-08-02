@@ -1,12 +1,12 @@
 FROM daocloud.io/buxiaomo/oracle-jdk:8u181
 MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
-ENV ELASTICSEARCH_VERSION 6.2.4
+ENV VERSION 6.2.4
 RUN apt-get update \
     && apt-get install wget -y \
-    && wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz -O /usr/local/src/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz \
-    && tar -zvxf /usr/local/src/elasticsearch-${ELASTICSEARCH_VERSION}.tar.gz -C /usr/local/ \
-    && mv /usr/local/elasticsearch-${ELASTICSEARCH_VERSION} /usr/local/elasticsearch \
+    && wget http://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${VERSION}.tar.gz -O /usr/local/src/elasticsearch-${VERSION}.tar.gz \
+    && tar -zvxf /usr/local/src/elasticsearch-${VERSION}.tar.gz -C /usr/local/ \
+    && mv /usr/local/elasticsearch-${VERSION} /usr/local/elasticsearch \
     && rm -rf /usr/local/src/* \
     && apt-get remove wget -y \
     && apt-get autoremove -y \
