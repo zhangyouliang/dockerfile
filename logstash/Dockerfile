@@ -12,7 +12,7 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && apt-get clean all \
     && rm -rf /var/lib/apt/lists/*
-ENV ELASTICSEARCH_HOME /usr/local/logstash
+ENV LOGSTASH_HOME /usr/local/logstash
 
 RUN useradd elk \
     && chown -R elk.elk /usr/local/logstash
@@ -20,5 +20,9 @@ RUN useradd elk \
 USER elk
 
 WORKDIR /usr/local/logstash
+
+VOLUME [ "/usr/local/logstash/data" ]
+
+EXPOSE 9200
 
 CMD ["/usr/local/logstash/bin/logstash","-f","/usr/local/logstash/config/logstash.conf"]

@@ -21,4 +21,4 @@ USER elk
 
 WORKDIR /usr/local/kibana
 
-# CMD ["/usr/local/kibana/bin/logstash","-f","/usr/local/logstash/config/logstash.conf"]
+CMD ["/usr/local/kibana/bin/kibana"]

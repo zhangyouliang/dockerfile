@@ -21,4 +21,8 @@ USER elk
 
 WORKDIR /usr/local/elasticsearch
 
+VOLUME [ "/usr/local/elasticsearch/data" ]
+
+EXPOSE 9200
+
 CMD ["/usr/local/elasticsearch/bin/elasticsearch"]
