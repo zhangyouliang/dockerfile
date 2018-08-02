@@ -14,6 +14,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 ENV ELASTICSEARCH_HOME /usr/local/elasticsearch
 
+RUN useradd elk \
+    && chown -R elk.elk /usr/local/elasticsearch
+
+USER elk
+
 WORKDIR /usr/local/elasticsearch
 
 CMD ["/usr/local/elasticsearch/bin/elasticsearch"]
