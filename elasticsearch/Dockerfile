@@ -11,11 +11,8 @@ RUN apt-get update \
     && apt-get remove wget -y \
     && apt-get autoremove -y \
     && apt-get clean all \
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/*
 ENV ELASTICSEARCH_HOME /usr/local/elasticsearch
-
-RUN useradd elk \
-    && chown -R elk.elk /usr/local/elasticsearch
 
 WORKDIR /usr/local/elasticsearch
 
