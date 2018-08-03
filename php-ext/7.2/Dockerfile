@@ -1,4 +1,4 @@
-FROM php:7.2.0-fpm-alpine3.7
+FROM php:7.2.8-fpm-alpine3.7
 MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
@@ -59,4 +59,11 @@ RUN set -ex \
     && apk add --no-cache -t .build git \
     && git clone https://github.com/websupport-sk/pecl-memcache /usr/src/php/ext/memcache \
     && docker-php-ext-install memcache \
+    && apk del .build
+
+# swoole4
+RUN set -ex \
+    && apk add --no-cache -t .build g++ make autoconf \
+    && pecl install swoole \
+    && docker-php-ext-enable swoole \
     && apk del .build
