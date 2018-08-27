@@ -6,11 +6,14 @@ COPY sources.list /etc/apt/sources.list
 RUN apt-get update \
     && apt-get install -y openssh-server \
     && mkdir /var/run/sshd \
-    && echo 'root:root' | chpasswd \
     && sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config \
     && apt-get clean all
 
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+ENV ROOT_PASSWORD=root
+
 EXPOSE 22
 
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["docker-entrypoint.sh"]
