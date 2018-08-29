@@ -12,6 +12,8 @@ RUN set -ex; \
 	rm chanzhieps.zip; \
 	chown -R www-data:www-data /usr/src/chanzhieps
 
+RUN apk add --no-cache zip 
+
 VOLUME /var/www/html
 
 COPY docker-entrypoint.sh /usr/local/bin/
