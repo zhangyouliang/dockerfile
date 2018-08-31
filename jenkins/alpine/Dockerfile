@@ -3,7 +3,8 @@ MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 
-ENV ANT_VERSION 1.10.1
+# Install ant
+ENV ANT_VERSION 1.10.5
 ENV ANT_HOME /usr/share/ant
 RUN wget http://mirrors.tuna.tsinghua.edu.cn/apache/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz \
     && mkdir ant-${ANT_VERSION} \
@@ -13,12 +14,14 @@ RUN wget http://mirrors.tuna.tsinghua.edu.cn/apache/ant/binaries/apache-ant-${AN
     && unset ANT_VERSION
 ENV PATH $PATH:$ANT_HOME/bin
 
+# Install maven
 RUN apk add --no-cache maven
 ENV MAVEN_HOME /usr/share/java/maven-3
 ENV PATH $PATH:$MAVEN_HOME/bin
 
+# Install Docker
 ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 17.12.0-ce
+ENV DOCKER_VERSION 18.06.1-ce
 RUN apk add --no-cache git \
     && mkdir /usr/local/src/ \
     && wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
@@ -26,10 +29,19 @@ RUN apk add --no-cache git \
     && rm -rf /usr/local/src/docker.tgz \
     && unset DOCKER_CHANNEL && unset DOCKER_VERSION
 
-ENV Jenkins_Version 2.89.3
+# Install Gradle
+ENV GRADLE_VERSION 4.10
+RUN wget https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -O /usr/local/gradle-${GRADLE_VERSION}-bin.zip \
+    && unzip /usr/local/gradle-${GRADLE_VERSION}-bin.zip -d /usr/local \
+    && mv /usr/local/gradle-${GRADLE_VERSION} /usr/local/gradle \
+    && rm -rf /usr/local/gradle-${GRADLE_VERSION}-bin.zip
+ENV GRADLE_HOME /usr/local/gradle
+ENV PATH $PATH:$GRADLE_HOME/bin
+
+# Download Jenkins
+ENV Jenkins_Version 2.121.3
 RUN mkdir -p /usr/share/jenkins /var/jenkins \
     && wget -O /usr/share/jenkins/jenkins.war https://mirrors.tuna.tsinghua.edu.cn/jenkins/war-stable/${Jenkins_Version}/jenkins.war
-
 ENV JENKINS_HOME /var/jenkins
 
 EXPOSE 8080
