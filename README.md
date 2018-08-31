@@ -16,6 +16,13 @@
 | zblog   | zblog Docker版 | N/A |
 | ssh   | ssh Docker版 | Dockerfile Demo |
 | mycat   | mycat 基础镜像 | N/A |
+| proftpd   | FTP基于MySQL认证 | N/A |
+| php-ext   | 基于官方PHP扩展部分常用模块 | N/A |
+| confd   | confd | N/A |
+| elasticsearch   | N/A | N/A |
+| kibana   | N/A | N/A |
+| oracle-jdk   | N/A | N/A |
+
 <!-- | KafkaEagle   | Kafka监控工具 |N/A| -->
 
 <!-- ```
