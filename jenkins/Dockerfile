@@ -29,16 +29,16 @@ RUN apt-get update \
     && apt-get clean all \
     && rm -rf /var/lib/apt/lists/*
 
-ENV  DOCKER_COMPOSE_VERSION 1.18.0
+ENV  DOCKER_COMPOSE_VERSION 1.22.0
 RUN wget -O /usr/local/bin/docker-compose  "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m`"  \
     && chmod +x /usr/local/bin/docker-compose
 ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 17.12.0-ce
+ENV DOCKER_VERSION 18.06.1-ce
 RUN wget -O /usr/local/src/docker.tgz "https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
     && tar --strip-components=1 -xvzf /usr/local/src/docker.tgz -C /usr/local/bin \
     && rm -rf /usr/local/src/docker.tgz
 
-ENV Jenkins_Version 2.107.2
+ENV Jenkins_Version 2.121.3
 RUN apt-get update \
     && apt-get install git wget --no-install-recommends -y \
     && mkdir -p /usr/share/jenkins /var/jenkins \
