@@ -1,4 +1,5 @@
 FROM php:7.2.0-fpm-alpine3.7
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 
@@ -10,6 +11,8 @@ RUN set -ex; \
 	unzip chanzhieps.zip -d /usr/src/; \
 	rm chanzhieps.zip; \
 	chown -R www-data:www-data /usr/src/chanzhieps
+
+RUN apk add --no-cache zip 
 
 VOLUME /var/www/html
 

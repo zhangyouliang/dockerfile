@@ -1,21 +1,30 @@
-version: '2'
+version: '3'
 services:
-    ngrok:
+    server:
         image: daocloud.io/buxiaomo/ngrok:latest
-        networks:
-            ngrok:
-                aliases:
-                    - ngrok
-        ports:
-            - 80:80/tcp
-            - 443:443/tcp
-            - 4443:4443/tcp
-            - 3000-3010:3000-3010/tcp
         environment:
             - NGROK_DOMAIN=example.com
+        networks:
+            ngrok:
         volumes:
             - /etc/ngrok:/etc/ngrok
             - /var/run/docker.sock:/var/run/docker.sock:ro
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+            placement:
+                constraints:
+                    - node.labels.ngrok == true
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+
 networks:
     ngrok:
-        external: true
+        external:
+            name: "host"

@@ -1,8 +1,6 @@
- docker run -d --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306  mysql:5.7.20
-
-docker run -d --name chanzhieps \
--e CHANZHI_DB_HOST=10.10.1.206:3306 \
--e CHANZHI_DB_USER=root \
--e CHANZHI_DB_PASS=root \
--e CHANZHI_DB_NAME=chanzhi \
-chanzhieps:6.7.1
+# 婵知
+```
+docker build -t daocloud.io/buxiaomo/chanzhieps:6.4.1 .
+docker node update --label-add mysql=true nodename
+docker stack deploy -c docker-compose.yml chanzhi
+```

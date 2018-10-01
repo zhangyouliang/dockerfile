@@ -1,4 +1,5 @@
-FROM php:7.2.0-fpm-alpine3.7
+FROM php:7.2.8-fpm-alpine3.7
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 
@@ -10,35 +11,59 @@ RUN apk add --no-cache bzip2-dev \
     && docker-php-ext-install bz2
 
 # gd
-RUN apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev \
+RUN set -ex \
+    && apk add --no-cache libpng-dev libjpeg-turbo-dev freetype-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd
 
 # mcrypt
-RUN apk add --no-cache -t .build autoconf g++ make \
+RUN set -ex \
+    && apk add --no-cache -t .build autoconf g++ make \
     && apk add --no-cache libmcrypt-dev \
     && pecl install mcrypt-1.0.1 \
     && docker-php-ext-enable mcrypt \
     && apk del -t .build
 
 # Redis
-RUN set -x \
-    && apk add --no-cache -t .build git \
-    && mkdir -p /usr/src/php/ext/ \
-    && git clone -b master https://github.com/phpredis/phpredis.git /usr/src/php/ext/redis \
-    && docker-php-ext-install redis \
-    && apk del -t .build
+RUN set -ex \
+    && apk add --no-cache --virtual .build-deps g++ make autoconf \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
 
 # Zip
 RUN apk add --no-cache zlib-dev \
     && docker-php-ext-install zip
 
-RUN apk add --no-cache git
+# Imagick
+RUN set -ex \
+    && apk add --no-cache -t .build g++ make autoconf \
+    && apk add --no-cache libtool imagemagick-dev \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && apk del .build
 
-COPY docker-entrypoint.sh /usr/local/bin/
+# iconv
+RUN docker-php-ext-install iconv
 
-ENV GIT_URL=NULL \
-		Configure_SCR=NULL \
-		Configure_DEST=NULL
+# memcached
+RUN set -ex \
+    && apk add --no-cache -t .build g++ make autoconf \
+    && apk add --no-cache libmemcached-dev \
+    && pecl install memcached \
+    && docker-php-ext-enable memcached \
+    && apk del .build
 
-CMD ["docker-entrypoint.sh"]
+# memcache
+RUN set -ex \
+    && apk add --no-cache -t .build git \
+    && git clone https://github.com/websupport-sk/pecl-memcache /usr/src/php/ext/memcache \
+    && docker-php-ext-install memcache \
+    && apk del .build
+
+# swoole4
+RUN set -ex \
+    && apk add --no-cache -t .build g++ make autoconf \
+    && pecl install swoole \
+    && docker-php-ext-enable swoole \
+    && apk del .build

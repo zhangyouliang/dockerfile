@@ -1,5 +1,5 @@
 FROM daocloud.io/buxiaomo/nginx
-MAINTAINER "Cloth Mo" <root@buxiaomo.com>
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 ADD tidb-nginx /usr/local/bin/
 

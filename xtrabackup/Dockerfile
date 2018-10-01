@@ -1,4 +1,6 @@
 FROM centos:7.3.1611
+MAINTAINER "Xiao Mo" <root@xiaomo.red>
+
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY epel.repo epel-testing.repo percona-release.repo /etc/yum.repos.d/

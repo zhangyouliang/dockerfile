@@ -1,21 +1,40 @@
 #!/bin/bash
 set -e
-cat > /etc/proftpd/sql.conf << EOF
-SQLBackend        mysql
-SQLAuthTypes            OpenSSL Crypt
-SQLAuthenticate         users groups
-SQLConnectInfo  ${MYSQL_DB}@${MYSQL_HOST} ${MYSQL_USER} ${MYSQL_PASS}
-SQLUserInfo     ftpuser userid passwd uid gid homedir shell
-SQLGroupInfo    ftpgroup groupname gid members
-SQLMinID        500
-SQLLog PASS updatecount
-SQLNamedQuery updatecount UPDATE "count=count+1, accessed=now() WHERE userid='%u'" ftpuser
-SQLLog  STOR,DELE modified
-SQLNamedQuery modified UPDATE "modified=now() WHERE userid='%u'" ftpuser
-SqlLogFile /var/log/proftpd/sql.log
-SQLDefaultUID ${SQLDefaultUID}
-SQLDefaultGID ${SQLDefaultGID}
-EOF
+if [ ${MasqueradeAddress} == "**IP**" ];then
+    MasqueradeAddress=$(curl -s  --unix-socket /run/docker.sock http://unix/info  | jq -r .Swarm.NodeAddr)
+fi
+sed -i "s/^#.MasqueradeAddress.*/MasqueradeAddress ${MasqueradeAddress}/g" /etc/proftpd/proftpd.conf
+echo -e "\n\nSQLConnectInfo ${MYSQL_DATABASE}@${MYSQL_HOST}:${MYSQL_PORT} ${MYSQL_USER} ${MYSQL_PASSWORD}" >> /etc/proftpd/sql.conf
+chown -R 82:82 /var/www
+chmod 755 /var/www
+# chmod -R 775 /var/www
+# cat > /tmp/mysql.cnf << EOF
+# [client]
+# port = ${MYSQL_PORT}
+# host = ${MYSQL_HOST}
+# user= ${MYSQL_USER}
+# password = ${MYSQL_PASSWORD}
+# EOF
+# mysql --defaults-file=/tmp/mysql.cnf ${MYSQL_DATABASE} < /var/lib/proftpd/ftp_group.sql
+# mysql --defaults-file=/tmp/mysql.cnf ${MYSQL_DATABASE} < /var/lib/proftpd/ftp_user.sql
+# rm -rf /tmp/mysql.cnf
 
-sed -i "s/#.MasqueradeAddress.*/MasqueradeAddress 175.25.184.203/g" /etc/proftpd/proftpd.conf
+if [ -d /etc/proftpd/ssl ];then
+    sed -i "s|#Include /etc/proftpd/tls.conf|Include /etc/proftpd/tls.conf|g" /etc/proftpd/proftpd.conf
+    cat > /etc/proftpd/tls.conf << EOF
+<IfModule mod_tls.c>
+    TLSEngine                  on
+    TLSLog                     /var/log/proftpd/tls.log
+    TLSProtocol TLSv1.2
+    TLSCipherSuite AES128+EECDH:AES128+EDH
+    TLSOptions                 NoCertRequest AllowClientRenegotiations
+    TLSRSACertificateFile      ${TSL_CERTFILE}
+    TLSRSACertificateKeyFile   ${TSL_KEYFILE}
+    TLSVerifyClient            off
+    TLSRequired                on
+    RequireValidShell          no
+</IfModule>
+EOF
+fi
+
 exec proftpd -nc /etc/proftpd/proftpd.conf
