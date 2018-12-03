@@ -9,6 +9,7 @@ RUN cp /etc/apk/repositories /etc/apk/repositories.bak \
     && echo "http://mirrors.aliyun.com/alpine/v3.4/main/" > /etc/apk/repositories \
     && apk --update upgrade \
     && apk --no-cache --no-progress add make git mercurial bash gcc musl-dev curl tar \
+    && go get github.com/tools/godep \
     && rm -rf /var/cache/apk/*
 
 
