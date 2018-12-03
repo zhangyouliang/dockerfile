@@ -8,7 +8,7 @@ services:
     ports:
       - "4001:80"
     volumes:
-      - /data/owncloud/data:/var/www/data:rw
+      - /data/owncloud/data:/var/www/html/data:rw
     labels:
       aliyun.routing.port_80: 'owncloud'
   mysql:
