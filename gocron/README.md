@@ -6,7 +6,7 @@
 #### # 运行 gocron
 > !!! 最好将配置文件进行映射到宿主机,遇到一次悲剧的情况 ----- 忘记密码了
     
-    docker run -d -p 5920:5920 -v /data/gocron/config:/app/config --name gocron ouqg/gocron
+    docker run -d -p 5920:5920 -v /data/gocron/conf:/app/conf --name gocron ouqg/gocron
 
 #### # 运行 gocron-node
 
