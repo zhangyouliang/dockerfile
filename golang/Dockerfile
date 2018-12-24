@@ -10,6 +10,7 @@ RUN cp /etc/apk/repositories /etc/apk/repositories.bak \
     && apk --update upgrade \
     && apk --no-cache --no-progress add make git mercurial bash gcc musl-dev curl tar \
     && go get github.com/tools/godep \
+    && go get github.com/jteeuwen/go-bindata \
     && rm -rf /var/cache/apk/*
 
 
