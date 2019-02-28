@@ -2,26 +2,31 @@
 
 已验证完成列表：
 
-| 名称          | 说明             | 备注 |
-| ------------- | ---------------- | ---- |
-| chanzhieps    | 然之协同Docker版 | N/A  |
-| cobbler | Cobbler Docker    | N/A  |
-| jenkins     | 增加对宿主机的Docker操作支持 | N/A |
-| kafka   | 一键部署Kafka集群|可上生产|
-| zookeeper   | 一键部署Zookeeper集群|可上生产|
-| maven   | 增加国内仓库地址 |N/A|
-| ngrok   | Ngrok Docker |N/A|
-| DockerRegistryUI   | 私有仓库管理Web |基本功能管理|
-| php-ext   | 基于官方php镜像增加模块 | N/A |
-| zblog   | zblog Docker版 | N/A |
-| ssh   | ssh Docker版 | Dockerfile Demo |
-| mycat   | mycat 基础镜像 | N/A |
-| proftpd   | FTP基于MySQL认证 | N/A |
-| php-ext   | 基于官方PHP扩展部分常用模块 | N/A |
-| confd   | confd | N/A |
-| elasticsearch   | N/A | N/A |
-| kibana   | N/A | N/A |
-| oracle-jdk   | N/A | N/A |
+| 名称             | 说明                           | 备注            |
+| ---------------- | ------------------------------ | --------------- |
+| chanzhieps       | 然之协同 Docker 版             | N/A             |
+| cobbler          | Cobbler Docker                 | N/A             |
+| jenkins          | 增加对宿主机的 Docker 操作支持 | N/A             |
+| kafka            | 一键部署 Kafka 集群            | 可上生产        |
+| zookeeper        | 一键部署 Zookeeper 集群        | 可上生产        |
+| maven            | 增加国内仓库地址               | N/A             |
+| ngrok            | Ngrok Docker                   | N/A             |
+| DockerRegistryUI | 私有仓库管理 Web               | 基本功能管理    |
+| php-ext          | 基于官方 php 镜像增加模块      | N/A             |
+| zblog            | zblog Docker 版                | N/A             |
+| ssh              | ssh Docker 版                  | Dockerfile Demo |
+| mycat            | mycat 基础镜像                 | N/A             |
+| proftpd          | FTP 基于 MySQL 认证            | N/A             |
+| php-ext          | 基于官方 PHP 扩展部分常用模块  | N/A             |
+| confd            | confd                          | N/A             |
+| elasticsearch    | N/A                            | N/A             |
+| kibana           | N/A                            | N/A             |
+| oracle-jdk       | N/A                            | N/A             |
+
+### # 其他 docker 相关项目地址
+
+- [tick_sandbox](https://github.com/zhangyouliang/tick_sandbox)
+- [docker-elk](https://github.com/deviantony/docker-elk.git)
 
 <!-- | KafkaEagle   | Kafka监控工具 |N/A| -->
 
