@@ -5,7 +5,7 @@
 
 docker 安装
     
-    docker run -d -p 9100:9100 \
+    docker run -d --restart=always -p 9100:9100 \
       -v "/proc:/host/proc:ro" \
       -v "/sys:/host/sys:ro" \
       -v "/:/rootfs:ro" \
@@ -20,7 +20,7 @@ docker 安装
 ## # 安装 prometheus
 > 主监控主机安装  prometheus
 
-    docker run -d -p 9090:9090 \
+    docker run -d --restart=always -p 9090:9090 \
                 -v $PWD/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
                 --name prometheus \
                 prom/prometheus
@@ -28,7 +28,7 @@ docker 安装
 ## # 安装 grafana
 
 
-    docker run -d --name=grafana -p 3000:3000 \
+    docker run -d --restart=always --name=grafana -p 3000:3000 \
         -e "GF_SECURITY_ADMIN_PASSWORD=admin" \
         grafana/grafana
 

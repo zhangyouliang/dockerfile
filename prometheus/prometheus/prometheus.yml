@@ -9,35 +9,56 @@ global:
 # Alertmanager configuration
 alerting:
   alertmanagers:
-  - static_configs:
-    - targets:
-      # - alertmanager:9093
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
-  # - "first_rules.yml"
-  # - "second_rules.yml"
-  # - '/etc/prometheus/alert.rules'
+# - "first_rules.yml"
+# - "second_rules.yml"
+# - '/etc/prometheus/alert.rules'
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-# The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-- job_name: 'prometheus'
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
 
-  # metrics_path defaults to '/metrics'
-  # scheme defaults to 'http'.
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
 
-  static_configs:
-  - targets: ['localhost:9090']
-- job_name: 'node'  # 一定要全局唯一, 采集本机的 metrics，需要在本机安装 node_exporter
-
-  scrape_interval: 10s
-
-  static_configs:
-  - targets: ['10.0.0.148:9100']
-    labels: {'name':'prod-app02','ip':'10.0.0.148','area':'hf'}
-  - targets: ['10.0.0.149:9100']
-    labels: {'name':'prod-app01','ip':'10.0.0.149','area':'hf'}
-  - targets: ['10.0.0.150:9100']
-    labels: {'name':'prod-app03','ip':'10.0.0.150','area':'hf'}
+    static_configs:
+      - targets: ['localhost:9090']
+  # other machine
+  - job_name: 'app'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.0.0.150:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.154:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.152:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.149:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.153:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.155:9100']
+        labels: {'area':'hf'}
+  - job_name: 'cron'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.0.0.148:9100']
+        labels: {'area':'hf'}
+  - job_name: 'lb'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.0.0.143:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.160:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.161:9100']
+        labels: {'area':'hf'}
+      - targets: ['10.0.0.162:9100']
+        labels: {'area':'hf'}
