@@ -4,6 +4,7 @@
 
 | 名称             | 说明                           | 备注            |
 | ---------------- | ------------------------------ | --------------- |
+| gocron           | gocron 好用的计划任务管理         |可上生产              |
 | chanzhieps       | 然之协同 Docker 版             | N/A             |
 | cobbler          | Cobbler Docker                 | N/A             |
 | jenkins          | 增加对宿主机的 Docker 操作支持 | N/A             |
@@ -27,6 +28,7 @@
 
 - [tick_sandbox](https://github.com/zhangyouliang/tick_sandbox)
 - [docker-elk](https://github.com/deviantony/docker-elk.git)
+- [k8s 相关操作](https://gitee.com/whatdy/k8s)
 
 <!-- | KafkaEagle   | Kafka监控工具 |N/A| -->
 

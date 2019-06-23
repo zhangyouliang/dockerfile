@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: gocron-controller
+  namespace: prod
+  labels:
+    app: gocron
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gocron
+  template:
+    metadata:
+      namespace: prod
+      labels:
+        app: gocron
+        name: gocron
+    spec:
+      containers:
+      - image: ouqg/gocron
+        name: gocron
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 5920
+        volumeMounts:
+          - mountPath: /app/conf
+            subPath: conf
+            name: config
+          - mountPath: /app/log
+            subPath: log
+            name: config
+      nodeSelector:
+        cron: "true"
+
+      volumes:
+        - name: config
+          hostPath:
+            path: /mnt/gocron
