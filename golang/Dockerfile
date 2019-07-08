@@ -1,4 +1,4 @@
-FROM golang:1.11-alpine
+FROM golang:1.12-alpine
 
 ## https://www.jianshu.com/p/dd233020c5b7
 ## 参考: https://github.com/containous/traefik/blob/master/build.Dockerfile
