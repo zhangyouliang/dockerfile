@@ -70,6 +70,12 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			targetTarArgs+=( --no-overwrite-dir )
 		fi
 		tar "${sourceTarArgs[@]}" . | tar "${targetTarArgs[@]}"
+        # 防止 ssl 错误
+        cat <<EOF >> wp-config-sample.php
+        \$_SERVER['HTTPS'] = 'on';
+define('FORCE_SSL_LOGIN', true);
+define('FORCE_SSL_ADMIN', true);
+EOF
 		echo >&2 "Complete! WordPress has been successfully copied to $PWD"
 		if [ ! -e .htaccess ]; then
 			# NOTE: The "Indexes" option is disabled in the php:apache base image
@@ -165,9 +171,6 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
 	$_SERVER['HTTPS'] = 'on';
 }
-$_SERVER['HTTPS'] = 'on';
-define('FORCE_SSL_LOGIN', true);
-define('FORCE_SSL_ADMIN', true);
 EOPHP
 			chown "$user:$group" wp-config.php
 		elif [ -e wp-config.php ] && [ -n "$WORDPRESS_CONFIG_EXTRA" ] && [[ "$(< wp-config.php)" != *"$WORDPRESS_CONFIG_EXTRA"* ]]; then
