@@ -71,11 +71,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		fi
 		tar "${sourceTarArgs[@]}" . | tar "${targetTarArgs[@]}"
         # 防止 ssl 错误
-        cat <<EOF >> wp-config-sample.php
-        \$_SERVER['HTTPS'] = 'on';
-define('FORCE_SSL_LOGIN', true);
-define('FORCE_SSL_ADMIN', true);
-EOF
+        sed -i -e "/require_once( ABSPATH . 'wp-settings.php' )/i\\define('FORCE_SSL_ADMIN', true);\ndefine('FORCE_SSL_LOGIN', true);\n\$_SERVER['HTTPS'] = 'ON';" wp-config-sample.php
 		echo >&2 "Complete! WordPress has been successfully copied to $PWD"
 		if [ ! -e .htaccess ]; then
 			# NOTE: The "Indexes" option is disabled in the php:apache base image
