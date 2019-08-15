@@ -20,3 +20,13 @@ mkdir -p /var/lib/kafka
 ```
 docker stack deploy -c kafka.yml kafka
 ```
+
+# 其他
+
+```
+docker-compose -f docker-compose-dev.yml up -d
+```
+
+参考
+===
+- [使用Docker快速搭建Kafka开发环境](https://www.jianshu.com/p/ac03f126980e)
