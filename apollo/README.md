@@ -106,7 +106,7 @@ Dev:
 > - DEV_DB_PWD: 数据库密码
 > - DEV_ADMIN_PORT: admin服务端口,默认8090,若网络模式为host,可指定更改.
 > - DEV_CONFIG_PORT: config服务端口,默认8080,若网络模式为host,可指定更改,需要与本数据库中的ServerConfig中eureka.service.url端口相同.
-> - SETUP_ADMIN: 是否启动 admin (默认 true)
+> - SETUP_CONFIG: 是否启动 admin (默认 true)
 
 Fat:
 > - FAT_LB: 若使用分布式负载均衡,则输入负载均衡地址,,格式为IP或域名.
@@ -115,7 +115,7 @@ Fat:
 > - FAT_DB_PWD: 数据库密码
 > - FAT_ADMIN_PORT: admin服务端口,默认8091.若网络模式为host,可指定更改.
 > - FAT_CONFIG_PORT: config服务端口,默认8081.若网络模式为host,可指定更改,需要与本数据库中的ServerConfig中eureka.service.url端口相同.
-> - SETUP_ADMIN: 是否启动 admin (默认 true)
+> - SETUP_CONFIG: 是否启动 admin (默认 true)
 
 Uat:
 > - UAT_LB: 若使用分布式负载均衡,则输入负载均衡地址,,格式为IP或域名.
@@ -124,7 +124,7 @@ Uat:
 > - UAT_DB_PWD: 数据库密码
 > - UAT_ADMIN_PORT: admin服务端口,默认8092.若网络模式为host,可指定更改.
 > - UAT_CONFIG_PORT: config服务端口,默认8082.若网络模式为host,可指定更改,需要与本数据库中的ServerConfig中eureka.service.url端口相同.
-> - SETUP_ADMIN: 是否启动 admin (默认 true)
+> - SETUP_CONFIG: 是否启动 admin (默认 true)
 
 Pro:
 > - PRO_LB: 若使用分布式负载均衡,则输入负载均衡地址,,格式为IP或域名.
@@ -133,7 +133,7 @@ Pro:
 > - PRO_DB_PWD: 数据库密码
 > - PRO_ADMIN_PORT: admin服务端口,默认8093.若网络模式为host,可指定更改.
 > - PRO_CONFIG_PORT: config服务端口,默认8083.若网络模式为host,可指定更改,需要与本数据库中的ServerConfig中eureka.service.url端口相同.
-> - SETUP_ADMIN: 是否启动 admin (默认 true)
+> - SETUP_CONFIG: 是否启动 admin (默认 true)
 
 
 ## 用例
