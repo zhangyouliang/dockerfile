@@ -1,0 +1,165 @@
+#!/bin/bash
+set -e
+set -x
+
+#portal的路径唯一
+portalPath="/apollo-portal"
+portalShellPath="/apollo-portal/scripts/startup.sh"
+
+
+function startENV()
+{
+    targetENV=${1}
+    targetDb=${2}
+    targetDbUser=${3}
+    targetDbPwd=${4}
+    targetAdminPort=${5}
+    targetConfigPort=${6}
+    targetEnvAddr=${7}
+
+  configPath="/apollo-config/"${targetENV}
+  configShellPath=${configPath}"/scripts/startup.sh"
+  adminPath="/apollo-admin/"${targetENV}
+  adminShellPath=${adminPath}"/scripts/startup.sh"
+  #容器重启后无需再重复解压配置
+  SETUP_ADMIN=${SETUP_ADMIN:-true}
+  if [[ "${SETUP_ADMIN}" == [tT][rR][uU][eE]  ]]; then
+      if [[ ! -d "/apollo-config/${targetENV}/scripts" ]];then
+        unzip /apollo-configservice-${VERSION}-github.zip -d /apollo-config/${targetENV}
+        #DB
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.url=${targetDb} \"" ${configShellPath}
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.username=${targetDbUser} \"" ${configShellPath}
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.password=${targetDbPwd} \"" ${configShellPath}
+        #Server Port
+        if [[ -n "${targetConfigPort}" ]];then
+          sed -i -e "s/^SERVER_PORT=.*$/SERVER_PORT=${targetConfigPort}/" ${configShellPath}
+            if [[ -n "${PORTAL_DB}" ]];then
+              sed -i -r "/-D${targetENV}_meta=.*$/d" ${portalShellPath}
+              sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -D${targetENV}_meta=http://localhost:${targetConfigPort}/\"" ${portalShellPath}
+            fi
+        fi
+        #Server Distribute
+        if [[ -n "${targetEnvAddr}" ]];then
+          sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Deureka.instance.ip-address=${targetEnvAddr} \"" ${configShellPath}
+        fi
+      fi
+      #/apollo-config/${targetENV}/scripts/startup.sh
+      ${configShellPath}
+  fi
+
+  if [[ "${ONLY_CONFIG}" != [tT][rR][uU][eE] ]];then
+    if [[ ! -d "/apollo-admin/${targetENV}/scripts" ]];then
+      unzip /apollo-adminservice-${VERSION}-github.zip -d /apollo-admin/${targetENV}
+
+      #DB
+      sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.url=${targetDb} \"" ${adminShellPath}
+      sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.username=${targetDbUser} \"" ${adminShellPath}
+      sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.password=${targetDbPwd} \"" ${adminShellPath}
+      #Server Port
+      if [[ -n "${targetAdminPort}" ]];then
+        sed -i -e "s/^SERVER_PORT=.*$/SERVER_PORT=${targetAdminPort}/" ${adminShellPath}
+      fi
+      #Server Distribute
+      if [[ -n "${targetEnvAddr}" ]];then
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Deureka.instance.ip-address=${targetEnvAddr} \"" ${adminShellPath}
+      fi
+    fi
+    #/apollo-admin/${targetENV}/scripts/startup.sh
+    ${adminShellPath}
+  fi
+}
+
+function startPortal()
+{
+  if [[ ! -d "/apollo-portal/scripts" ]];then
+    unzip /apollo-portal-${VERSION}-github.zip -d ${portalPath}
+    sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.url=${PORTAL_DB} \"" ${portalShellPath}
+    if [[ -n "${PORTAL_DB_USER}" ]];then
+      sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.username=${PORTAL_DB_USER} \"" ${portalShellPath}
+    fi
+    if [[ -n "${PORTAL_DB_PWD}" ]];then
+      sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.datasource.password=${PORTAL_DB_PWD} \"" ${portalShellPath}
+    fi
+    if [[ -n "${PORTAL_PORT}" ]];then
+      sed -i -e "s/^SERVER_PORT=.*$/SERVER_PORT=${PORTAL_PORT}/" ${portalShellPath}
+    fi
+    if [[ "${PORTAL_LDAP}" == [tT][rR][uU][eE] ]];then
+      if [[ -f "${portalPath}/config/application-ldap.yml" ]];then
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dspring.profiles.active=github,ldap\"" ${portalShellPath}
+      else
+        echo "If use LDAP auth, please create application-ldap.yml file in ${portalPath}/config/ directory."
+      fi
+    fi
+
+    if [[ -n "${DEV_URL}" ]];then
+        sed -i -r "/-Ddev_meta=.*$/d" ${portalShellPath}
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Ddev_meta=${DEV_URL}/\"" ${portalShellPath}
+    fi
+    if [[ -n "${FAT_URL}" ]];then
+        sed -i -r "/-Dfat_meta=.*$/d" ${portalShellPath}
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dfat_meta=${FAT_URL}/\"" ${portalShellPath}
+    fi
+    if [[ -n "${UAT_URL}" ]];then
+        sed -i -r "/-Duat_meta=.*$/d" ${portalShellPath}
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Duat_meta=${UAT_URL}/\"" ${portalShellPath}
+    fi
+    if [[ -n "${PRO_URL}" ]];then
+        sed -i -r "/-Dpro_meta=.*$/d" ${portalShellPath}
+        sed -i -e "/^SERVER_PORT=.*$/a\export JAVA_OPTS=\"\$JAVA_OPTS -Dpro_meta=${PRO_URL}/\"" ${portalShellPath}
+    fi
+  fi
+  #${portalShellPath} #最后启动.
+}
+
+
+if [ "$#" == "0" ];then
+# portal 只解压
+    if [[ -n "${PORTAL_DB}" ]];then
+        startPortal
+    fi
+
+# dev
+      if [[ -n "${DEV_URL}" ]];then
+          echo "conn remote dev server."
+      elif [[ -n "${DEV_DB}" ]];then
+          startENV dev ${DEV_DB} ${DEV_DB_USER} ${DEV_DB_PWD} ${DEV_ADMIN_PORT} ${DEV_CONFIG_PORT} ${DEV_LB}
+      fi
+
+# fat
+      if [[ -n "${FAT_URL}" ]];then
+          echo "conn remote fat server."
+      elif [[ -n "${FAT_DB}" ]];then
+          startENV fat ${FAT_DB} ${FAT_DB_USER} ${FAT_DB_PWD} ${FAT_ADMIN_PORT} ${FAT_CONFIG_PORT} ${FAT_LB}
+      fi
+
+# uat
+      if [[ -n "${UAT_URL}" ]];then
+          echo "conn remote fat server."
+      elif [[ -n "${UAT_DB}" ]];then
+          startENV uat ${UAT_DB} ${UAT_DB_USER} ${UAT_DB_PWD} ${UAT_ADMIN_PORT} ${UAT_CONFIG_PORT} ${UAT_LB}
+      fi
+
+# pro
+      if [[ -n "${PRO_URL}" ]];then
+          echo "conn remote pro server."
+      elif [[ -n "${PRO_DB}" ]];then
+          startENV pro ${PRO_DB} ${PRO_DB_USER} ${PRO_DB_PWD} ${PRO_ADMIN_PORT} ${PRO_CONFIG_PORT} ${PRO_LB}
+
+      fi
+
+# portal若是早于config服务启动,则有概率会不更新状态,显示一直找不到config
+      if [[ -n "${PORTAL_DB}" ]];then
+       ${portalShellPath}
+      fi
+
+# healthcheck
+    loop=1
+    while [ ${loop} -eq 1 ]
+    do
+        /usr/local/bin/healthcheck || exit 1
+        sleep 300
+    done
+
+else
+    exec "$@"
+fi
