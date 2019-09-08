@@ -6,6 +6,10 @@
     # 启动带有授权的 mongo 数据库
     # mkdir -p /data/mongodb/db /data/mongodb/config
     docker-compose up -d
+
+
+    # docker 直接启动
+    docker run --restart=always --name mongodb -v /data/mongodb/db:/data/db -p 27017:27017 -d mongo --auth
     
 
 #### # 设置mongo的用户名和密码
@@ -20,6 +24,10 @@
     db.createUser({ user: 'root', pwd: 'root', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })
     db.auth('root','root')
     
+    # 修改密码
+    db.updateUser('<用户名>',{pwd:'<密码>',roles:[{role:'userAdminAnyDatabase',db:'<db name>'}]})
+    use <db name>
+    db.auth('<用户名>','<密码>')
 
 
 如上，可以看到root用户创建成功。exit退出mongo命令行，带验证的mongodb已经创建成功。
