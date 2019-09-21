@@ -29,6 +29,14 @@
     use <db name>
     db.auth('<用户名>','<密码>')
 
+    # 删除用户
+    # 必须在该用户所在数据库才能删除
+    use app
+    db.dropUser('<用户名>')
+
+    # 删除app数据库
+    use app
+    db.dropDatabase()
 
 如上，可以看到root用户创建成功。exit退出mongo命令行，带验证的mongodb已经创建成功。
 
