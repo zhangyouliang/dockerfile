@@ -1,0 +1,71 @@
+#
+# 将原来的 admin,config 嵌套在一起,拆分,这样可以节省一个 config 的内容空间
+# 参考地址: https://github.com/ctripcorp/apollo/wiki/分布式部署指南
+# 具体项目修改地址: https://github.com/zhangyouliang/docker-apollo
+
+version: '2'
+services:
+  apollo-dev:
+    image: idoop/docker-apollo:latest
+    environment:
+      ONLY_CONFIG: 'TRUE'
+      DEV_DB: jdbc:mysql://<数据库Host>:3306/apollo_config_db_dev?characterEncoding=utf8
+      DEV_DB_USER: <用户名>
+      DEV_DB_PWD: <密码>
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: app=true
+  apollo-pro-admin:
+    image: registry.cn-hangzhou.aliyuncs.com/zhangyouliang/docker-apollo:latest
+    environment:
+      PRO_DB: jdbc:mysql://<数据库Host>:3306/apollo_config_db_prod?characterEncoding=utf8
+      PRO_DB_USER: <用户名>
+      PRO_DB_PWD: <密码>
+      PRO_ADMIN_PORT: '8090'
+      SETUP_CONFIG: 'false'
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: app=true
+  apollo-dev-admin:
+    image: registry.cn-hangzhou.aliyuncs.com/zhangyouliang/docker-apollo:latest
+    environment:
+      DEV_DB: jdbc:mysql://<数据库Host>:3306/apollo_config_db_dev?characterEncoding=utf8
+      DEV_DB_USER: <用户名>
+      DEV_DB_PWD: <密码>
+      DEV_ADMIN_PORT: '8090'
+      SETUP_CONFIG: 'false'
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: app=true
+  apollo-portal:
+    image: idoop/docker-apollo:latest
+    environment:
+      PORTAL_DB: jdbc:mysql://<数据库Host>:3306/apollo_portal_db?characterEncoding=utf8
+      PORTAL_DB_USER: <用户名>
+      PORTAL_DB_PWD: <密码>
+      PORTAL_PORT: '8070'
+      DEV_URL: http://apollo-dev.apollo:8080
+      PRO_URL: http://apollo-pro.apollo:8080
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: app=true
+  apollo-pro:
+    image: idoop/docker-apollo:latest
+    environment:
+      ONLY_CONFIG: 'TRUE'
+      DEV_DB: jdbc:mysql://<数据库Host>:3306/apollo_config_db_prod?characterEncoding=utf8
+      DEV_DB_USER: <用户名>
+      DEV_DB_PWD: <密码>
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: app=true

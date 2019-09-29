@@ -1,0 +1,17 @@
+version: '2'
+services:
+  apollo-dev:
+    scale: 1
+    start_on_create: true
+  apollo-pro-admin:
+    scale: 1
+    start_on_create: true
+  apollo-dev-admin:
+    scale: 1
+    start_on_create: true
+  apollo-portal:
+    scale: 1
+    start_on_create: true
+  apollo-pro:
+    scale: 1
+    start_on_create: true
