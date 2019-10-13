@@ -54,3 +54,51 @@ daocloud.io/buxiaomo/etcd:3.2.9 \
 查看用户拥有哪些角色
 
     docker exec etcd etcdctl --username root:root123456 user get phpor
+
+
+常用命令(3版本)
+====
+
+    ENDPOINTS=localhost:2379
+    # 获取全部 key
+    ETCDCTL_API=3  etcdctl --endpoints=$ENDPOINTS  get / --prefix --keys-only
+
+    # 删除key
+    etcdctl del <key>
+    etcdctl del <prefix> --prefix
+    # 设置key
+    etcdctl put <key> <val>
+
+    # 基于相同前缀
+    etcdctl put web1 value1
+    etcdctl put web2 value2
+    etcdctl get web --prefix
+
+    # 集群状态
+    etcdctl endpoint status
+    etcdctl endpoint health
+
+    # 获取成员列表
+    etcdctl member list -w table
+
+    # 授予租约
+    # 授予租约，TTL为10秒
+    etcdctl lease grant 10
+    # 附加key foo到租约32695410dcc0ca06
+    etcdctl put --lease=32695410dcc0ca06 foo bar
+
+    #  撤销租约
+    etcdctl lease revoke 32695410dcc0ca06
+    etcdctl get foo
+    # 空应答，因为租约撤销导致foo被删除
+
+    # 维持租约
+    # etcdctl lease grant 10
+    lease 32695410dcc0ca06 granted with TTL(10s)
+    # etcdctl lease keep-alive 32695410dcc0ca0
+    注： 上面的这个命令中，etcdctl 不是单次续约，而是 etcdctl 会一直不断的发送请求来维持这个租约。
+    
+
+
+## 参考
+* [文档参考](https://skyao.io/learning-etcd3/documentation/dev-guide/interacting_v3.html)
