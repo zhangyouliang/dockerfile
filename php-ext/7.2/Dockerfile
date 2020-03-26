@@ -3,8 +3,23 @@ MAINTAINER "Xiao Mo" <root@xiaomo.red>
 
 COPY repositories /etc/apk/repositories
 
+# The main mirrors are giving us timeout issues on builds periodically.
+# So we can try these.
+ENV TZ=Asia/Shanghai
+
+RUN apk update \
+    && apk upgrade \ 
+    && apk add --no-cache bash bash-doc bash-completion \
+    && apk add --no-cache supervisor \
+    && apk --no-cache add tzdata zeromq \
+    && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime 
+
 # Mysql
 RUN docker-php-ext-install pdo_mysql mysqli
+
+# nginx
+RUN apk add --no-cache nginx  \
+    && mkdir /run/nginx/
 
 # Bzip2
 RUN apk add --no-cache bzip2-dev \
@@ -67,3 +82,5 @@ RUN set -ex \
     && pecl install swoole \
     && docker-php-ext-enable swoole \
     && apk del .build
+
+RUN rm -rf /var/cache/apk/*
