@@ -14,6 +14,8 @@ RUN apk update \
     && apk --no-cache add tzdata zeromq \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime 
 
+RUN docker-php-ext-install mbstring opcache
+
 # Mysql
 RUN docker-php-ext-install pdo_mysql mysqli
 
@@ -82,5 +84,7 @@ RUN set -ex \
     && pecl install swoole \
     && docker-php-ext-enable swoole \
     && apk del .build
+
+
 
 RUN rm -rf /var/cache/apk/*
