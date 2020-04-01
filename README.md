@@ -24,7 +24,23 @@ apk add --no-cache &&  apk del build-dependencies
 yum install -y ... && yum clean all
 
 ```
+* 清除缓存包
+```
+#alpine
+rm -rf /var/cache/apk/*
+# ubuntu
+rm -rf /var/lib/apt/lists/*
+```
 
+### # 比较常用且有用的镜像列表
+* alpine: A minimal Docker image based on Alpine Linux with a complete package index and only 5 MB in size! 
+* scratch: an explicitly empty image, especially for building images "FROM scratch"
+* busybox: Busybox base image.
+* radial/busyboxplus:curl
+* docker:docker in docker 
+* bash:Bash is the GNU Project’s Bourne Again SHell
+* buildpack-deps: A collection of common build dependencies used for installing various modules, e.g., gems.
+* composer:Composer is a dependency manager written in and for PHP.
 
 ### # 其他 docker 相关项目地址
 
