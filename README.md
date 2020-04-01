@@ -1,44 +1,33 @@
 > 参考: https://github.com/buxiaomo/dockerfile
 
-已验证完成列表：
+### # docker 镜像体积优化建议
 
-| 名称             | 说明                           | 备注            |
-| ---------------- | ------------------------------ | --------------- |
-| gocron           | gocron 好用的计划任务管理         |可上生产              |
-| chanzhieps       | 然之协同 Docker 版             | N/A             |
-| cobbler          | Cobbler Docker                 | N/A             |
-| jenkins          | 增加对宿主机的 Docker 操作支持 | N/A             |
-| kafka            | 一键部署 Kafka 集群            | 可上生产        |
-| zookeeper        | 一键部署 Zookeeper 集群        | 可上生产        |
-| maven            | 增加国内仓库地址               | N/A             |
-| ngrok            | Ngrok Docker                   | N/A             |
-| DockerRegistryUI | 私有仓库管理 Web               | 基本功能管理    |
-| php-ext          | 基于官方 php 镜像增加模块      | N/A             |
-| zblog            | zblog Docker 版                | N/A             |
-| ssh              | ssh Docker 版                  | Dockerfile Demo |
-| mycat            | mycat 基础镜像                 | N/A             |
-| proftpd          | FTP 基于 MySQL 认证            | N/A             |
-| php-ext          | 基于官方 PHP 扩展部分常用模块  | N/A             |
-| confd            | confd                          | N/A             |
-| elasticsearch    | N/A                            | N/A             |
-| kibana           | N/A                            | N/A             |
-| oracle-jdk       | N/A                            | N/A             |
+* 不要安装不必要的软件包
+* 使用多阶段构建(golang)
+* 使用对应语言的 alpine 基础镜像,golang 可使用 scratch 镜像(不占空间)(注意适当修改编译命令)
+* 解耦应用程序:分离依赖包，以及源代码程序，充分利用层的缓存
+* 最小化层数
+  * 只有RUN，COPY，ADD指令创建图层。其他说明创建临时的中间映像，并且不会增加构建的大小
+* 使用单行命令(利用 && 将命令进行拼接,可有效减少镜像层数)
+* 多利用构建缓存,可加快构建速度 [参考](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+
+技巧:
+* 安装软件时去除依赖
+```
+# ubuntu
+apt-get install -y — no-install-recommends
+
+#alpine
+apk add --no-cache &&  apk del build-dependencies
+
+# centos
+yum install -y ... && yum clean all
+
+```
+
 
 ### # 其他 docker 相关项目地址
 
 - [tick_sandbox](https://github.com/zhangyouliang/tick_sandbox)
 - [docker-elk](https://github.com/deviantony/docker-elk.git)
 - [k8s 相关操作](https://gitee.com/whatdy/k8s)
-
-<!-- | KafkaEagle   | Kafka监控工具 |N/A| -->
-
-<!-- ```
-FROM java:8u111-jdk as builder
-COPY . /app
-RUN maven /app/file
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
-
-FROM alpine:latest
-COPY --from=builder /app/jarfile/
-CMD ["./app"]
-``` -->
