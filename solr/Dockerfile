@@ -29,3 +29,5 @@ RUN if [ ${SOLR_DATAIMPORTHANDLER_MSSQL} = true ]; then \
     && mv /tmp/mssql-jdbc-7.0.0.jre8.jar "/opt/solr/contrib/dataimporthandler/lib/mssql-jdbc-7.0.0.jre8.jar" \
     ;fi
 
+
+CMD [ "solr-foreground","-force" ]
