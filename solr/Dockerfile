@@ -6,7 +6,8 @@ USER root:root
 ARG TZ=Asia/Shanghai
 ENV TZ ${TZ}
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && sed -i -e "s/UTC/UTC+8/g" /opt/solr/bin/solr
 
 ARG SOLR_DATAIMPORTHANDLER_MYSQL=true
 ENV SOLR_DATAIMPORTHANDLER_MYSQL ${SOLR_DATAIMPORTHANDLER_MYSQL}
