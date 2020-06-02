@@ -8,7 +8,7 @@ ENV TZ ${TZ}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 
-ARG SOLR_DATAIMPORTHANDLER_MYSQL=false
+ARG SOLR_DATAIMPORTHANDLER_MYSQL=true
 ENV SOLR_DATAIMPORTHANDLER_MYSQL ${SOLR_DATAIMPORTHANDLER_MYSQL}
 
 # download mysql connector for dataimporthandler
