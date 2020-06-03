@@ -7,7 +7,14 @@ ARG TZ=Asia/Shanghai
 ENV TZ ${TZ}
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
-    && sed -i -e "s/UTC/UTC+8/g" /opt/solr/bin/solr
+    && sed -i -e "s/UTC/UTC+8/g" /opt/solr/bin/solr \
+    && curl -L -o /opt/solr/server/solr-webapp/webapp/WEB-INF/lib/ik-analyzer-8.3.0.jar "https://search.maven.org/remotecontent?filepath=com/github/magese/ik-analyzer/8.3.0/ik-analyzer-8.3.0.jar"
+
+ARG WEBINFPATH=/opt/solr/server/solr-webapp/webapp/WEB-INF
+ADD ik/ext.dic $WEBINFPATH
+ADD ik/IKAnalyzer.cfg.xml $WEBINFPATH
+ADD ik/stopword.dic $WEBINFPATH
+
 
 ARG SOLR_DATAIMPORTHANDLER_MYSQL=false
 ENV SOLR_DATAIMPORTHANDLER_MYSQL ${SOLR_DATAIMPORTHANDLER_MYSQL}
