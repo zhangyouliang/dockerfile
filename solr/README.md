@@ -142,7 +142,7 @@ composer require solarium/solarium -vvv
     ],
 ```
 
-php 安装 solr 拓展(b)
+php 安装 solr 拓展
 ===
 
 ```
