@@ -1,7 +1,6 @@
 solr
 ===
 
-
 ````
 export SOLR_DATAIMPORTHANDLER_MYSQL=true
 # 构建带有 mysql 驱动的镜像
