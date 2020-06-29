@@ -8,7 +8,8 @@ docker pull kylemanna/openvpn
 
 OVPN_DATA="/data/ovpn-data"
 // 下面的全局变量替换为你的服务器的外网IP
-IP="xxx.xxx.xxx.xxx"
+// 如果出入网络IP不一致,请手动替换IP变量
+IP=`curl -s ip.sb` 
 mkdir -p ${OVPN_DATA}
 
 // 第二步
@@ -47,7 +48,8 @@ docker run --name openvpn -v ${OVPN_DATA}:/etc/openvpn -d -p 1194:1194 --privile
 yum install docker
 docker pull kylemanna/openvpn
 OVPN_DATA="/data/ovpn-data"
-IP="123.123.123.123"
+// 如果出入网络IP不一致,请手动替换IP变量
+IP=`curl -s ip.sb` 
 mkdir ${OVPN_DATA}
 docker run -v ${OVPN_DATA}:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u tcp://${IP}
 docker run -v ${OVPN_DATA}:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
