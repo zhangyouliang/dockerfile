@@ -10,7 +10,7 @@ ENV TZ=Asia/Shanghai
 RUN apk update \
     && apk upgrade \
     && apk add --no-cache bash bash-doc bash-completion \
-    && apk add --no-cache supervisor \
+    && apk add --no-cache supervisor openssl-dev openssl \
     && apk --no-cache add tzdata zeromq \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && docker-php-ext-install mbstring opcache pdo_mysql mysqli iconv \
@@ -63,6 +63,5 @@ RUN apk update \
     && apk add --no-cache -t .build g++ make autoconf \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
-    && apk add --no-cache openssl-dev openssl \
     && apk del .build \
     && rm -rf /var/cache/apk/*
