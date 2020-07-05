@@ -59,10 +59,10 @@ RUN apk update \
     && pecl install swoole \
     && docker-php-ext-enable swoole \
     && apk del .build \
-    && rm -rf /var/cache/apk/* \
     # mongodb
-    && apk add --no-cache -t .build g++ make autoconf openssl-dev openssl \
+    && apk add --no-cache -t .build g++ make autoconf \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
+    && apk add --no-cache openssl-dev openssl \
     && apk del .build \
     && rm -rf /var/cache/apk/*
