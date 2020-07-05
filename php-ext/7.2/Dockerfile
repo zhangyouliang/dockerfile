@@ -61,6 +61,7 @@ RUN apk update \
     && apk del .build \
     && rm -rf /var/cache/apk/* \
     # mongodb
+    && apk add --no-cache -t .build g++ make autoconf \
     && pecl install mongodb \
     && docker-php-ext-enable mongodb \
     && apk del .build \
