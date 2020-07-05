@@ -8,7 +8,7 @@ COPY repositories /etc/apk/repositories
 ENV TZ=Asia/Shanghai
 
 RUN apk update \
-    && apk upgrade \ 
+    && apk upgrade \
     && apk add --no-cache bash bash-doc bash-completion \
     && apk add --no-cache supervisor \
     && apk --no-cache add tzdata zeromq \
@@ -58,5 +58,10 @@ RUN apk update \
     && apk add --no-cache -t .build g++ make autoconf \
     && pecl install swoole \
     && docker-php-ext-enable swoole \
+    && apk del .build \
+    && rm -rf /var/cache/apk/* \
+    # mongodb
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb \
     && apk del .build \
     && rm -rf /var/cache/apk/*
