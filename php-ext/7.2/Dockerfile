@@ -44,22 +44,22 @@ RUN apk update \
     && docker-php-ext-enable imagick \
     && apk del .build \
     # memcached
-    && apk add --no-cache -t .build g++ make autoconf \
-    && apk add --no-cache libmemcached-dev \
-    && pecl install memcached \
-    && docker-php-ext-enable memcached \
-    && apk del .build \
-    # memcache
-    && apk add --no-cache -t .build git \
-    && git clone https://github.com/websupport-sk/pecl-memcache /usr/src/php/ext/memcache \
-    && docker-php-ext-install memcache \
-    && apk del .build \
-    # swoole4
-    && apk add --no-cache -t .build g++ make autoconf \
-    && pecl install swoole \
-    && docker-php-ext-enable swoole \
-    && apk del .build \
-    && rm -rf /var/cache/apk/* \
+#    && apk add --no-cache -t .build g++ make autoconf \
+#    && apk add --no-cache libmemcached-dev \
+#    && pecl install memcached \
+#    && docker-php-ext-enable memcached \
+#    && apk del .build \
+#    # memcache
+#    && apk add --no-cache -t .build git \
+#    && git clone https://github.com/websupport-sk/pecl-memcache /usr/src/php/ext/memcache \
+#    && docker-php-ext-install memcache \
+#    && apk del .build \
+#    # swoole4
+#    && apk add --no-cache -t .build g++ make autoconf \
+#    && pecl install swoole \
+#    && docker-php-ext-enable swoole \
+#    && apk del .build \
+#    && rm -rf /var/cache/apk/* \
     # mongodb
     && apk add --no-cache -t .build g++ make autoconf openssl-dev openssl \
     && pecl install mongodb \
