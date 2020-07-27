@@ -43,8 +43,9 @@ RUN apk update \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apk del .build \
-    # mongodb
-    && apk add --no-cache -t .build g++ make autoconf zlib1g-dev \
+    # grpc
+    && apk add --no-cache -t .build g++ make autoconf zlib zlib-dev \
+    && apk add --no-cache linux-headers \
     && pecl install grpc \
     && docker-php-ext-enable grpc \
     && apk del .build \
