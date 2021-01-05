@@ -22,7 +22,7 @@ RUN set -ex \
     && apk add --no-cache libmcrypt-dev \
     && pecl install mcrypt-1.0.1 \
     && docker-php-ext-enable mcrypt \
-    && apk del -t .build
+    && apk del .build
 
 # Redis
 RUN set -ex \
