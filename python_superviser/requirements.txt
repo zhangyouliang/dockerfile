@@ -3,4 +3,4 @@ configparser==3.5.0
 DBUtils==1.2
 PyMySQL==0.8.0
 redis==2.10.6
-requests==2.18.4
+requests>=2.20.0
