@@ -35,7 +35,7 @@ RUN apk update \
     && docker-php-ext-enable redis \
     && apk del .build-deps \
     # Zip
-    && apk add --no-cache zlib-dev \
+    && apk add --no-cache zlib-dev libzip-dev \
     && docker-php-ext-install zip \
     # Imagick
     && apk add --no-cache -t .build g++ make autoconf \
