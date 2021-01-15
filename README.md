@@ -1,5 +1,23 @@
 > 参考: https://github.com/buxiaomo/dockerfile
 
+### # 快速获取 docker 镜像的全部 tag
+
+````
+alias dt='curl -fsSL https://gitee.com/whatdy/dockerfile/raw/master/tags.sh | sh -s -- '
+# 获取 nginx 
+dt nginx
+
+# 或者
+./dockertags.sh nginx
+
+# 获取多个镜像的 tag
+./dockertags-mut.sh "nginx" "python"
+
+
+
+````
+
+
 ### # docker 镜像体积优化建议
 
 * 不要安装不必要的软件包
