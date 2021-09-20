@@ -1,11 +1,18 @@
 FROM alpine:latest
-MAINTAINER "ZYL" <1577121881@qq.com>
 
 ENV TZ=Asia/Shanghai
 
-COPY repositories /etc/apk/repositories
+# RUN apk add tzdata \
+#     && echo $TZ > /etc/timezone \
+#     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+#     && apk del tzdata
 
-RUN apk add tzdata \
+
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk add curl busybox-extras tzdata --no-cache unrar unzip \
     && echo $TZ > /etc/timezone \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && apk del tzdata
+    && apk del tzdata \
+    && rm -rf /var/cache/apk/* /tmp/* \
+    && if [ ! -e /etc/nsswitch.conf ];then echo 'hosts: files dns' > /etc/nsswitch.conf; fi
