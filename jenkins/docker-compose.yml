@@ -1,32 +1,18 @@
-version: '3.4'
+version: '2.3'
 services:
-    jenkins:
-        image: daocloud.io/buxiaomo/jenkins:2.121.1
-        ports:
-            - 10000:8080/tcp
-        environment:
-            - LC_ALL=C.UTF-8
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-            - ./data:/var/jenkins:rw
-        networks:
-            jenkins:
-                aliases:
-                    - jenkins
-        deploy:
-            mode: replicated
-            replicas: 1
-            update_config:
-                parallelism: 1
-                delay: 10s
-            placement:
-                constraints:
-                    - node.labels.jenkins == 
-        logging:
-            driver: json-file
-            options:
-                max-file: '3'
-                max-size: 100m
+  jenkins:
+    #image: jenkins/jenkins:lts
+    image: zhangguanzhang/jenkins:lts-docker
+    container_name: jenkins
+    volumes:
+      - ./data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    ports:
+      - 50000:50000
+      - 8081:8080
+    networks:
+      - jenkins
 networks:
-    jenkins:
-      external: true
+  jenkins:
+    external: false

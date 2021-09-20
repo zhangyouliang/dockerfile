@@ -1,8 +1,10 @@
-# jenkins
 
-```
-docker run -d --name jenkins \
--v /var/run/docker.sock:/var/run/docker.sock \
--v /var/jenkins:/var/jenkins \
--p 8080:8080 daocloud.io/buxiaomo/jenkins:2.107.1
+## RUN
+
+有些版本的docker组id不是995，自行更改Dockerfile
+
+```bash
+mkdir data
+chown -R 1000:1000 data
+docker-compose up -d
 ```

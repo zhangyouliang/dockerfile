@@ -1,0 +1,32 @@
+version: '3.4'
+services:
+    jenkins:
+        image: daocloud.io/buxiaomo/jenkins:2.121.1
+        ports:
+            - 10000:8080/tcp
+        environment:
+            - LC_ALL=C.UTF-8
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./data:/var/jenkins:rw
+        networks:
+            jenkins:
+                aliases:
+                    - jenkins
+        deploy:
+            mode: replicated
+            replicas: 1
+            update_config:
+                parallelism: 1
+                delay: 10s
+            placement:
+                constraints:
+                    - node.labels.jenkins == 
+        logging:
+            driver: json-file
+            options:
+                max-file: '3'
+                max-size: 100m
+networks:
+    jenkins:
+      external: true

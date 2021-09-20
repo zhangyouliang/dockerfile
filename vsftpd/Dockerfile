@@ -1,24 +1,22 @@
-FROM alpine:3.5
-MAINTAINER "Xiao Mo" <root@xiaomo.red>
+FROM centos:7
 
-COPY repositories /etc/apk/repositories
+RUN yum -y update && yum clean all \
+	&&  yum install -y \
+	vsftpd iproute\
+	db4-utils \
+	db4 && yum clean all
 
-RUN apk add --no-cache -t build  curl g++ make \
-    && apk add --no-cache mariadb-dev linux-pam-dev \
-    && mkdir -p /usr/local/src \
-    && curl -fSL http://prdownloads.sourceforge.net/pam-mysql/pam_mysql-0.7RC1.tar.gz  -o /usr/local/src/pam_mysql-0.7RC1.tar.gz \
-    && tar -zvxf /usr/local/src/pam_mysql-0.7RC1.tar.gz -C /usr/local/src \
-    && cd /usr/local/src/pam_mysql-0.7RC1 \
-    && ./configure --with-mysql=/usr/bin/mysql_config \
-    && make && make install \
-    && apk del --no-cache build \
-    && rm -rf /usr/local/src
+COPY vsftpd.conf /etc/vsftpd/
+COPY vsftpd_virtual /etc/pam.d/
+COPY entrypoint.sh /usr/sbin/
+COPY virtual_users.db /etc/vsftpd/virtual_users.db
 
-RUN apk add --no-cache vsftpd \
-    && adduser -u 82 -D www-data \
-    && mkdir /vsftp
+RUN chmod +x /usr/sbin/entrypoint.sh \
+	&&  mkdir -p /home/vsftpd/ \
+	&&  chown -R ftp:ftp /home/vsftpd/
 
-COPY vsftpd.conf /etc/vsftpd/vsftpd.conf
-COPY vsftpd /etc/pam.d/vsftpd
+VOLUME /home/vsftpd 
 
-CMD /usr/sbin/vsftpd /etc/vsftpd/vsftpd.conf
+EXPOSE 20 21
+
+CMD ["/usr/sbin/entrypoint.sh"]
