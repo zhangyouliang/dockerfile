@@ -12,7 +12,7 @@ http://mirrors.aliyun.com/alpine/v3.12/community
 ````
 
 
-````
+````shell
 # 查看 php 所有的 tag
 curl -s  https://registry.hub.docker.com/v1/repositories/php/tags \
 | tr -d '[\[\]" ]' \
