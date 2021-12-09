@@ -4,12 +4,13 @@
 
     
     # 启动带有授权的 mongo 数据库
-    # mkdir -p /data/mongodb/db /data/mongodb/config
+    # mkdir -p /data/mongodb/{db,config}
     docker-compose up -d
 
 
     # docker 直接启动
-    docker run --restart=always --name mongodb -v /data/mongodb/db:/data/db -p 27017:27017 -d mongo --auth
+    mkdir -p ~/data/mongodb/{db,config}
+    docker run --restart=always --name mongodb -v ~/data/mongodb/db:/data/db -v ~/data/mongodb/config:/data/configdb -p 27017:27017 -d mongo:4.4.9 --auth
     
 
 #### # 设置mongo的用户名和密码
