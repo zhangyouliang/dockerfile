@@ -6,3 +6,8 @@ php 7.3
 apk add --no-cache zlib-dev libzip-dev # 增加 libzip-dev 即可 
 
 ````
+说明
+====
+
+- Dockerfile-1.0 常规的 php 7.3
+- Dockerfile-1.1 在上面的基础上增加了 swoole4 支持
