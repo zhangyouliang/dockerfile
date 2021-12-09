@@ -44,9 +44,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && apk add --no-cache -t .build g++ make autoconf \
     && apk add --no-cache libtool imagemagick-dev libgomp \
     && pecl install imagick \
-    # mongodb
-    && pecl install mongodb \
     && docker-php-ext-enable imagick \
+    # mongodb
+    && pecl install mongodb && docker-php-ext-enable mongodb \
     # swoole4
     && pecl install swoole \
     && docker-php-ext-enable swoole \
