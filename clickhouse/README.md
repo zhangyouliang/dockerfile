@@ -47,3 +47,8 @@ docker run -d --name clickhouse-server \
 --volume=/Users/youliangzhang/data/clickhouse/conf/users.xml:/etc/clickhouse-server/users.xml yandex/clickhouse-server:21.9.4
 
 ````
+
+测试查询
+````
+echo 'SELECT 1' | curl 'http://localhost:8123/?user=default&password=yourpassword' -d @-
+````
