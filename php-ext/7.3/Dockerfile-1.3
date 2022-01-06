@@ -47,7 +47,8 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && docker-php-ext-enable imagick \
     # mongodb
     && pecl install mongodb && docker-php-ext-enable mongodb \
-    && pecl install rdkafka && docker-php-ext-enable rdkafka \
+    # kafka
+    && apk add --no-cache librdkafka-dev && pecl install rdkafka && docker-php-ext-enable rdkafka \
     # swoole4
     && pecl install swoole \
     && docker-php-ext-enable swoole \
