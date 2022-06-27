@@ -1,37 +1,85 @@
 
+## # Docker 部署 Prometheus 说明：
+--
+
+监控端安装：
+- Prometheus Server(普罗米修斯监控主服务器 )
+- Node Exporter (收集Host硬件和操作系统信息)
+- cAdvisor (负责收集Host上运行的容器信息)
+- Grafana (展示普罗米修斯监控界面）
+
+被监控安装：
+- Node Exporter (收集Host硬件和操作系统信息)
+- cAdvisor (负责收集Host上运行的容器信息)
+
 ## # 安装 node_exporter
 --- 
-> 其他主机安装 node_exporter
+> 所有服务器安装
+> Node Exporter 收集系统信息，用于监控CPU、内存、磁盘使用率、磁盘读写等系统信息
+> –net=host，这样 Prometheus Server 可以直接与 Node Exporter 通信
 
 docker 安装
     
-    docker run -d --restart=always -p 9100:9100 \
-      -v "/proc:/host/proc:ro" \
-      -v "/sys:/host/sys:ro" \
-      -v "/:/rootfs:ro" \
-      --net="host" \
-      prom/node-exporter \
-        --path.procfs /host/proc \
-        --path.sysfs /host/sys \
-        --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+````bash
+docker run -d --restart=always -p 9100:9100 \
+    -v "/proc:/host/proc:ro" \
+    -v "/sys:/host/sys:ro" \
+    -v "/:/rootfs:ro" \
+    -v "/etc/localtime:/etc/localtime:ro" \
+    --net="host" \
+    prom/node-exporter \
+    --path.procfs /host/proc \
+    --path.sysfs /host/sys \
+    --collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($|/)"
+````
 
 测试: `curl http://localhost:9100/metrics`
+
+## # 安装 cAdvisor
+> 所有服务器安装
+> cAdvisor 收集docker信息，用于展示docker的cpu、内存、上传下载等信息
+> –net=host，这样 Prometheus Server 可以直接与 cAdvisor 通信
+
+````bash
+docker run -d \
+    -v "/etc/localtime:/etc/localtime:ro" \
+    --v="/:/rootfs:ro" \
+    --v="/var/run:/var/run:rw" \
+    --v="/sys:/sys:ro" \
+    --v="/var/lib/docker/:/var/lib/docker:ro" \
+    --v="/dev/disk/:/dev/disk:ro" \
+    --net="host" \
+    --publish=18104:8080 \
+    --detach=true \
+    --name=cadvisor \
+    --privileged=true \
+    google/cadvisor:latest
+
+````
+
+
 
 ## # 安装 prometheus
 > 主监控主机安装  prometheus
 
-    docker run -d --restart=always -p 9090:9090 \
-                -v $PWD/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
-                --name prometheus \
-                prom/prometheus
+````bash
+docker run -d --restart=always -p 9090:9090 \
+    -v "/root/nas/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml" \
+    -v "/etc/localtime:/etc/localtime:ro" \
+    --name prometheus \
+    prom/prometheus
+````
+
+
 
 ## # 安装 grafana
 
-
-    docker run -d --restart=always --name=grafana -p 3000:3000 \
-        -e "GF_SECURITY_ADMIN_PASSWORD=admin" \
-        grafana/grafana
-
+````bash
+docker run -d --restart=always --name=grafana -p 3000:3000 \
+    -v /root/nas/grafana-data:/var/lib/grafana \
+    -e "GF_SECURITY_ADMIN_PASSWORD=admin" \
+    grafana/grafana
+````
 
 ### # 基本使用
 
