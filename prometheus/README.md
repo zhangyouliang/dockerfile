@@ -18,8 +18,6 @@
 > Node Exporter 收集系统信息，用于监控CPU、内存、磁盘使用率、磁盘读写等系统信息
 > –net=host，这样 Prometheus Server 可以直接与 Node Exporter 通信
 
-docker 安装
-    
 ````bash
 docker run -d --restart=always -p 9100:9100 \
     -v "/proc:/host/proc:ro" \
@@ -63,8 +61,11 @@ docker run -d \
 > 主监控主机安装  prometheus
 
 ````bash
-docker run -d --restart=always -p 9090:9090 \
+mkdir -p /root/nas/prometheus/data
+chmod -R 777 /root/nas/prometheus/data 
+docker run -d --restart=always -p 9091:9090 \
     -v "/root/nas/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml" \
+    -v "/root/nas/prometheus/data:/prometheus" \
     -v "/etc/localtime:/etc/localtime:ro" \
     --name prometheus \
     prom/prometheus
@@ -75,11 +76,16 @@ docker run -d --restart=always -p 9090:9090 \
 ## # 安装 grafana
 
 ````bash
+mkdir -p /root/nas/grafana-data
+chmod -R 777 /root/nas/grafana-data
+
 docker run -d --restart=always --name=grafana -p 3000:3000 \
     -v /root/nas/grafana-data:/var/lib/grafana \
     -e "GF_SECURITY_ADMIN_PASSWORD=admin" \
     grafana/grafana
 ````
+
+访问 [localhost:3000](http://localhost:3000) 即可
 
 ### # 基本使用
 
